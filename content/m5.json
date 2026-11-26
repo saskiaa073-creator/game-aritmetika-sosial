@@ -1,0 +1,164 @@
+{
+  "id": "m5",
+  "urutan": 5,
+  "level": 3,
+  "judul": "Dibalik: Mencari Harga Jual atau Harga Beli",
+  "tujuan": "Mencari harga jual atau harga beli jika persentase untung atau rugi sudah diketahui.",
+  "kode_wawancara": ["IL01", "IL04", "GL03"],
+  "langkah": [
+    {
+      "id": "m5-l1",
+      "jenis": "teks",
+      "judul": "Soal dibalik",
+      "isi": "Kadang yang diketahui harga beli dan persennya. Lalu yang ditanya harga jualnya.\n\nKuncinya tetap sama: persen selalu dihitung dari harga beli.\n\nUntung = persen untung × harga beli\nHarga jual = harga beli + untung"
+    },
+    {
+      "id": "m5-l2",
+      "jenis": "contoh",
+      "judul": "Contoh lengkap: mencari harga jual",
+      "soal": "Pak Dodi membeli kambing seharga Rp2.000.000. Ia ingin untung 20%. Berapa harga jualnya?",
+      "langkah_contoh": [
+        "Diketahui: harga beli Rp2.000.000, untung 20%.",
+        "Untung = 20% × Rp2.000.000.",
+        "Untung = 20/100 × 2.000.000 = Rp400.000.",
+        "Harga jual = harga beli + untung.",
+        "Harga jual = Rp2.000.000 + Rp400.000 = Rp2.400.000."
+      ]
+    },
+    {
+      "id": "m5-l3",
+      "jenis": "contoh",
+      "judul": "Contoh lebih singkat: saat rugi",
+      "soal": "Bu Nur membeli kulkas bekas seharga Rp1.600.000, lalu menjualnya dengan rugi 5%. Berapa harga jualnya?",
+      "langkah_contoh": [
+        "Rugi = 5% × Rp1.600.000 = Rp80.000.",
+        "Harga jual = Rp1.600.000 − Rp80.000 = Rp1.520.000."
+      ]
+    },
+    {
+      "id": "m5-l4",
+      "jenis": "teks",
+      "judul": "Mencari harga beli",
+      "isi": "Jika yang diketahui harga jual dan persen untung, anggap harga beli = 100%.\n\nUntung 25% → harga jual = 100% + 25% = 125% dari harga beli.\n\nHarga beli = harga jual ÷ 125 × 100\n\nIngat: persen dihitung dari harga beli, bukan dari harga jual."
+    },
+    {
+      "id": "m5-l5",
+      "jenis": "contoh",
+      "judul": "Contoh: mencari harga beli",
+      "soal": "Sepasang sepatu dijual Rp150.000 dengan untung 25%. Berapa harga belinya?",
+      "langkah_contoh": [
+        "Harga beli = 100%, untung 25%.",
+        "Harga jual = 125% dari harga beli.",
+        "Harga beli = Rp150.000 ÷ 125 × 100.",
+        "Harga beli = 1.200 × 100 = Rp120.000.",
+        "Cek: 25% × Rp120.000 = Rp30.000, dan Rp120.000 + Rp30.000 = Rp150.000. ✔"
+      ]
+    }
+  ],
+  "soal": [
+    {
+      "id": "m5-s1",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Pak Eko membeli sepeda seharga Rp800.000. Ia ingin untung 10%. Berapa rupiah untungnya?",
+      "kunci": "80.000",
+      "petunjuk": [
+        "Untung = persen untung × harga beli.",
+        "10% sama dengan 10/100.",
+        "Hitung 10/100 × 800.000."
+      ],
+      "pembahasan": "Untung = 10% × Rp800.000 = 10/100 × 800.000 = Rp80.000.",
+      "kesalahan_umum": [
+        {"nilai": "880.000", "kode": "harga_jual_bukan_untung", "pesan": "Itu harga jualnya. Soal menanyakan besar untung."},
+        {"nilai": "8.000", "kode": "salah_hitung_persen", "pesan": "Periksa lagi: 10% dari Rp800.000 berarti 10/100 × 800.000."}
+      ]
+    },
+    {
+      "id": "m5-s2",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Bu Yanti membeli blender seharga Rp400.000 dan ingin untung 15%. Berapa harga jualnya?",
+      "kunci": "460.000",
+      "petunjuk": [
+        "Cari dulu besar untung: 15% × harga beli.",
+        "15% × Rp400.000 = 15/100 × 400.000.",
+        "Harga jual = harga beli + untung."
+      ],
+      "pembahasan": "Untung = 15% × Rp400.000 = Rp60.000. Harga jual = Rp400.000 + Rp60.000 = Rp460.000.",
+      "kesalahan_umum": [
+        {"nilai": "60.000", "kode": "belum_ditambah", "pesan": "Itu besar untungnya. Harga jual = harga beli + untung."},
+        {"nilai": "340.000", "kode": "untung_dikurangi", "pesan": "Untung menambah harga, bukan mengurangi."}
+      ]
+    },
+    {
+      "id": "m5-s3",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Kak Lia membeli gitar seharga Rp850.000. Gitar itu dijual dengan rugi 20%. Berapa harga jualnya?",
+      "kunci": "680.000",
+      "petunjuk": [
+        "Cari dulu besar rugi: 20% × harga beli.",
+        "20% × Rp850.000 = 20/100 × 850.000.",
+        "Saat rugi, harga jual = harga beli − rugi."
+      ],
+      "pembahasan": "Rugi = 20% × Rp850.000 = Rp170.000. Harga jual = Rp850.000 − Rp170.000 = Rp680.000.",
+      "kesalahan_umum": [
+        {"nilai": "1.020.000", "kode": "rugi_ditambah", "pesan": "Saat rugi, harga jual lebih kecil. Harga jual = harga beli − rugi."},
+        {"nilai": "170.000", "kode": "belum_dikurangi", "pesan": "Itu besar ruginya. Harga jual = harga beli − rugi."}
+      ]
+    },
+    {
+      "id": "m5-s4",
+      "tipe": "pilihan",
+      "teks": "Sebuah lampu dijual Rp276.000 dengan untung 15%. Cara mencari harga beli yang tepat adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "276.000 ÷ 115 × 100"},
+        {"id": "b", "teks": "276.000 − 15% × 276.000"},
+        {"id": "c", "teks": "276.000 + 15% × 276.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Anggap harga beli = 100%.",
+        "Dengan untung 15%, harga jual = 100% + 15% dari harga beli.",
+        "Harga beli = harga jual ÷ (persen harga jual) × 100."
+      ],
+      "pembahasan": "Harga jual = 115% dari harga beli. Jadi harga beli = 276.000 ÷ 115 × 100.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "persen_dari_hj", "pesan": "Persen untung dihitung dari harga beli, bukan dari harga jual. Jadi tidak bisa langsung mengurangi 15% dari harga jual."},
+        {"nilai": "c", "kode": "persen_dari_hj", "pesan": "Harga beli lebih kecil dari harga jual saat untung. Jadi tidak mungkin ditambah."}
+      ]
+    },
+    {
+      "id": "m5-s5",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Sebuah lampu dijual Rp276.000 dengan untung 15%. Berapa harga belinya?",
+      "kunci": "240.000",
+      "petunjuk": [
+        "Harga beli = 100%, jadi harga jual = 115% dari harga beli.",
+        "Harga beli = Rp276.000 ÷ 115 × 100.",
+        "Hitung dulu 276.000 ÷ 115, lalu kalikan 100."
+      ],
+      "pembahasan": "Harga beli = 276.000 ÷ 115 × 100 = 2.400 × 100 = Rp240.000. Cek: 15% × Rp240.000 = Rp36.000, dan Rp240.000 + Rp36.000 = Rp276.000.",
+      "kesalahan_umum": [
+        {"nilai": "234.600", "kode": "persen_dari_hj", "pesan": "Kamu mengurangi 15% dari harga jual. Persen untung dihitung dari harga beli."}
+      ]
+    },
+    {
+      "id": "m5-s6",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Sebuah tas dijual Rp207.000 dan pedagangnya rugi 10%. Berapa harga beli tas itu?",
+      "kunci": "230.000",
+      "petunjuk": [
+        "Saat rugi 10%, harga jual = 100% − 10% dari harga beli.",
+        "Jadi harga jual = 90% dari harga beli.",
+        "Harga beli = Rp207.000 ÷ 90 × 100."
+      ],
+      "pembahasan": "Harga jual = 90% dari harga beli. Harga beli = 207.000 ÷ 90 × 100 = 2.300 × 100 = Rp230.000.",
+      "kesalahan_umum": [
+        {"nilai": "227.700", "kode": "persen_dari_hj", "pesan": "Kamu menambah 10% dari harga jual. Persen rugi dihitung dari harga beli."}
+      ]
+    }
+  ]
+}

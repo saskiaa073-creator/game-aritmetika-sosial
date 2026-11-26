@@ -1,0 +1,141 @@
+{
+  "id": "m6",
+  "urutan": 6,
+  "level": 3,
+  "judul": "Diskon",
+  "tujuan": "Menghitung diskon setelah menguasai untung dan rugi, serta mengenali kata kunci yang ditanya soal.",
+  "kode_wawancara": ["GL05", "EL04", "K03"],
+  "langkah": [
+    {
+      "id": "m6-l1",
+      "jenis": "teks",
+      "judul": "Apa itu diskon?",
+      "isi": "Kamu sudah menguasai untung dan rugi. Sekarang baru kita belajar diskon.\n\nDiskon = potongan harga.\n\nBesar diskon = persen diskon × harga awal\nHarga bayar = harga awal − diskon"
+    },
+    {
+      "id": "m6-l2",
+      "jenis": "contoh",
+      "judul": "Contoh: diskon baju",
+      "soal": "Harga sebuah baju Rp120.000. Toko memberi diskon 25%. Berapa harga yang dibayar?",
+      "langkah_contoh": [
+        "Diskon = 25% × Rp120.000.",
+        "Diskon = 25/100 × 120.000 = Rp30.000.",
+        "Harga bayar = Rp120.000 − Rp30.000 = Rp90.000."
+      ]
+    },
+    {
+      "id": "m6-l3",
+      "jenis": "teks",
+      "judul": "Baca kata kuncinya",
+      "isi": "Sebelum menghitung, cari dulu apa yang ditanya:\n\n\"Berapa rupiah untung?\" → selisih harga.\n\"Berapa persen?\" → selisih ÷ harga beli × 100%.\n\"Berapa harga jual?\" → harga beli ditambah untung atau dikurangi rugi.\n\"Harga setelah diskon?\" → harga awal − diskon."
+    },
+    {
+      "id": "m6-l4",
+      "jenis": "contoh",
+      "judul": "Contoh: diskon lalu untung",
+      "soal": "Pedagang membeli jaket seharga Rp150.000. Harga labelnya Rp240.000, lalu diberi diskon 25%. Berapa persen untungnya?",
+      "langkah_contoh": [
+        "Diskon = 25% × Rp240.000 = Rp60.000.",
+        "Harga jual = Rp240.000 − Rp60.000 = Rp180.000.",
+        "Untung = Rp180.000 − Rp150.000 = Rp30.000.",
+        "Persentase untung = 30.000 ÷ 150.000 × 100% = 20%."
+      ]
+    }
+  ],
+  "soal": [
+    {
+      "id": "m6-s1",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Harga sepasang sepatu Rp180.000. Toko memberi diskon 10%. Berapa rupiah diskonnya?",
+      "kunci": "18.000",
+      "petunjuk": [
+        "Besar diskon = persen diskon × harga awal.",
+        "10% sama dengan 10/100.",
+        "Hitung 10/100 × 180.000."
+      ],
+      "pembahasan": "Diskon = 10% × Rp180.000 = 10/100 × 180.000 = Rp18.000.",
+      "kesalahan_umum": [
+        {"nilai": "162.000", "kode": "harga_bayar_bukan_diskon", "pesan": "Itu harga yang dibayar. Soal menanyakan besar diskonnya."}
+      ]
+    },
+    {
+      "id": "m6-s2",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Harga sebuah tas Rp140.000. Toko memberi diskon 20%. Berapa harga yang harus dibayar?",
+      "kunci": "112.000",
+      "petunjuk": [
+        "Hitung dulu besar diskon.",
+        "Diskon = 20% × Rp140.000 = 20/100 × 140.000.",
+        "Harga bayar = harga awal − diskon."
+      ],
+      "pembahasan": "Diskon = 20% × Rp140.000 = Rp28.000. Harga bayar = Rp140.000 − Rp28.000 = Rp112.000.",
+      "kesalahan_umum": [
+        {"nilai": "28.000", "kode": "belum_dikurangi", "pesan": "Itu besar diskonnya. Harga bayar = harga awal − diskon."},
+        {"nilai": "168.000", "kode": "diskon_ditambah", "pesan": "Diskon mengurangi harga, bukan menambah."}
+      ]
+    },
+    {
+      "id": "m6-s3",
+      "tipe": "pilihan",
+      "teks": "Bacalah soal ini: \"Bu Eni membeli kain Rp90.000 dan menjualnya Rp99.000. Berapa persen untungnya?\" Apa yang ditanyakan?",
+      "pilihan": [
+        {"id": "a", "teks": "Persentase untung"},
+        {"id": "b", "teks": "Besar untung dalam rupiah"},
+        {"id": "c", "teks": "Harga jual"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Cari kalimat tanya di akhir soal.",
+        "Kalimat tanyanya diawali kata \"berapa\". Kata apa sesudahnya?",
+        "\"Berapa persen\" berbeda dengan \"berapa rupiah\"."
+      ],
+      "pembahasan": "Kata kuncinya \"berapa persen untungnya\". Jadi yang ditanya persentase untung.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "salah_baca_kunci", "pesan": "Kata kuncinya \"berapa persen\". Jadi yang ditanya persentase, bukan rupiah."},
+        {"nilai": "c", "kode": "salah_baca_kunci", "pesan": "Harga jual sudah diketahui di soal. Baca lagi kalimat tanyanya."}
+      ]
+    },
+    {
+      "id": "m6-s4",
+      "tipe": "pilihan",
+      "teks": "Soal: \"Harga kaos Rp80.000, diskon 15%. Berapa harga setelah diskon?\" Cara yang tepat adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "80.000 − 15% × 80.000"},
+        {"id": "b", "teks": "15% × 80.000 saja"},
+        {"id": "c", "teks": "80.000 ÷ 115 × 100"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Kata kuncinya \"harga setelah diskon\".",
+        "Harga setelah diskon = harga awal − diskon.",
+        "Diskon dihitung dari harga awal: 15% × 80.000."
+      ],
+      "pembahasan": "Harga setelah diskon = harga awal − diskon = 80.000 − 15% × 80.000.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "belum_dikurangi", "pesan": "15% × 80.000 hanya besar diskonnya. Harga setelah diskon = harga awal − diskon."},
+        {"nilai": "c", "kode": "salah_model", "pesan": "Itu cara mencari harga beli dari harga jual. Soal ini tentang diskon."}
+      ]
+    },
+    {
+      "id": "m6-s5",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Pedagang membeli kipas seharga Rp96.000. Harga labelnya Rp150.000, lalu diberi diskon 20%. Berapa persen untung pedagang?",
+      "kunci": "25",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Hitung dulu harga jual setelah diskon 20%.",
+        "Untung = harga setelah diskon − Rp96.000.",
+        "Persentase untung = untung ÷ harga beli × 100%."
+      ],
+      "pembahasan": "Diskon = 20% × Rp150.000 = Rp30.000. Harga jual = Rp120.000. Untung = Rp120.000 − Rp96.000 = Rp24.000. Persentase untung = 24.000 ÷ 96.000 × 100% = 25%.",
+      "kesalahan_umum": [
+        {"nilai": "56,25", "kode": "lupa_diskon", "pesan": "Harga jualnya adalah harga setelah diskon, bukan harga label."},
+        {"nilai": "20", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "24.000", "kode": "belum_persen", "pesan": "Itu besar untung dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    }
+  ]
+}

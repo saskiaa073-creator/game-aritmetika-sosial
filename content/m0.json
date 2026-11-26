@@ -1,0 +1,127 @@
+{
+  "id": "m0",
+  "urutan": 0,
+  "level": 0,
+  "judul": "Cek Bekal",
+  "tujuan": "Mengecek dan menguatkan bekal: pecahan, persen, dan pembagian angka besar.",
+  "kode_wawancara": ["K01", "K02", "IL03"],
+  "langkah": [
+    {
+      "id": "m0-l1",
+      "jenis": "teks",
+      "judul": "Sebelum mulai",
+      "isi": "Modul ini mengecek bekalmu sebelum belajar untung dan rugi.\n\nKerjakan dengan tenang. Kamu boleh maju dan mundur kapan saja.\n\nKalau ada yang belum lancar, akan muncul penjelasan singkat untuk membantumu."
+    },
+    {
+      "id": "m0-l2",
+      "jenis": "teks",
+      "sebelum": "m0-s3",
+      "tampil_jika_salah": ["m0-s1", "m0-s2"],
+      "judul": "Penguatan: pecahan ke persen",
+      "isi": "Persen artinya per seratus. Jadi 50% sama dengan 50/100.\n\nCara mengubah pecahan ke persen: kalikan pecahan dengan 100%.\n\nContoh: 1/2 × 100% = 100/2 % = 50%.\n\nJika hasilmu masih kurang dari 1, misalnya 0,5, berarti kamu lupa mengalikan dengan 100."
+    },
+    {
+      "id": "m0-l3",
+      "jenis": "contoh",
+      "sebelum": "m0-s4",
+      "tampil_jika_salah": ["m0-s3"],
+      "judul": "Penguatan: mencoret nol",
+      "soal": "Hitung 4.000 ÷ 10.000 × 100 tanpa kalkulator.",
+      "langkah_contoh": [
+        "Coret tiga nol di atas dan di bawah: 4.000/10.000 = 4/10.",
+        "Sederhanakan: 4/10 = 2/5 (atas dan bawah dibagi 2).",
+        "Kalikan 100: 2/5 × 100 = 200/5 = 40."
+      ]
+    }
+  ],
+  "soal": [
+    {
+      "id": "m0-s1",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Ubah pecahan 1/4 ke bentuk persen.",
+      "kunci": "25",
+      "petunjuk": [
+        "Persen artinya per seratus.",
+        "Untuk mengubah pecahan ke persen, kalikan pecahan dengan 100%.",
+        "Hitung 1 × 100 ÷ 4."
+      ],
+      "pembahasan": "1/4 × 100% = 100/4 % = 25%.",
+      "kesalahan_umum": [
+        {"nilai": "0,25", "kode": "lupa_kali_100", "pesan": "0,25 adalah bentuk desimal. Kalikan dengan 100 untuk mendapat persen."},
+        {"nilai": "400", "kode": "terbalik_pecahan", "pesan": "Pecahannya terbalik. Yang dibagi adalah 1, pembaginya 4."}
+      ]
+    },
+    {
+      "id": "m0-s2",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Ubah pecahan 3/5 ke bentuk persen.",
+      "kunci": "60",
+      "petunjuk": [
+        "Kalikan pecahan dengan 100%.",
+        "3/5 × 100 sama dengan 3 × 100 ÷ 5.",
+        "Hitung 300 ÷ 5."
+      ],
+      "pembahasan": "3/5 × 100% = 300/5 % = 60%.",
+      "kesalahan_umum": [
+        {"nilai": "0,6", "kode": "lupa_kali_100", "pesan": "0,6 adalah bentuk desimal. Kalikan dengan 100 untuk mendapat persen."}
+      ]
+    },
+    {
+      "id": "m0-s3",
+      "tipe": "angka",
+      "satuan": "angka",
+      "teks": "Hitung tanpa kalkulator: 6.000 ÷ 24.000 × 100.",
+      "kunci": "25",
+      "petunjuk": [
+        "Coret tiga angka nol di atas dan di bawah.",
+        "6.000 ÷ 24.000 sama dengan 6 ÷ 24.",
+        "Sederhanakan 6/24 (bagi atas dan bawah dengan 6), lalu kalikan 100."
+      ],
+      "pembahasan": "6.000/24.000 = 6/24 = 1/4. Lalu 1/4 × 100 = 25.",
+      "kesalahan_umum": [
+        {"nilai": "0,25", "kode": "lupa_kali_100", "pesan": "Hasil pembagiannya sudah benar. Jangan lupa kalikan dengan 100."},
+        {"nilai": "400", "kode": "terbalik_pecahan", "pesan": "Pembagiannya terbalik. Yang dibagi 6.000, pembaginya 24.000."}
+      ]
+    },
+    {
+      "id": "m0-s4",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Ubah bilangan desimal 0,35 ke bentuk persen.",
+      "kunci": "35",
+      "petunjuk": [
+        "Desimal ke persen: kalikan dengan 100.",
+        "Mengalikan dengan 100 sama dengan menggeser koma dua angka ke kanan.",
+        "Geser koma pada 0,35 dua angka ke kanan."
+      ],
+      "pembahasan": "0,35 × 100% = 35%.",
+      "kesalahan_umum": [
+        {"nilai": "3,5", "kode": "geser_kurang", "pesan": "Komanya baru digeser satu angka. Geser dua angka ke kanan."},
+        {"nilai": "0,35", "kode": "lupa_kali_100", "pesan": "Bilangannya belum diubah. Kalikan dengan 100 untuk mendapat persen."}
+      ]
+    },
+    {
+      "id": "m0-s5",
+      "tipe": "pilihan",
+      "teks": "Manakah yang sama dengan 20%?",
+      "pilihan": [
+        {"id": "a", "teks": "1/5"},
+        {"id": "b", "teks": "1/20"},
+        {"id": "c", "teks": "20/10"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "20% artinya 20 per seratus, yaitu 20/100.",
+        "Sederhanakan 20/100: bagi atas dan bawah dengan 20.",
+        "Pilih pecahan yang sama dengan hasil penyederhanaan itu."
+      ],
+      "pembahasan": "20% = 20/100. Atas dan bawah dibagi 20, hasilnya 1/5.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "salah_arti_persen", "pesan": "1/20 sama dengan 5%. Ingat, 20% artinya 20/100."},
+        {"nilai": "c", "kode": "salah_arti_persen", "pesan": "20/10 sama dengan 2, yaitu 200%. Ingat, persen artinya per seratus."}
+      ]
+    }
+  ]
+}

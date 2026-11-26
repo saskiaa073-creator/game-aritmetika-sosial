@@ -1,0 +1,162 @@
+{
+  "id": "m2",
+  "urutan": 2,
+  "level": 2,
+  "judul": "Penyebutnya Selalu Harga Beli",
+  "tujuan": "Menghitung persentase untung dengan harga beli sebagai pembagi, menjelaskan alasannya, dan mengecek kewajaran hasil.",
+  "kode_wawancara": ["IL05", "GL02", "GL04", "DS02", "EL02"],
+  "langkah": [
+    {
+      "id": "m2-l1",
+      "jenis": "teks",
+      "judul": "Dari rupiah ke persen",
+      "isi": "Kamu sudah bisa menghitung untung dalam rupiah. Sekarang kita ubah ke persen.\n\nPersentase untung = untung ÷ harga beli × 100%\n\nPembaginya selalu harga beli (modal).\n\nLupa rumus? Tekan tombol Kartu rumus di kanan atas. Tidak perlu bolak-balik halaman."
+    },
+    {
+      "id": "m2-l2",
+      "jenis": "contoh",
+      "judul": "Contoh: tas sekolah",
+      "soal": "Bu Wati membeli tas seharga Rp60.000 dan menjualnya Rp75.000. Berapa persen untungnya?",
+      "langkah_contoh": [
+        "Untung = Rp75.000 − Rp60.000 = Rp15.000.",
+        "Pembagi = harga beli = Rp60.000.",
+        "Persentase untung = 15.000 ÷ 60.000 × 100%.",
+        "Coret nol dan sederhanakan: 15/60 = 1/4.",
+        "1/4 × 100% = 25%."
+      ]
+    },
+    {
+      "id": "m2-l3",
+      "jenis": "teks",
+      "judul": "Mengapa harga beli?",
+      "isi": "Bayangkan Bu Wati bercerita ke temannya:\n\n\"Aku mengeluarkan uang Rp60.000. Aku dapat untung Rp15.000. Untungku seperempat dari uang yang kukeluarkan.\"\n\nYang dibandingkan adalah uang yang dikeluarkan, yaitu harga beli. Karena itu harga beli selalu menjadi pembagi."
+    },
+    {
+      "id": "m2-l4",
+      "jenis": "teks",
+      "judul": "Cek: masuk akal?",
+      "isi": "Setelah menghitung, cek dulu:\n\nUntung kecil dibanding modal → persennya kecil.\nUntung hampir sama dengan modal → persennya mendekati 100%.\n\nKalau untungnya kecil tapi hasilmu ratusan persen, pasti ada yang keliru. Cek lagi pembaginya."
+    }
+  ],
+  "soal": [
+    {
+      "id": "m2-s1",
+      "tipe": "pilihan",
+      "teks": "Untuk menghitung persentase untung, pembaginya adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "Harga beli"},
+        {"id": "b", "teks": "Harga jual"},
+        {"id": "c", "teks": "Besar untung"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Untung dibandingkan dengan uang apa?",
+        "Ingat cerita Bu Wati: ia membandingkan untung dengan uang yang ia keluarkan.",
+        "Uang yang dikeluarkan pedagang saat membeli barang disebut apa?"
+      ],
+      "pembahasan": "Pembaginya harga beli (modal), karena untung dibandingkan dengan uang yang dikeluarkan pedagang.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "tertukar_pembagi", "pesan": "Pembaginya bukan harga jual. Untung selalu dibandingkan dengan harga beli (modal)."},
+        {"nilai": "c", "kode": "untung_sebagai_pembagi", "pesan": "Besar untung adalah angka yang dibagi, bukan pembaginya."}
+      ]
+    },
+    {
+      "id": "m2-s2",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Pak Rudi membeli kipas angin seharga Rp150.000 dan menjualnya Rp180.000. Berapa persen untungnya?",
+      "kunci": "20",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Hitung dulu besar untungnya: harga jual − harga beli.",
+        "Bagi untung dengan harga beli Rp150.000, bukan dengan harga jual.",
+        "Coret nol: 30.000 ÷ 150.000 = 3 ÷ 15. Lalu kalikan 100%."
+      ],
+      "pembahasan": "Untung = Rp180.000 − Rp150.000 = Rp30.000. Persentase untung = 30.000 ÷ 150.000 × 100% = 1/5 × 100% = 20%.",
+      "kesalahan_umum": [
+        {"nilai": "16,67", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "30.000", "kode": "belum_persen", "pesan": "Itu besar untung dalam rupiah. Sekarang ubah ke persen."},
+        {"nilai": "0,2", "kode": "lupa_kali_100", "pesan": "Hampir! Kalikan dengan 100 agar menjadi persen."}
+      ]
+    },
+    {
+      "id": "m2-s3",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Kak Sinta membeli sepasang sandal seharga Rp32.000 dan menjualnya Rp36.000. Berapa persen untungnya?",
+      "kunci": "12,5",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Untung = harga jual − harga beli.",
+        "Persentase untung = untung ÷ harga beli × 100%.",
+        "Coret nol: 4.000 ÷ 32.000 = 4 ÷ 32 = 1/8. Lalu kalikan 100%."
+      ],
+      "pembahasan": "Untung = Rp36.000 − Rp32.000 = Rp4.000. Persentase untung = 4.000 ÷ 32.000 × 100% = 1/8 × 100% = 12,5%.",
+      "kesalahan_umum": [
+        {"nilai": "11,11", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "4.000", "kode": "belum_persen", "pesan": "Itu besar untung dalam rupiah. Sekarang ubah ke persen."},
+        {"nilai": "0,125", "kode": "lupa_kali_100", "pesan": "Hampir! Kalikan dengan 100 agar menjadi persen."}
+      ]
+    },
+    {
+      "id": "m2-s4",
+      "tipe": "pilihan",
+      "teks": "Dimas membeli bola seharga Rp80.000 dan menjualnya Rp88.000. Ia menghitung untungnya 1.000%. Apakah hasil itu masuk akal?",
+      "pilihan": [
+        {"id": "a", "teks": "Tidak, karena untungnya jauh lebih kecil dari modal"},
+        {"id": "b", "teks": "Ya, karena Dimas memang untung"},
+        {"id": "c", "teks": "Ya, karena harga jual lebih besar"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Bandingkan besar untung dengan modal.",
+        "Untung Rp8.000, modal Rp80.000. Mana yang lebih besar?",
+        "Jika untung lebih kecil dari modal, persennya pasti di bawah 100%."
+      ],
+      "pembahasan": "Untung Rp8.000 jauh lebih kecil dari modal Rp80.000, jadi persennya kecil. Yang benar 8.000 ÷ 80.000 × 100% = 10%, bukan 1.000%.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "tidak_cek_wajar", "pesan": "Dimas memang untung, tapi untung Rp8.000 jauh lebih kecil dari modal. Mungkinkah 1.000%?"},
+        {"nilai": "c", "kode": "tidak_cek_wajar", "pesan": "Harga jual memang lebih besar, tapi selisihnya kecil. Persennya pasti kecil, bukan ribuan persen."}
+      ]
+    },
+    {
+      "id": "m2-s5",
+      "tipe": "pilihan",
+      "teks": "Rani membeli boneka seharga Rp45.000 dan menjualnya Rp54.000. Ia menghitung persentase untung: 9.000 ÷ 54.000 × 100%. Apa yang keliru?",
+      "pilihan": [
+        {"id": "a", "teks": "Pembaginya harus harga beli Rp45.000"},
+        {"id": "b", "teks": "Untungnya seharusnya Rp99.000"},
+        {"id": "c", "teks": "Tidak ada yang keliru"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Periksa dulu besar untungnya: Rp54.000 − Rp45.000.",
+        "Lalu lihat angka pembagi yang dipakai Rani.",
+        "Pembagi persentase untung seharusnya harga beli atau harga jual?"
+      ],
+      "pembahasan": "Untung Rp9.000 sudah benar. Kelirunya, Rani membagi dengan harga jual. Seharusnya 9.000 ÷ 45.000 × 100% = 20%.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "dijumlah", "pesan": "Rp99.000 adalah jumlah kedua harga. Untung dicari dengan pengurangan, dan Rp9.000 sudah benar."},
+        {"nilai": "c", "kode": "tertukar_pembagi", "pesan": "Coba lihat lagi: Rani membagi dengan harga jual. Seharusnya dengan harga beli."}
+      ]
+    },
+    {
+      "id": "m2-s6",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Bu Lina membeli 20 buku tulis seharga Rp4.000 per buku. Semua buku dijual Rp5.000 per buku. Berapa persen untungnya?",
+      "kunci": "25",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Kamu bisa menghitung untuk 1 buku saja, karena harganya sama.",
+        "Untung 1 buku = Rp5.000 − Rp4.000.",
+        "Persentase untung = untung 1 buku ÷ Rp4.000 × 100%."
+      ],
+      "pembahasan": "Untung 1 buku = Rp5.000 − Rp4.000 = Rp1.000. Persentase untung = 1.000 ÷ 4.000 × 100% = 1/4 × 100% = 25%. Untuk 20 buku hasilnya sama.",
+      "kesalahan_umum": [
+        {"nilai": "20", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "1.000", "kode": "belum_persen", "pesan": "Itu untung 1 buku dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    }
+  ]
+}

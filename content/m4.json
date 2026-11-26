@@ -1,0 +1,161 @@
+{
+  "id": "m4",
+  "urutan": 4,
+  "level": 3,
+  "judul": "Modal Lengkap",
+  "tujuan": "Menyelesaikan soal cerita dengan biaya tambahan dan barang rusak: ubah cerita menjadi daftar, hitung harga beli seluruhnya, lalu persennya.",
+  "kode_wawancara": ["IL02", "EL01", "EL05", "DS03"],
+  "langkah": [
+    {
+      "id": "m4-l1",
+      "jenis": "teks",
+      "judul": "Harga beli seluruhnya",
+      "isi": "Kadang pedagang mengeluarkan biaya lain, misalnya ongkos angkut atau biaya perbaikan.\n\nHarga beli seluruhnya = harga barang + biaya lain\n\nPersentase untung atau rugi dihitung dari harga beli seluruhnya."
+    },
+    {
+      "id": "m4-l2",
+      "jenis": "teks",
+      "judul": "Ubah cerita jadi daftar",
+      "isi": "Soal cerita panjang? Tenang. Kata kunci sudah diberi warna:\nbiru = harga beli dan biaya,\noranye = harga jual.\n\nTulis dulu daftar pendek:\nDiketahui: harga beli, biaya, harga jual.\nDitanya: untung/rugi atau persennya.\n\nSetelah itu baru mulai menghitung."
+    },
+    {
+      "id": "m4-l3",
+      "jenis": "contoh",
+      "judul": "Contoh: kursi bekas",
+      "soal": "Pak Amir membeli kursi bekas seharga Rp90.000. Ia membayar biaya cat Rp30.000. Kursi itu dijual Rp150.000. Berapa persen untungnya?",
+      "langkah_contoh": [
+        "Diketahui: beli Rp90.000, cat Rp30.000, jual Rp150.000.",
+        "Harga beli seluruhnya = Rp90.000 + Rp30.000 = Rp120.000.",
+        "Untung = Rp150.000 − Rp120.000 = Rp30.000.",
+        "Persentase untung = 30.000 ÷ 120.000 × 100%.",
+        "30/120 = 1/4, jadi untungnya 25%."
+      ]
+    },
+    {
+      "id": "m4-l4",
+      "jenis": "contoh",
+      "judul": "Contoh: ada barang rusak",
+      "soal": "Bu Ida membeli 30 butir telur seharga Rp60.000. Ada 5 butir pecah. Sisanya dijual Rp3.000 per butir. Untung atau rugi?",
+      "langkah_contoh": [
+        "Telur yang bisa dijual = 30 − 5 = 25 butir.",
+        "Harga jual seluruhnya = 25 × Rp3.000 = Rp75.000.",
+        "Bandingkan: Rp75.000 lebih besar dari Rp60.000, jadi untung.",
+        "Untung = Rp75.000 − Rp60.000 = Rp15.000."
+      ]
+    }
+  ],
+  "soal": [
+    {
+      "id": "m4-s1",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Pak Joni membeli motor bekas seharga Rp3.000.000. Ia membayar biaya servis Rp500.000. Berapa harga beli seluruhnya?",
+      "kunci": "3.500.000",
+      "petunjuk": [
+        "Biaya servis juga uang yang dikeluarkan Pak Joni.",
+        "Harga beli seluruhnya = harga motor + biaya servis.",
+        "Jumlahkan Rp3.000.000 dan Rp500.000."
+      ],
+      "pembahasan": "Harga beli seluruhnya = Rp3.000.000 + Rp500.000 = Rp3.500.000.",
+      "kesalahan_umum": [
+        {"nilai": "3.000.000", "kode": "lupa_biaya", "pesan": "Biaya servis juga uang yang dikeluarkan. Tambahkan ke harga beli."},
+        {"nilai": "2.500.000", "kode": "biaya_dikurangi", "pesan": "Biaya menambah modal, bukan mengurangi."}
+      ]
+    },
+    {
+      "id": "m4-s2",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Pak Joni membeli motor bekas Rp3.000.000 dan membayar servis Rp500.000. Motor itu dijual Rp4.200.000. Berapa persen untungnya?",
+      "kunci": "20",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Hitung dulu harga beli seluruhnya: harga motor + biaya servis.",
+        "Untung = Rp4.200.000 − harga beli seluruhnya.",
+        "Bagi untung dengan harga beli seluruhnya, lalu kalikan 100%."
+      ],
+      "pembahasan": "Harga beli seluruhnya = Rp3.500.000. Untung = Rp4.200.000 − Rp3.500.000 = Rp700.000. Persentase untung = 700.000 ÷ 3.500.000 × 100% = 1/5 × 100% = 20%.",
+      "kesalahan_umum": [
+        {"nilai": "40", "kode": "lupa_biaya", "pesan": "Kamu belum menambahkan biaya servis ke harga beli."},
+        {"nilai": "16,67", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli seluruhnya."},
+        {"nilai": "700.000", "kode": "belum_persen", "pesan": "Itu besar untung dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m4-s3",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Bu Ani membeli 50 buah jeruk seharga Rp120.000. Ada 6 buah busuk. Sisanya dijual Rp3.500 per buah. Berapa rupiah untungnya?",
+      "kunci": "34.000",
+      "petunjuk": [
+        "Hitung dulu jeruk yang bisa dijual: 50 − 6.",
+        "Harga jual seluruhnya = jumlah jeruk yang dijual × Rp3.500.",
+        "Untung = harga jual seluruhnya − Rp120.000."
+      ],
+      "pembahasan": "Jeruk yang dijual = 50 − 6 = 44 buah. Harga jual seluruhnya = 44 × Rp3.500 = Rp154.000. Untung = Rp154.000 − Rp120.000 = Rp34.000.",
+      "kesalahan_umum": [
+        {"nilai": "55.000", "kode": "lupa_rusak", "pesan": "Jeruk yang busuk tidak bisa dijual. Kurangi dulu jumlahnya."},
+        {"nilai": "154.000", "kode": "harga_jual_bukan_untung", "pesan": "Itu harga jual seluruhnya. Kurangi dengan harga beli untuk mendapat untung."}
+      ]
+    },
+    {
+      "id": "m4-s4",
+      "tipe": "pilihan",
+      "teks": "Kak Rio membeli 2 kardus mi seharga Rp110.000 per kardus. Ia membayar ongkos ojek Rp15.000. Semua mi dijual Rp282.000. Berapa harga beli seluruhnya?",
+      "pilihan": [
+        {"id": "a", "teks": "Rp235.000"},
+        {"id": "b", "teks": "Rp220.000"},
+        {"id": "c", "teks": "Rp125.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Tulis daftar: harga per kardus, jumlah kardus, ongkos.",
+        "Harga mi = 2 × Rp110.000.",
+        "Tambahkan ongkos ojek ke harga mi."
+      ],
+      "pembahasan": "Harga mi = 2 × Rp110.000 = Rp220.000. Harga beli seluruhnya = Rp220.000 + Rp15.000 = Rp235.000.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "lupa_biaya", "pesan": "Ongkos ojek juga uang yang dikeluarkan. Tambahkan ke harga beli."},
+        {"nilai": "c", "kode": "satu_satuan", "pesan": "Kak Rio membeli 2 kardus. Kalikan dulu harga per kardus dengan 2."}
+      ]
+    },
+    {
+      "id": "m4-s5",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Kak Rio membeli 2 kardus mi seharga Rp110.000 per kardus dan membayar ongkos ojek Rp15.000. Semua mi dijual Rp282.000. Berapa persen untungnya?",
+      "kunci": "20",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Harga beli seluruhnya = 2 × harga per kardus + ongkos.",
+        "Untung = Rp282.000 − harga beli seluruhnya.",
+        "Bagi untung dengan harga beli seluruhnya, lalu kalikan 100%."
+      ],
+      "pembahasan": "Harga beli seluruhnya = Rp235.000. Untung = Rp282.000 − Rp235.000 = Rp47.000. Persentase untung = 47.000 ÷ 235.000 × 100% = 1/5 × 100% = 20%.",
+      "kesalahan_umum": [
+        {"nilai": "28,18", "kode": "lupa_biaya", "pesan": "Kamu belum menambahkan ongkos ojek ke harga beli."},
+        {"nilai": "16,67", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli seluruhnya."},
+        {"nilai": "47.000", "kode": "belum_persen", "pesan": "Itu besar untung dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m4-s6",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Bu Rosa membeli lemari bekas seharga Rp700.000 dan membayar ongkos angkut Rp100.000. Lemari itu dijual Rp680.000. Berapa persen ruginya?",
+      "kunci": "15",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Hitung harga beli seluruhnya: harga lemari + ongkos angkut.",
+        "Rugi = harga beli seluruhnya − Rp680.000.",
+        "Persentase rugi = rugi ÷ harga beli seluruhnya × 100%."
+      ],
+      "pembahasan": "Harga beli seluruhnya = Rp700.000 + Rp100.000 = Rp800.000. Rugi = Rp800.000 − Rp680.000 = Rp120.000. Persentase rugi = 120.000 ÷ 800.000 × 100% = 15%.",
+      "kesalahan_umum": [
+        {"nilai": "2,86", "kode": "lupa_biaya", "pesan": "Kamu belum menambahkan ongkos angkut ke harga beli."},
+        {"nilai": "17,65", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli seluruhnya."},
+        {"nilai": "120.000", "kode": "belum_persen", "pesan": "Itu besar rugi dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    }
+  ]
+}

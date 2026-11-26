@@ -1,81 +1,38 @@
 # Pasar Pintar
 
-Pasar Pintar adalah game pembelajaran berbasis Python dan Streamlit untuk materi Aritmetika Sosial tingkat SMP. Pemain berlatih memahami untung, rugi, dan persentase melalui empat kios dengan soal bertahap.
+Aplikasi belajar (PWA) untuk materi **Menghitung Persentase Untung dan Rugi**, Matematika kelas VII SMP.
+Aplikasi ini dirancang dari hasil wawancara beban kognitif (Cognitive Load Theory) dengan model pengembangan ADDIE.
+Rencana modul dan pemetaan kode wawancara ada di [RENCANA_MODUL.md](RENCANA_MODUL.md).
 
-## Kios dan Indikator Literasi Matematis
+## Cara menjalankan (Windows)
 
-| Kios | Materi dan tantangan | Indikator |
-|---|---|---|
-| 1. Pilih Pemasok | Membandingkan persentase untung beberapa pemasok, termasuk membedakan persentase terbesar dari untung rupiah terbesar. | Mathematical Reasoning |
-| 2. Buah untuk Dijual | Memodelkan modal dan ongkos angkut, menghitung sisa buah setelah busuk, pendapatan, serta untung/rugi dan persentasenya. | Formulating Situations Mathematically |
-| 3. Barang Bekas | Menghitung modal setelah perbaikan, besar untung/rugi, dan harga jual. | Employing Concepts, Facts, and Procedures |
-| 4. Periksa Klaim | Mengevaluasi klaim persentase untung dengan membandingkan penyebut harga jual dan modal. | Interpreting, Applying, and Evaluating |
+1. Pasang Python 3.12 atau lebih baru dari python.org.
+2. Klik dua kali **`start.bat`**. Saat pertama kali, start.bat membuat lingkungan Python dan memasang paket (butuh internet).
+3. Browser terbuka di `http://127.0.0.1:8000`.
 
-Setiap kios memiliki skor maksimum 6, dengan total skor maksimum 24.
+Akun demo: guru `guru_demo` / `guru12345`, siswa `siswa_demo` / `siswa12345`, kode kelas `DEMO77`.
 
-## Fitur
-
-- Mode Latihan menggunakan angka soal acak; seed yang sama menghasilkan paket yang sama.
-- Mode Tes menggunakan angka tetap dari instrumen soal.
-- Soal dikerjakan tahap demi tahap, dengan petunjuk, pembahasan, umpan balik, skor parsial, koin, bintang, dan progres kios.
-- Jawaban mendukung penulisan angka Indonesia, misalnya `25.000`, `Rp25.000`, `12,5`, dan `25%`.
-- Halaman hasil menampilkan skor per indikator, nilai, kategori, grafik, dan unduhan CSV.
-- Rekap permainan disimpan di `hasil/rekap_hasil.csv`.
-
-## Menjalankan di VS Code
-
-1. Buka folder proyek di VS Code.
-2. Buka terminal terintegrasi dengan profil PowerShell.
-3. Buat dan aktifkan lingkungan virtual:
-
-   ```powershell
-   py -m venv .venv
-   .\.venv\Scripts\Activate.ps1
-   ```
-
-4. Pasang dependensi:
-
-   ```powershell
-   python -m pip install -r requirements.txt
-   ```
-
-5. Pilih interpreter `.venv` melalui **Python: Select Interpreter** di Command Palette VS Code bila belum terpilih.
-6. Jalankan aplikasi:
-
-   ```powershell
-   python -m streamlit run app.py
-   ```
-
-7. Buka alamat lokal yang ditampilkan di terminal, biasanya `http://localhost:8501`.
-
-Jika PowerShell menolak aktivasi lingkungan virtual, jalankan perintah Streamlit melalui interpreter virtual secara langsung:
+## Menjalankan tes
 
 ```powershell
-.\.venv\Scripts\python.exe -m streamlit run app.py
+.\.venv\Scripts\python.exe -m pytest
 ```
 
-## Menjalankan Tes
+Tes memeriksa: mesin penilaian, kesamaan mesin Python dan JavaScript, aturan CLT konten
+(maks 70 kata per layar, maks 6 langkah per contoh, 3 petunjuk dan pembahasan per soal),
+cakupan 21 kode wawancara, keamanan kunci jawaban, privasi data anak, dan seluruh alur API.
 
-Dari folder utama proyek, jalankan:
-
-```powershell
-python -m unittest discover tests
-```
-
-## Struktur Proyek
+## Struktur
 
 ```text
-.
-├── app.py
-├── requirements.txt
-├── README.md
-└── tests/
-    ├── soal_generator.py
-    └── test_soal.py
+apps/api/        Backend FastAPI + SQLite, mesin penilaian Python (engine/)
+apps/web/        Frontend PWA tanpa build, mesin penilaian JavaScript (js/local/)
+content/         Materi dan soal (JSON), kurikulum, kode wawancara, glosarium
+tests/           Tes pytest
+legacy/          Versi Streamlit sebelumnya
 ```
-
-Logika pembentukan dan penilaian soal berada di `tests/soal_generator.py`, sedangkan `app.py` menangani antarmuka Streamlit. Berkas rekap `hasil/rekap_hasil.csv` dibuat otomatis setelah hasil permainan disimpan.
 
 ## Pengembang
 
-Astri Saskia (2225250054)
+Astri Saskia (2225250054). Dikembangkan dengan bantuan asisten AI (Claude Code); riwayat bantuan ada di
+[RIWAYAT_BANTUAN.md](RIWAYAT_BANTUAN.md).

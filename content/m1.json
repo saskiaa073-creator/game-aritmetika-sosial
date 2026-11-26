@@ -1,0 +1,146 @@
+{
+  "id": "m1",
+  "urutan": 1,
+  "level": 1,
+  "judul": "Untung atau Rugi?",
+  "tujuan": "Membedakan harga beli dan harga jual, lalu menentukan untung atau rugi beserta besarnya dalam rupiah.",
+  "kode_wawancara": ["K03", "IL05", "GL01", "EL03"],
+  "langkah": [
+    {
+      "id": "m1-l1",
+      "jenis": "teks",
+      "judul": "Dua harga di warung",
+      "isi": "Bu Sari membeli sebungkus kopi dari agen seharga Rp2.000. Itu harga beli, disebut juga modal.\n\nDi warungnya, kopi itu dijual Rp2.500. Itu harga jual.\n\nHarga beli = uang yang keluar.\nHarga jual = uang yang masuk."
+    },
+    {
+      "id": "m1-l2",
+      "jenis": "teks",
+      "judul": "Bandingkan dulu",
+      "isi": "Harga jual lebih besar dari harga beli → untung.\n\nHarga jual lebih kecil dari harga beli → rugi.\n\nKeduanya sama besar → impas (tidak untung, tidak rugi)."
+    },
+    {
+      "id": "m1-l3",
+      "jenis": "contoh",
+      "judul": "Contoh: pedagang pisang",
+      "soal": "Pak Joko membeli satu sisir pisang seharga Rp15.000, lalu menjualnya Rp18.000. Untung atau rugi? Berapa rupiah?",
+      "langkah_contoh": [
+        "Harga beli = Rp15.000. Harga jual = Rp18.000.",
+        "Bandingkan: Rp18.000 lebih besar dari Rp15.000, jadi untung.",
+        "Untung = harga jual − harga beli.",
+        "Untung = Rp18.000 − Rp15.000 = Rp3.000."
+      ]
+    },
+    {
+      "id": "m1-l4",
+      "jenis": "contoh",
+      "judul": "Contoh: roti dijual murah",
+      "soal": "Bu Ani membeli roti seharga Rp12.000. Roti hampir kedaluwarsa, jadi dijual Rp9.000. Untung atau rugi? Berapa rupiah?",
+      "langkah_contoh": [
+        "Harga beli = Rp12.000. Harga jual = Rp9.000.",
+        "Bandingkan: Rp9.000 lebih kecil dari Rp12.000, jadi rugi.",
+        "Rugi = harga beli − harga jual.",
+        "Rugi = Rp12.000 − Rp9.000 = Rp3.000."
+      ]
+    },
+    {
+      "id": "m1-l5",
+      "jenis": "teks",
+      "judul": "Ingat urutannya",
+      "isi": "Untung = harga jual − harga beli.\nRugi = harga beli − harga jual.\n\nSelalu kurangi harga yang besar dengan yang kecil. Lalu tulis apakah itu untung atau rugi."
+    }
+  ],
+  "soal": [
+    {
+      "id": "m1-s1",
+      "tipe": "pilihan",
+      "teks": "Dina membeli pensil seharga Rp3.000 dan menjualnya Rp3.500. Dina mengalami ...",
+      "pilihan": [
+        {"id": "a", "teks": "Untung"},
+        {"id": "b", "teks": "Rugi"},
+        {"id": "c", "teks": "Impas"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Temukan dulu harga beli dan harga jual pensil.",
+        "Harga beli Rp3.000, harga jual Rp3.500. Mana yang lebih besar?",
+        "Jika harga jual lebih besar dari harga beli, apa namanya?"
+      ],
+      "pembahasan": "Harga jual Rp3.500 lebih besar dari harga beli Rp3.000. Jadi Dina untung.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "terbalik_untung_rugi", "pesan": "Coba bandingkan lagi: mana yang lebih besar, harga jual atau harga beli?"},
+        {"nilai": "c", "kode": "impas_keliru", "pesan": "Impas terjadi jika kedua harga sama besar. Apakah Rp3.000 sama dengan Rp3.500?"}
+      ]
+    },
+    {
+      "id": "m1-s2",
+      "tipe": "pilihan",
+      "teks": "Kak Tono membeli sepatu bekas seharga Rp80.000, lalu menjualnya kepada temannya Rp95.000. Manakah harga beli?",
+      "pilihan": [
+        {"id": "a", "teks": "Rp80.000"},
+        {"id": "b", "teks": "Rp95.000"},
+        {"id": "c", "teks": "Rp15.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Harga beli adalah uang yang dikeluarkan Kak Tono.",
+        "Cari kata \"membeli\" di soal. Angka mana yang mengikutinya?",
+        "Uang dari temannya adalah harga jual, bukan harga beli."
+      ],
+      "pembahasan": "Kak Tono membeli sepatu seharga Rp80.000. Itu harga beli (modal). Rp95.000 adalah harga jual.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "tertukar_hb_hj", "pesan": "Rp95.000 adalah uang yang diterima Kak Tono dari temannya. Itu harga jual."},
+        {"nilai": "c", "kode": "selisih_bukan_harga", "pesan": "Rp15.000 adalah selisih kedua harga, bukan harga beli."}
+      ]
+    },
+    {
+      "id": "m1-s3",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Pak Udin membeli 1 kg telur seharga Rp27.000 dan menjualnya Rp30.000. Berapa rupiah untungnya?",
+      "kunci": "3.000",
+      "petunjuk": [
+        "Tentukan dulu harga beli dan harga jual.",
+        "Harga jual lebih besar, jadi untung. Untung = harga jual − harga beli.",
+        "Hitung Rp30.000 − Rp27.000."
+      ],
+      "pembahasan": "Untung = harga jual − harga beli = Rp30.000 − Rp27.000 = Rp3.000.",
+      "kesalahan_umum": [
+        {"nilai": "57.000", "kode": "dijumlah", "pesan": "Kamu menjumlahkan kedua harga. Untung dicari dengan pengurangan."},
+        {"nilai": "-3.000", "kode": "urutan_terbalik", "pesan": "Hasilnya negatif karena urutannya terbalik. Untung = harga jual − harga beli."}
+      ]
+    },
+    {
+      "id": "m1-s4",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Bu Rina membeli sekotak donat seharga Rp45.000. Sore hari, donat itu dijual murah seharga Rp38.000. Berapa rupiah ruginya?",
+      "kunci": "7.000",
+      "petunjuk": [
+        "Bandingkan harga jual dengan harga beli. Untung atau rugi?",
+        "Harga jual lebih kecil, jadi rugi. Rugi = harga beli − harga jual.",
+        "Hitung Rp45.000 − Rp38.000."
+      ],
+      "pembahasan": "Rugi = harga beli − harga jual = Rp45.000 − Rp38.000 = Rp7.000.",
+      "kesalahan_umum": [
+        {"nilai": "-7.000", "kode": "urutan_terbalik", "pesan": "Hasilnya negatif karena urutannya terbalik. Rugi = harga beli − harga jual."},
+        {"nilai": "83.000", "kode": "dijumlah", "pesan": "Kamu menjumlahkan kedua harga. Rugi dicari dengan pengurangan."}
+      ]
+    },
+    {
+      "id": "m1-s5",
+      "tipe": "angka",
+      "satuan": "rupiah",
+      "teks": "Bu Sari membeli 10 bungkus mi seharga Rp3.000 per bungkus. Semua mi dijual Rp3.500 per bungkus. Berapa rupiah untung seluruhnya?",
+      "kunci": "5.000",
+      "petunjuk": [
+        "Cari dulu untung untuk 1 bungkus mi.",
+        "Untung 1 bungkus = Rp3.500 − Rp3.000.",
+        "Soal menanyakan untung 10 bungkus. Kalikan untung 1 bungkus dengan 10."
+      ],
+      "pembahasan": "Untung 1 bungkus = Rp3.500 − Rp3.000 = Rp500. Untung 10 bungkus = 10 × Rp500 = Rp5.000.",
+      "kesalahan_umum": [
+        {"nilai": "500", "kode": "satu_satuan", "pesan": "Itu untung untuk 1 bungkus. Soal menanyakan untung 10 bungkus."}
+      ]
+    }
+  ]
+}

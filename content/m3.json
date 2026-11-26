@@ -1,0 +1,156 @@
+{
+  "id": "m3",
+  "urutan": 3,
+  "level": 2,
+  "judul": "Persentase Rugi",
+  "tujuan": "Menghitung persentase rugi dengan pola yang sama seperti persentase untung: rugi dibagi harga beli.",
+  "kode_wawancara": ["IL01", "K03"],
+  "langkah": [
+    {
+      "id": "m3-l1",
+      "jenis": "teks",
+      "judul": "Polanya sama",
+      "isi": "Persentase rugi dihitung dengan cara yang sama seperti persentase untung.\n\nPersentase rugi = rugi ÷ harga beli × 100%\n\nPembaginya tetap harga beli. Yang berubah hanya cara mencari selisihnya:\nRugi = harga beli − harga jual."
+    },
+    {
+      "id": "m3-l2",
+      "jenis": "contoh",
+      "judul": "Contoh: jam dinding",
+      "soal": "Kak Bayu membeli jam dinding seharga Rp120.000. Karena kacanya retak, jam itu dijual Rp90.000. Berapa persen ruginya?",
+      "langkah_contoh": [
+        "Harga jual lebih kecil dari harga beli, jadi rugi.",
+        "Rugi = Rp120.000 − Rp90.000 = Rp30.000.",
+        "Persentase rugi = 30.000 ÷ 120.000 × 100%.",
+        "Coret nol dan sederhanakan: 30/120 = 1/4.",
+        "1/4 × 100% = 25%."
+      ]
+    },
+    {
+      "id": "m3-l3",
+      "jenis": "teks",
+      "judul": "Tiga langkah, jangan tertukar",
+      "isi": "1. Bandingkan dulu: untung atau rugi?\n2. Hitung selisihnya dalam rupiah.\n3. Bagi selisih dengan harga beli, lalu kalikan 100%.\n\nPembagi untuk untung maupun rugi selalu harga beli."
+    }
+  ],
+  "soal": [
+    {
+      "id": "m3-s1",
+      "tipe": "pilihan",
+      "teks": "Persentase rugi = rugi ÷ ... × 100%. Isian yang tepat adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "harga beli"},
+        {"id": "b", "teks": "harga jual"},
+        {"id": "c", "teks": "besar rugi"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Ingat rumus persentase untung. Pembaginya apa?",
+        "Persentase rugi memakai pola yang sama dengan persentase untung.",
+        "Rugi dibandingkan dengan uang yang dikeluarkan pedagang."
+      ],
+      "pembahasan": "Persentase rugi = rugi ÷ harga beli × 100%. Pembaginya sama seperti persentase untung, yaitu harga beli.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "tertukar_pembagi", "pesan": "Pembaginya bukan harga jual. Rugi juga dibandingkan dengan harga beli."},
+        {"nilai": "c", "kode": "untung_sebagai_pembagi", "pesan": "Besar rugi adalah angka yang dibagi, bukan pembaginya."}
+      ]
+    },
+    {
+      "id": "m3-s2",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Pak Hasan membeli sepeda anak seharga Rp600.000. Sepeda itu dijual Rp540.000. Berapa persen ruginya?",
+      "kunci": "10",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Rugi = harga beli − harga jual.",
+        "Persentase rugi = rugi ÷ harga beli × 100%.",
+        "Coret nol: 60.000 ÷ 600.000 = 6 ÷ 60. Lalu kalikan 100%."
+      ],
+      "pembahasan": "Rugi = Rp600.000 − Rp540.000 = Rp60.000. Persentase rugi = 60.000 ÷ 600.000 × 100% = 1/10 × 100% = 10%.",
+      "kesalahan_umum": [
+        {"nilai": "11,11", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "60.000", "kode": "belum_persen", "pesan": "Itu besar rugi dalam rupiah. Sekarang ubah ke persen."},
+        {"nilai": "0,1", "kode": "lupa_kali_100", "pesan": "Hampir! Kalikan dengan 100 agar menjadi persen."}
+      ]
+    },
+    {
+      "id": "m3-s3",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Bu Tini membeli 10 kg tomat seharga Rp8.000 per kg. Karena mulai layu, tomat dijual Rp6.000 per kg. Berapa persen ruginya?",
+      "kunci": "25",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Harganya sama untuk setiap kg, jadi hitung untuk 1 kg saja.",
+        "Rugi 1 kg = Rp8.000 − Rp6.000.",
+        "Persentase rugi = rugi 1 kg ÷ Rp8.000 × 100%."
+      ],
+      "pembahasan": "Rugi 1 kg = Rp8.000 − Rp6.000 = Rp2.000. Persentase rugi = 2.000 ÷ 8.000 × 100% = 1/4 × 100% = 25%.",
+      "kesalahan_umum": [
+        {"nilai": "33,33", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "2.000", "kode": "belum_persen", "pesan": "Itu rugi 1 kg dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m3-s4",
+      "tipe": "pilihan",
+      "teks": "Soal: \"Harga beli Rp90.000, harga jual Rp72.000. Berapa persen ruginya?\" Langkah pertama yang tepat adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "Menghitung rugi: Rp90.000 − Rp72.000"},
+        {"id": "b", "teks": "Langsung membagi 72.000 ÷ 90.000"},
+        {"id": "c", "teks": "Menjumlahkan Rp90.000 + Rp72.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Ingat tiga langkah: bandingkan, hitung selisih, lalu bagi.",
+        "Sebelum membagi, kita perlu tahu besar ruginya dulu.",
+        "Rugi dicari dengan pengurangan atau penjumlahan?"
+      ],
+      "pembahasan": "Langkah pertama adalah menghitung besar rugi: Rp90.000 − Rp72.000. Setelah itu baru dibagi harga beli.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "lewati_selisih", "pesan": "Yang dibagi adalah besar rugi, bukan harga jual. Hitung ruginya dulu."},
+        {"nilai": "c", "kode": "dijumlah", "pesan": "Rugi dicari dengan pengurangan, bukan penjumlahan."}
+      ]
+    },
+    {
+      "id": "m3-s5",
+      "tipe": "angka",
+      "satuan": "persen",
+      "teks": "Harga beli sebuah kemeja Rp90.000. Kemeja itu dijual Rp72.000. Berapa persen ruginya?",
+      "kunci": "20",
+      "toleransi": "0,05",
+      "petunjuk": [
+        "Hitung rugi: harga beli − harga jual.",
+        "Bagi rugi dengan harga beli Rp90.000.",
+        "Coret nol: 18.000 ÷ 90.000 = 18 ÷ 90. Sederhanakan, lalu kalikan 100%."
+      ],
+      "pembahasan": "Rugi = Rp90.000 − Rp72.000 = Rp18.000. Persentase rugi = 18.000 ÷ 90.000 × 100% = 1/5 × 100% = 20%.",
+      "kesalahan_umum": [
+        {"nilai": "80", "kode": "lewati_selisih", "pesan": "80% adalah harga jual dibanding harga beli. Yang dibagi seharusnya besar rugi."},
+        {"nilai": "25", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus harga beli."},
+        {"nilai": "18.000", "kode": "belum_persen", "pesan": "Itu besar rugi dalam rupiah. Sekarang ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m3-s6",
+      "tipe": "pilihan",
+      "teks": "Penjual A membeli barang Rp10.000 dan menjualnya Rp12.000. Penjual B membeli barang Rp10.000 dan menjualnya Rp8.000. Pernyataan yang benar adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "A untung 20%, B rugi 20%"},
+        {"id": "b", "teks": "A untung 20%, B untung 20%"},
+        {"id": "c", "teks": "A rugi 20%, B untung 20%"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Bandingkan harga jual dan harga beli setiap penjual.",
+        "Penjual A: harga jual lebih besar. Penjual B: harga jual lebih kecil.",
+        "Selisih keduanya Rp2.000, dibagi harga beli Rp10.000."
+      ],
+      "pembahasan": "A: Rp12.000 > Rp10.000, untung 2.000 ÷ 10.000 × 100% = 20%. B: Rp8.000 < Rp10.000, rugi 2.000 ÷ 10.000 × 100% = 20%.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "terbalik_untung_rugi", "pesan": "Penjual B menjual lebih murah dari harga belinya. Itu untung atau rugi?"},
+        {"nilai": "c", "kode": "terbalik_untung_rugi", "pesan": "Untung dan ruginya tertukar. Bandingkan lagi harga jual dengan harga beli."}
+      ]
+    }
+  ]
+}

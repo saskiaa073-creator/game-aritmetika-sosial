@@ -1,0 +1,26 @@
+{
+  "sumber": "Laporan Wawancara Astri Saskia 2225250054, bagian E, informan S01, 4 November 2026",
+  "kode": {
+    "K01": "Paham untung/rugi nominal, bingung rumus persen: takut terbalik pembagi HB/HJ.",
+    "K02": "Guru menulis rumus dan contoh; paham saat mendengar, ragu saat latihan sendiri.",
+    "K03": "Ingat untung = HJ - HB; ragu pembagi persen; bingung langkah pertama soal diskon dan persentase rugi.",
+    "IL01": "Paling sulit: rumus persentase rugi dan mencari harga beli dari HJ dan persentase untung.",
+    "IL02": "Harus memisahkan HB, HJ, menghitung selisih, lalu persen: banyak langkah berurutan.",
+    "IL03": "Prasyarat: operasi pecahan, menyederhanakan, pecahan ke persen; pembagian angka besar lama.",
+    "IL04": "Kesulitan naik saat yang diketahui persentase lalu ditanya HJ atau HB.",
+    "IL05": "Kesalahan umum: salah pembagi rumus persen, salah hitung selisih HJ - HB.",
+    "EL01": "Soal cerita panjang membuat bingung angka mana HB dan mana HJ.",
+    "EL02": "Tabel rumus di buku terlalu padat; bolak-balik halaman rumus dan contoh.",
+    "EL03": "Warna ramai dan teks panjang mengganggu; ingin tampilan bersih dan warna khusus HB dan HJ.",
+    "EL04": "Penjelasan terlalu cepat dan langsung loncat ke diskon; ingin bertahap.",
+    "EL05": "Sulit mengubah kalimat cerita menjadi angka; takut salah memasukkan nilai ke rumus.",
+    "GL01": "Paham jika dikaitkan dengan jual-beli nyata (warung): untung rupiah dulu, baru persen.",
+    "GL02": "Mengecek kewajaran: untung kecil tapi persen ratusan berarti pembagi salah.",
+    "GL03": "Terbantu contoh langkah demi langkah: cari untung, lalu rumus dengan penyebut HB.",
+    "GL04": "Menjelaskan ke teman membuatnya ingat bahwa pembagi selalu harga beli.",
+    "GL05": "Mengenali pola kata kunci soal: besar untung, persentase, atau harga awal.",
+    "DS01": "Ingin ringkasan rumus interaktif, kalkulator langkah bertahap, latihan dasar sampai lanjut.",
+    "DS02": "Penentuan pembagi dan soal cerita rumit dijelaskan pelan dengan petunjuk saat salah.",
+    "DS03": "Jangan banyak teks teori; tampilan rapi, rumus dipisah jelas, warna tidak mencolok."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "materi": "Menghitung Persentase Untung dan Rugi",
+  "kelas": "VII SMP",
+  "modul": [
+    {"id": "m0", "judul": "Cek Bekal", "level": 0, "kode_wawancara": ["K01", "K02", "IL03"]},
+    {"id": "m1", "judul": "Untung atau Rugi?", "level": 1, "kode_wawancara": ["K03", "IL05", "GL01", "EL03"]},
+    {"id": "m2", "judul": "Penyebutnya Selalu Harga Beli", "level": 2, "kode_wawancara": ["IL05", "GL02", "GL04", "DS02", "EL02"]},
+    {"id": "m3", "judul": "Persentase Rugi", "level": 2, "kode_wawancara": ["IL01", "K03"]},
+    {"id": "m4", "judul": "Modal Lengkap", "level": 3, "kode_wawancara": ["IL02", "EL01", "EL05", "DS03"]},
+    {"id": "m5", "judul": "Dibalik: Mencari Harga Jual atau Harga Beli", "level": 3, "kode_wawancara": ["IL01", "IL04", "GL03"]},
+    {"id": "m6", "judul": "Diskon", "level": 3, "kode_wawancara": ["GL05", "EL04", "K03"]},
+    {"id": "m7", "judul": "Tes Literasi Matematis", "level": 3, "kode_wawancara": ["GL03", "DS01"]}
+  ]
+}

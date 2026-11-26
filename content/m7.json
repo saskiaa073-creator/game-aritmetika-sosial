@@ -1,0 +1,435 @@
+{
+  "id": "m7",
+  "urutan": 7,
+  "level": 3,
+  "jenis": "tes",
+  "judul": "Tes Literasi Matematis",
+  "tujuan": "Mengerjakan 4 soal literasi matematis tahap demi tahap. Skor maksimal 24.",
+  "kode_wawancara": ["GL03", "DS01"],
+  "sumber": "TABEL KISI-KISI SOAL MATHEMATICAL LITERACY (Astri Saskia). Setiap butir dipecah sesuai tahapan kisi-kisi jawaban; skor tahap mengikuti kisi-kisi.",
+  "butir": {
+    "1": {"judul": "Memilih Pemasok Kue", "indikator": "Mathematical Reasoning"},
+    "2": {"judul": "Jual Beli Mangga", "indikator": "Formulating Situations Mathematically"},
+    "3": {"judul": "Penjualan Sepeda Bekas", "indikator": "Employing Mathematical Concepts, Facts, and Procedures"},
+    "4": {"judul": "Klaim Persentase Untung", "indikator": "Interpreting, Applying, and Evaluating Mathematical Outcomes"}
+  },
+  "langkah": [
+    {
+      "id": "m7-l0",
+      "jenis": "teks",
+      "judul": "Tentang tes ini",
+      "isi": "Tes ini berisi 4 soal cerita. Setiap soal dikerjakan tahap demi tahap.\n\nSetiap tahap punya skor. Skor maksimal seluruhnya 24.\n\nSkor dihitung dari jawaban pertamamu. Petunjuk baru bisa dibuka setelah kamu menjawab. Jawab dulu sebelum lanjut ke tahap berikutnya."
+    },
+    {
+      "id": "m7-l1",
+      "jenis": "teks",
+      "sebelum": "m7-s1",
+      "judul": "Soal 1: Memilih Pemasok Kue",
+      "isi": "Bu Dina ingin menjual kue bolu di kantin sekolah. Ia membandingkan tiga pemasok:\n\nPemasok A: modal Rp20.000, laku dijual Rp25.000 per kotak.\nPemasok B: modal Rp40.000, laku dijual Rp48.000 per kotak.\nPemasok C: modal Rp50.000, laku dijual Rp61.000 per kotak.\n\nBu Dina ingin persentase keuntungan paling besar terhadap modal."
+    },
+    {
+      "id": "m7-l2",
+      "jenis": "teks",
+      "sebelum": "m7-s7",
+      "judul": "Soal 2: Jual Beli Mangga",
+      "isi": "Seorang pedagang membeli 2 peti mangga dengan harga Rp300.000 per peti. Ongkos angkut kedua peti Rp40.000. Setiap peti berisi 25 kg mangga.\n\nSetelah dibuka, 5 kg mangga busuk dan tidak bisa dijual. Sisa mangga dijual seluruhnya dengan harga Rp16.000 per kg."
+    },
+    {
+      "id": "m7-l3",
+      "jenis": "teks",
+      "sebelum": "m7-s13",
+      "judul": "Soal 3: Penjualan Sepeda Bekas",
+      "isi": "Pak Budi membeli sepeda bekas seharga Rp1.200.000. Ia mengeluarkan biaya perbaikan dan pengecatan Rp300.000.\n\nSetelah diperbaiki, sepeda itu dijual kembali. Pak Budi mengalami kerugian 12%."
+    },
+    {
+      "id": "m7-l4",
+      "jenis": "teks",
+      "sebelum": "m7-s17",
+      "judul": "Soal 4: Klaim Persentase Untung",
+      "isi": "Andi membeli jam tangan seharga Rp200.000, lalu menjualnya kepada temannya Rp250.000.\n\nAndi menghitung persentase keuntungannya:\n50.000 ÷ 250.000 × 100% = 20%\n\nIa menyimpulkan keuntungannya 20%."
+    }
+  ],
+  "soal": [
+    {
+      "id": "m7-s1", "butir": 1, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 1, tahap 1. Agar mendapat persentase keuntungan terbesar terhadap modal, apa yang harus dibandingkan Bu Dina?",
+      "pilihan": [
+        {"id": "a", "teks": "Persentase untung terhadap modal setiap pemasok"},
+        {"id": "b", "teks": "Untung rupiah setiap pemasok"},
+        {"id": "c", "teks": "Harga jual setiap pemasok"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Baca lagi keinginan Bu Dina di kalimat terakhir cerita.",
+        "Bu Dina ingin persentase, bukan rupiah.",
+        "Persentase untung = untung ÷ modal × 100%."
+      ],
+      "pembahasan": "Bu Dina ingin persentase keuntungan terbesar terhadap modal. Jadi untung setiap pemasok dibagi modalnya, bukan hanya melihat selisih rupiah terbesar.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "lihat_rupiah", "pesan": "Untung rupiah terbesar belum tentu persentasenya terbesar, karena modalnya berbeda."},
+        {"nilai": "c", "kode": "lihat_harga_jual", "pesan": "Harga jual termahal belum tentu memberi persentase untung terbesar."}
+      ]
+    },
+    {
+      "id": "m7-s2", "butir": 1, "skor": 1, "tipe": "angka", "satuan": "persen",
+      "teks": "Soal 1, tahap 2. Pemasok A: modal Rp20.000, laku dijual Rp25.000. Berapa persen untung Pemasok A?",
+      "kunci": "25", "toleransi": "0,05",
+      "petunjuk": [
+        "Untung = harga jual − modal.",
+        "Persentase untung = untung ÷ modal × 100%.",
+        "Coret nol: 5.000 ÷ 20.000 = 5 ÷ 20. Lalu kalikan 100%."
+      ],
+      "pembahasan": "Untung = Rp25.000 − Rp20.000 = Rp5.000. Persentase untung = 5.000 ÷ 20.000 × 100% = 25%.",
+      "kesalahan_umum": [
+        {"nilai": "20", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus modal (harga beli)."},
+        {"nilai": "5.000", "kode": "belum_persen", "pesan": "Itu untung dalam rupiah. Ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m7-s3", "butir": 1, "skor": 1, "tipe": "angka", "satuan": "persen",
+      "teks": "Soal 1, tahap 2. Pemasok C: modal Rp50.000, laku dijual Rp61.000. Berapa persen untung Pemasok C?",
+      "kunci": "22", "toleransi": "0,05",
+      "petunjuk": [
+        "Untung = harga jual − modal.",
+        "Persentase untung = untung ÷ modal × 100%.",
+        "Coret nol: 11.000 ÷ 50.000 = 11 ÷ 50. Lalu kalikan 100%."
+      ],
+      "pembahasan": "Untung = Rp61.000 − Rp50.000 = Rp11.000. Persentase untung = 11.000 ÷ 50.000 × 100% = 22%.",
+      "kesalahan_umum": [
+        {"nilai": "18,03", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus modal (harga beli)."},
+        {"nilai": "11.000", "kode": "belum_persen", "pesan": "Itu untung dalam rupiah. Ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m7-s4", "butir": 1, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 1, tahap 3. Persentase untung Pemasok B adalah 20%. Urutkan persentase untung ketiga pemasok dari yang terbesar.",
+      "pilihan": [
+        {"id": "a", "teks": "A, C, B"},
+        {"id": "b", "teks": "C, B, A"},
+        {"id": "c", "teks": "B, A, C"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Pakai persentase yang kamu hitung di tahap 2.",
+        "Bandingkan persentase A, B, dan C, bukan rupiahnya.",
+        "Mulai dari persentase yang paling besar."
+      ],
+      "pembahasan": "Pemasok A 25%, Pemasok C 22%, Pemasok B 20%. Urutannya 25% > 22% > 20%, yaitu A, C, B.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "urut_rupiah", "pesan": "Itu urutan untung dalam rupiah. Yang diminta urutan persentasenya."}
+      ]
+    },
+    {
+      "id": "m7-s5", "butir": 1, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 1, tahap 4. Pemasok mana yang sebaiknya dipilih Bu Dina?",
+      "pilihan": [
+        {"id": "a", "teks": "Pemasok A"},
+        {"id": "b", "teks": "Pemasok B"},
+        {"id": "c", "teks": "Pemasok C"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Ingat keinginan Bu Dina: persentase keuntungan terbesar.",
+        "Lihat urutan persentase di tahap 3.",
+        "Pilih pemasok di urutan pertama."
+      ],
+      "pembahasan": "Bu Dina sebaiknya memilih Pemasok A, karena persentase untungnya paling besar.",
+      "kesalahan_umum": [
+        {"nilai": "c", "kode": "lihat_rupiah", "pesan": "Pemasok C memang untung rupiahnya paling besar, tapi Bu Dina mencari persentase terbesar."},
+        {"nilai": "b", "kode": "salah_banding", "pesan": "Persentase Pemasok B justru paling kecil. Bandingkan lagi."}
+      ]
+    },
+    {
+      "id": "m7-s6", "butir": 1, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 1, tahap 5. Alasan matematis yang paling tepat adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "Persentase untung A paling besar, walaupun untung rupiahnya paling kecil"},
+        {"id": "b", "teks": "Untung rupiah Pemasok C paling besar"},
+        {"id": "c", "teks": "Modal Pemasok A paling kecil, jadi pasti paling untung"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Alasan harus sesuai dengan keinginan Bu Dina.",
+        "Modal yang kecil saja belum cukup menjadi alasan.",
+        "Alasan yang baik menyebut perbandingan persentase."
+      ],
+      "pembahasan": "Pemasok A memberi persentase untung tertinggi (25%). Pemasok C untung rupiahnya terbesar (Rp11.000), tetapi modalnya jauh lebih besar sehingga persentasenya hanya 22%.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "lihat_rupiah", "pesan": "Untung rupiah terbesar bukan ukuran yang diminta. Bandingkan persentasenya."},
+        {"nilai": "c", "kode": "alasan_kurang", "pesan": "Modal kecil saja belum cukup menjadi alasan. Bandingkan persentase untungnya."}
+      ]
+    },
+    {
+      "id": "m7-s7", "butir": 2, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 2, tahap 1. Apa yang ditanyakan dalam soal mangga?",
+      "pilihan": [
+        {"id": "a", "teks": "Untung atau rugi, serta persentasenya"},
+        {"id": "b", "teks": "Harga satu peti mangga"},
+        {"id": "c", "teks": "Berat mangga yang busuk"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Harga peti dan berat busuk sudah diketahui di cerita.",
+        "Yang ditanyakan adalah hal yang belum diketahui.",
+        "Soal meminta model matematika untuk menentukan keadaan pedagang."
+      ],
+      "pembahasan": "Diketahui: 2 peti Rp300.000 per peti, ongkos Rp40.000, 25 kg per peti, busuk 5 kg, harga jual Rp16.000 per kg. Ditanya: untung atau rugi, dan persentasenya.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "salah_baca_kunci", "pesan": "Harga satu peti sudah diketahui di cerita. Apa yang belum diketahui?"},
+        {"nilai": "c", "kode": "salah_baca_kunci", "pesan": "Berat mangga busuk sudah diketahui di cerita. Apa yang belum diketahui?"}
+      ]
+    },
+    {
+      "id": "m7-s8", "butir": 2, "skor": 1, "tipe": "angka", "satuan": "rupiah",
+      "teks": "Soal 2, tahap 2. Pedagang membeli 2 peti mangga @Rp300.000 dan membayar ongkos angkut Rp40.000. Berapa total modal (harga beli seluruhnya)?",
+      "kunci": "640.000",
+      "petunjuk": [
+        "Hitung dulu harga 2 peti mangga.",
+        "Harga 2 peti = 2 × Rp300.000.",
+        "Tambahkan ongkos angkut ke harga 2 peti."
+      ],
+      "pembahasan": "Total modal = (2 × Rp300.000) + Rp40.000 = Rp600.000 + Rp40.000 = Rp640.000.",
+      "kesalahan_umum": [
+        {"nilai": "600.000", "kode": "lupa_biaya", "pesan": "Ongkos angkut juga uang yang dikeluarkan. Tambahkan ke modal."},
+        {"nilai": "340.000", "kode": "satu_satuan", "pesan": "Pedagang membeli 2 peti. Kalikan dulu harga per peti dengan 2."}
+      ]
+    },
+    {
+      "id": "m7-s9", "butir": 2, "skor": 1, "tipe": "angka", "satuan": "angka",
+      "teks": "Soal 2, tahap 3. Ada 2 peti mangga, setiap peti berisi 25 kg. Sebanyak 5 kg busuk. Berapa kg mangga yang bisa dijual?",
+      "kunci": "45",
+      "petunjuk": [
+        "Hitung berat seluruh mangga dari 2 peti.",
+        "Berat seluruhnya = 2 × 25 kg.",
+        "Kurangi berat seluruhnya dengan berat yang busuk."
+      ],
+      "pembahasan": "Berat mangga layak jual = (2 × 25 kg) − 5 kg = 50 kg − 5 kg = 45 kg.",
+      "kesalahan_umum": [
+        {"nilai": "50", "kode": "lupa_rusak", "pesan": "Mangga yang busuk tidak bisa dijual. Kurangi dulu beratnya."},
+        {"nilai": "20", "kode": "satu_satuan", "pesan": "Ada 2 peti. Hitung dulu berat seluruhnya: 2 × 25 kg."}
+      ]
+    },
+    {
+      "id": "m7-s10", "butir": 2, "skor": 1, "tipe": "angka", "satuan": "rupiah",
+      "teks": "Soal 2, tahap 4. Mangga yang dijual 45 kg dengan harga Rp16.000 per kg. Berapa total harga jual?",
+      "kunci": "720.000",
+      "petunjuk": [
+        "Total harga jual = berat yang dijual × harga per kg.",
+        "Hitung 45 × Rp16.000.",
+        "Kamu bisa menghitung 45 × 16, lalu tambahkan tiga angka nol."
+      ],
+      "pembahasan": "Total harga jual = 45 × Rp16.000 = Rp720.000.",
+      "kesalahan_umum": [
+        {"nilai": "800.000", "kode": "lupa_rusak", "pesan": "Kamu memakai 50 kg. Yang dijual hanya mangga yang tidak busuk."}
+      ]
+    },
+    {
+      "id": "m7-s11", "butir": 2, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 2, tahap 5. Total modal Rp640.000 dan total harga jual Rp720.000. Pedagang mengalami ...",
+      "pilihan": [
+        {"id": "a", "teks": "Untung Rp80.000"},
+        {"id": "b", "teks": "Rugi Rp80.000"},
+        {"id": "c", "teks": "Untung Rp720.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Bandingkan harga jual dengan modal.",
+        "Harga jual lebih besar dari modal. Untung atau rugi?",
+        "Besarnya = harga jual − modal."
+      ],
+      "pembahasan": "Harga jual > harga beli (Rp720.000 > Rp640.000), jadi pedagang untung Rp720.000 − Rp640.000 = Rp80.000.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "terbalik_untung_rugi", "pesan": "Harga jual lebih besar dari modal. Itu untung atau rugi?"},
+        {"nilai": "c", "kode": "harga_jual_bukan_untung", "pesan": "Rp720.000 adalah harga jual, bukan untung."}
+      ]
+    },
+    {
+      "id": "m7-s12", "butir": 2, "skor": 1, "tipe": "angka", "satuan": "persen",
+      "teks": "Soal 2, tahap 6. Untung Rp80.000 dan modal Rp640.000. Berapa persen untung pedagang?",
+      "kunci": "12,5", "toleransi": "0,05",
+      "petunjuk": [
+        "Persentase untung = untung ÷ modal × 100%.",
+        "Coret nol: 80.000 ÷ 640.000 = 8 ÷ 64.",
+        "Sederhanakan 8/64, lalu kalikan 100%."
+      ],
+      "pembahasan": "Persentase untung = 80.000 ÷ 640.000 × 100% = 1/8 × 100% = 12,5%.",
+      "kesalahan_umum": [
+        {"nilai": "11,11", "kode": "bagi_harga_jual", "pesan": "Sepertinya kamu membagi dengan harga jual. Pembaginya harus modal."},
+        {"nilai": "80.000", "kode": "belum_persen", "pesan": "Itu untung dalam rupiah. Ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m7-s13", "butir": 3, "skor": 1, "tipe": "angka", "satuan": "rupiah",
+      "teks": "Soal 3, tahap 1. Sepeda bekas Rp1.200.000, biaya perbaikan dan pengecatan Rp300.000. Berapa total harga beli (modal)?",
+      "kunci": "1.500.000",
+      "petunjuk": [
+        "Biaya perbaikan juga uang yang dikeluarkan Pak Budi.",
+        "Total modal = harga sepeda + biaya perbaikan.",
+        "Jumlahkan Rp1.200.000 dan Rp300.000."
+      ],
+      "pembahasan": "Total harga beli = Rp1.200.000 + Rp300.000 = Rp1.500.000.",
+      "kesalahan_umum": [
+        {"nilai": "1.200.000", "kode": "lupa_biaya", "pesan": "Biaya perbaikan juga uang yang dikeluarkan. Tambahkan ke modal."},
+        {"nilai": "900.000", "kode": "biaya_dikurangi", "pesan": "Biaya menambah modal, bukan mengurangi."}
+      ]
+    },
+    {
+      "id": "m7-s14", "butir": 3, "skor": 2, "tipe": "angka", "satuan": "rupiah",
+      "teks": "Soal 3, tahap 2. Modal sepeda Rp1.500.000 dan Pak Budi rugi 12%. Berapa rupiah besar kerugiannya?",
+      "kunci": "180.000",
+      "petunjuk": [
+        "Besar rugi = persen rugi × modal.",
+        "12% sama dengan 12/100.",
+        "Hitung 12/100 × 1.500.000."
+      ],
+      "pembahasan": "Besar kerugian = 12% × Rp1.500.000 = 12/100 × 1.500.000 = Rp180.000.",
+      "kesalahan_umum": [
+        {"nilai": "144.000", "kode": "lupa_biaya", "pesan": "Kamu menghitung 12% dari Rp1.200.000. Persen rugi dihitung dari modal seluruhnya."},
+        {"nilai": "1.320.000", "kode": "harga_jual_bukan_rugi", "pesan": "Itu harga jualnya. Soal menanyakan besar kerugian."}
+      ]
+    },
+    {
+      "id": "m7-s15", "butir": 3, "skor": 2, "tipe": "angka", "satuan": "rupiah",
+      "teks": "Soal 3, tahap 3. Modal Rp1.500.000 dan kerugian Rp180.000. Berapa harga jual sepeda?",
+      "kunci": "1.320.000",
+      "petunjuk": [
+        "Saat rugi, harga jual lebih kecil dari modal.",
+        "Harga jual = modal − rugi.",
+        "Hitung Rp1.500.000 − Rp180.000."
+      ],
+      "pembahasan": "Harga jual = harga beli − rugi = Rp1.500.000 − Rp180.000 = Rp1.320.000.",
+      "kesalahan_umum": [
+        {"nilai": "1.680.000", "kode": "rugi_ditambah", "pesan": "Saat rugi, harga jual = modal − rugi, bukan ditambah."}
+      ]
+    },
+    {
+      "id": "m7-s16", "butir": 3, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 3, tahap 4. Kesimpulan yang tepat adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "Harga penjualan sepeda Pak Budi adalah Rp1.320.000"},
+        {"id": "b", "teks": "Harga penjualan sepeda Pak Budi adalah Rp1.056.000"},
+        {"id": "c", "teks": "Pak Budi untung Rp180.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Kesimpulan menjawab pertanyaan soal: berapa harga penjualannya.",
+        "Pakai hasil tahap 3.",
+        "Ingat, Pak Budi mengalami rugi, bukan untung."
+      ],
+      "pembahasan": "Jadi, harga penjualan sepeda Pak Budi adalah Rp1.320.000.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "lupa_biaya", "pesan": "Rp1.056.000 dihitung dari Rp1.200.000 saja. Biaya perbaikan belum dimasukkan ke modal."},
+        {"nilai": "c", "kode": "terbalik_untung_rugi", "pesan": "Pak Budi mengalami rugi, bukan untung."}
+      ]
+    },
+    {
+      "id": "m7-s17", "butir": 4, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 4, tahap 1. Di mana letak kekeliruan Andi?",
+      "pilihan": [
+        {"id": "a", "teks": "Andi membagi dengan harga jual, bukan harga beli"},
+        {"id": "b", "teks": "Andi salah menghitung besar untung"},
+        {"id": "c", "teks": "Tidak ada yang keliru"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Periksa besar untung: Rp250.000 − Rp200.000.",
+        "Lalu periksa angka pembagi yang dipakai Andi.",
+        "Pembagi persentase untung seharusnya harga beli atau harga jual?"
+      ],
+      "pembahasan": "Hasil 20% keliru karena Andi membagi untung Rp50.000 dengan harga jual Rp250.000, bukan dengan harga beli.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "salah_lokasi", "pesan": "Besar untung Rp50.000 sudah benar. Periksa pembaginya."},
+        {"nilai": "c", "kode": "tertukar_pembagi", "pesan": "Coba lihat pembagi Andi: Rp250.000 adalah harga jual."}
+      ]
+    },
+    {
+      "id": "m7-s18", "butir": 4, "skor": 1, "tipe": "angka", "satuan": "rupiah",
+      "teks": "Soal 4, tahap 2. Jam tangan dibeli Rp200.000 dan dijual Rp250.000. Berapa besar keuntungan sebenarnya?",
+      "kunci": "50.000",
+      "petunjuk": [
+        "Untung = harga jual − harga beli.",
+        "Harga jual Rp250.000, harga beli Rp200.000.",
+        "Kurangkan harga beli dari harga jual."
+      ],
+      "pembahasan": "Besar keuntungan = Rp250.000 − Rp200.000 = Rp50.000.",
+      "kesalahan_umum": [
+        {"nilai": "450.000", "kode": "dijumlah", "pesan": "Kamu menjumlahkan kedua harga. Untung dicari dengan pengurangan."}
+      ]
+    },
+    {
+      "id": "m7-s19", "butir": 4, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 4, tahap 3. Persentase untung seharusnya dihitung terhadap ...",
+      "pilihan": [
+        {"id": "a", "teks": "Harga beli Rp200.000"},
+        {"id": "b", "teks": "Harga jual Rp250.000"},
+        {"id": "c", "teks": "Untung Rp50.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Persentase untung membandingkan untung dengan uang yang dikeluarkan.",
+        "Uang yang dikeluarkan Andi adalah modal awal.",
+        "Modal awal disebut harga pembelian."
+      ],
+      "pembahasan": "Persentase untung selalu dihitung terhadap modal awal (harga pembelian), yaitu Rp200.000.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "tertukar_pembagi", "pesan": "Itu cara Andi yang keliru. Persentase untung dihitung terhadap harga beli."},
+        {"nilai": "c", "kode": "untung_sebagai_pembagi", "pesan": "Untung adalah angka yang dibagi, bukan pembaginya."}
+      ]
+    },
+    {
+      "id": "m7-s20", "butir": 4, "skor": 1, "tipe": "angka", "satuan": "persen",
+      "teks": "Soal 4, tahap 4. Untung Rp50.000 dan harga beli Rp200.000. Berapa persentase untung yang benar?",
+      "kunci": "25", "toleransi": "0,05",
+      "petunjuk": [
+        "Persentase untung = untung ÷ harga beli × 100%.",
+        "Coret nol: 50.000 ÷ 200.000 = 5 ÷ 20.",
+        "Sederhanakan 5/20, lalu kalikan 100%."
+      ],
+      "pembahasan": "Persentase untung = 50.000 ÷ 200.000 × 100% = 1/4 × 100% = 25%.",
+      "kesalahan_umum": [
+        {"nilai": "20", "kode": "bagi_harga_jual", "pesan": "Itu hasil Andi yang membagi dengan harga jual. Bagi dengan harga beli."},
+        {"nilai": "50.000", "kode": "belum_persen", "pesan": "Itu untung dalam rupiah. Ubah ke persen."}
+      ]
+    },
+    {
+      "id": "m7-s21", "butir": 4, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 4, tahap 5. Apakah kamu setuju dengan kesimpulan Andi?",
+      "pilihan": [
+        {"id": "a", "teks": "Tidak setuju. Membagi dengan harga jual membuat persentasenya lebih kecil dari yang sebenarnya"},
+        {"id": "b", "teks": "Setuju, karena cara hitungnya sudah rapi"},
+        {"id": "c", "teks": "Tidak setuju, karena untungnya seharusnya Rp250.000"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Bandingkan hasil Andi dengan hasilmu di tahap 4.",
+        "Hasil Andi lebih besar atau lebih kecil dari yang benar?",
+        "Alasan harus menyebut pembagi yang dipakai Andi."
+      ],
+      "pembahasan": "Tidak setuju. Memakai harga jual sebagai pembagi mengecilkan persentase keuntungan dari yang sebenarnya.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "tertukar_pembagi", "pesan": "Cara Andi rapi, tapi pembaginya keliru. Hasilnya jadi salah."},
+        {"nilai": "c", "kode": "harga_jual_bukan_untung", "pesan": "Rp250.000 adalah harga jual, bukan untung."}
+      ]
+    },
+    {
+      "id": "m7-s22", "butir": 4, "skor": 1, "tipe": "pilihan",
+      "teks": "Soal 4, tahap 6. Jadi, persentase keuntungan Andi yang seharusnya adalah ...",
+      "pilihan": [
+        {"id": "a", "teks": "25%"},
+        {"id": "b", "teks": "20%"},
+        {"id": "c", "teks": "50%"}
+      ],
+      "kunci": "a",
+      "petunjuk": [
+        "Pakai hasil perhitunganmu di tahap 4.",
+        "20% adalah hasil Andi yang keliru.",
+        "Persentase yang benar memakai harga beli sebagai pembagi."
+      ],
+      "pembahasan": "Jadi, persentase keuntungan Andi yang seharusnya adalah 25%.",
+      "kesalahan_umum": [
+        {"nilai": "b", "kode": "bagi_harga_jual", "pesan": "20% adalah hasil Andi yang membagi dengan harga jual."},
+        {"nilai": "c", "kode": "belum_persen", "pesan": "50% keliru. Ingat, untung Rp50.000 dibagi harga beli Rp200.000."}
+      ]
+    }
+  ]
+}

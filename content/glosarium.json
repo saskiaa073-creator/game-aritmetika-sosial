@@ -1,0 +1,14 @@
+{
+  "istilah": [
+    {"istilah": "Harga beli", "arti": "Uang yang dikeluarkan untuk membeli barang. Disebut juga modal.", "contoh": "Membeli kopi dari agen Rp2.000."},
+    {"istilah": "Harga beli seluruhnya", "arti": "Harga barang ditambah biaya lain, misalnya ongkos angkut atau perbaikan.", "contoh": "Sepeda Rp500.000 + perbaikan Rp50.000 = Rp550.000."},
+    {"istilah": "Harga jual", "arti": "Uang yang diterima saat barang dijual.", "contoh": "Kopi dijual di warung Rp2.500."},
+    {"istilah": "Untung", "arti": "Terjadi jika harga jual lebih besar dari harga beli. Untung = harga jual − harga beli.", "contoh": "Rp2.500 − Rp2.000 = Rp500."},
+    {"istilah": "Rugi", "arti": "Terjadi jika harga jual lebih kecil dari harga beli. Rugi = harga beli − harga jual.", "contoh": "Rp12.000 − Rp9.000 = Rp3.000."},
+    {"istilah": "Impas", "arti": "Harga jual sama dengan harga beli. Tidak untung, tidak rugi.", "contoh": "Beli Rp5.000, dijual Rp5.000."},
+    {"istilah": "Persentase untung", "arti": "Besar untung dibandingkan harga beli, dalam persen. Pembaginya selalu harga beli.", "contoh": "Untung ÷ harga beli × 100%."},
+    {"istilah": "Persentase rugi", "arti": "Besar rugi dibandingkan harga beli, dalam persen. Pembaginya selalu harga beli.", "contoh": "Rugi ÷ harga beli × 100%."},
+    {"istilah": "Ongkos", "arti": "Biaya tambahan, misalnya ongkos angkut. Ongkos menambah harga beli seluruhnya.", "contoh": "Ongkos angkut Rp10.000."},
+    {"istilah": "Diskon", "arti": "Potongan harga, biasanya ditulis dalam persen dari harga awal.", "contoh": "Diskon 10% dari Rp50.000 = Rp5.000."}
+  ]
+}
