@@ -8,6 +8,7 @@
 //   - modul tes (jenis "tes") diakhiri layar hasil.
 import { api } from "../api.js";
 import { urutanPilihan } from "../local/acak.js";
+import { panelAsisten } from "./asisten.js";
 import { ganti, h, kotakHasil, paragraf, pesanGalat, sorot } from "../ui.js";
 
 export async function modul(main, id) {
@@ -160,7 +161,9 @@ export async function modul(main, id) {
           h("button", { class: "tombol", onclick: () => { st.petunjuk += 1; render(); } },
             `Petunjuk (${st.petunjuk + 1}/${s.petunjuk.length})`)),
       tes && !st.pertama && h("p", { class: "redup kecil" }, "Petunjuk terbuka setelah kamu menjawab tahap ini."),
-      areaHasil);
+      areaHasil,
+      // Asisten hanya untuk latihan, tidak saat tes.
+      !tes && panelAsisten(s, st, render));
   }
 
   function layarHasil() {

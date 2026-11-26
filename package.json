@@ -1,0 +1,32 @@
+{
+  "name": "game-aritmetika-sosial",
+  "version": "1.0.0",
+  "description": "Aplikasi belajar (PWA) untuk materi **Menghitung Persentase Untung dan Rugi**, Matematika kelas VII SMP. Aplikasi ini dirancang dari hasil wawancara beban kognitif (Cognitive Load Theory) dengan model pengembangan ADDIE. Rencana modul dan pemetaan kode wawancara ada di [RENCANA_MODUL.md](RENCANA_MODUL.md).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saskiaa073-creator/game-aritmetika-sosial.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/saskiaa073-creator/game-aritmetika-sosial/issues"
+  },
+  "homepage": "https://github.com/saskiaa073-creator/game-aritmetika-sosial#readme",
+  "dependencies": {
+    "@google/genai": "^3.6.1",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0"
+  },
+  "allowScripts": {
+    "protobufjs@7.6.6": true
+  }
+}

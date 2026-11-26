@@ -83,6 +83,18 @@ Modul latihan (M0–M6) dilarang memakai angka dari soal TABEL KISI (daftar `ANG
 
 Urutan tampil pilihan ganda diacak tetap per soal oleh `apps/web/js/local/acak.js`. Di JSON, kunci boleh selalu `"a"`; tes memastikan posisi tampilnya tersebar.
 
+## Asisten Belajar AI (Tahap 4)
+
+- Kode: `apps/api/asisten.py` (logika), endpoint `/api/asisten`, `/api/asisten/status`, `/api/asisten/riwayat/{soal_id}` di `main.py`, panel `apps/web/js/views/asisten.js`, tabel `PesanAsisten` di `db.py`.
+- 6 tahap RMT (`TAHAP_RMT`): Orientasi → Mengenali data → Membandingkan → Menghitung selisih → Menghubungkan ke persen → Refleksi. Naik satu tahap per giliran (maks 5); tahap 6 setelah mesin menyatakan jawaban benar. Nama tahap adalah operasionalisasi aplikasi; sesuaikan dengan sumber RMT dosen bila perlu.
+- Petunjuk 3 tingkat = `petunjuk` soal; tingkat naik tiap jawaban salah (dicek mesin) atau siswa minta bantuan.
+- Pesan siswa yang berupa angka saja diperiksa MESIN (`periksa`). AI hanya menyusun kalimat.
+- AI tidak pernah diberi kunci, pembahasan, kesalahan umum, atau identitas siswa. Balasan yang memuat jawaban akhir (angka kunci, bentuk desimalnya, teks pilihan benar, frasa "jawabannya adalah", menyebut opsi) dibuang (`bocor`) dan diganti teks bawaan.
+- Tanpa kunci atau bila layanan gagal, asisten tetap jalan dengan teks bawaan. Tidak tersedia di modul tes (403). Kuota harian per siswa: `AI_KUOTA_HARIAN`.
+- Pengaturan di `.env`: `AI_PROVIDER` (gemini/deepseek), `AI_API_KEY`, `AI_MODEL`, `AI_KUOTA_HARIAN`, `AI_BASE_URL`, `AI_REASONING_EFFORT`. Endpoint Gemini: `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`. Nama model tidak ditebak: cek dengan `.\.venv\Scripts\python.exe -m apps.api.cek_ai`.
+- Tes memakai AI palsu (`app.state.panggil_ai`); tidak ada panggilan internet di pytest.
+- `siapkan_env.py` menambahkan baris baru dari `.env.example` ke `.env` lama tanpa mengubah isinya.
+
 ## Catatan frontend
 
 - Pakai `h()` atau `ganti(el, ...)` dari `ui.js`. Jangan memberi isi bersyarat (`kondisi && h(...)`) langsung ke `append`/`replaceChildren` bawaan, karena `false` akan tampil sebagai teks (dites).
@@ -95,4 +107,4 @@ Streak = hari berturut-turut (WIB) dengan minimal satu jawaban benar. Sasaran ha
 
 ## Tahapan (dari PDF panduan)
 
-1. Kerangka ✔ — 2. Konten M0–M7 ✔ — 3. Uji coba — 4. Asisten AI (RMT, Gemini via endpoint kompatibel OpenAI, DeepSeek cadangan) — 5. Versi statis GitHub Pages — 6. Supabase — 7. Netlify — 8. Pengumpulan.
+1. Kerangka ✔ — 2. Konten M0–M7 ✔ — 3. Uji coba (dilewati pemilik, diuji otomatis) — 4. Asisten AI ✔ (RMT, Gemini via endpoint kompatibel OpenAI, DeepSeek cadangan) — 5. Versi statis GitHub Pages — 6. Supabase — 7. Netlify — 8. Pengumpulan.

@@ -1,7 +1,7 @@
 // Service worker: menyimpan tampilan aplikasi agar cepat dibuka dan bisa dipasang di HP.
 // Data dari /api/ selalu diambil langsung dari server (tidak disimpan).
 // Naikkan VERSI setiap kali file tampilan berubah.
-const VERSI = "pasar-pintar-v4";
+const VERSI = "pasar-pintar-v5";
 const BERKAS = [
   "./",
   "./index.html",
@@ -18,6 +18,7 @@ const BERKAS = [
   "./js/local/mesin.js",
   "./js/views/akun.js",
   "./js/views/alat.js",
+  "./js/views/asisten.js",
   "./js/views/beranda.js",
   "./js/views/guru.js",
   "./js/views/masuk.js",

@@ -23,9 +23,10 @@ from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
+from . import asisten
 from .auth import baca_token, buat_token, cocokkan_kata_sandi, hash_kata_sandi
 from .config import Pengaturan, muat_pengaturan
-from .db import Jawaban, Kelas, Pengguna, siapkan_database
+from .db import Jawaban, Kelas, Pengguna, PesanAsisten, siapkan_database
 from .engine import periksa
 from .konten import Konten, modul_publik
 
@@ -62,6 +63,11 @@ class KodeMasuk(BaseModel):
 
 class KelasMasuk(BaseModel):
     nama: str = Field(min_length=2, max_length=40)
+
+
+class AsistenMasuk(BaseModel):
+    soal_id: str = Field(max_length=40)
+    pesan: str = Field(min_length=1, max_length=300)
 
 
 # ---------------------------------------------------------------- bantuan
@@ -161,6 +167,8 @@ def create_app(pengaturan: Pengaturan | None = None) -> FastAPI:
     app = FastAPI(title="Pasar Pintar API", docs_url="/api/docs", openapi_url="/api/openapi.json")
     app.state.pengaturan = pengaturan
     app.state.konten = konten
+    # Bisa diganti di tes agar tidak memanggil layanan AI sungguhan.
+    app.state.panggil_ai = lambda pesan: asisten.panggil_ai(pengaturan, pesan)
     if pengaturan.allowed_origins:
         app.add_middleware(CORSMiddleware, allow_origins=pengaturan.allowed_origins,
                            allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
@@ -303,6 +311,66 @@ def create_app(pengaturan: Pengaturan | None = None) -> FastAPI:
         if hasil["benar"] or jumlah_salah >= BATAS_SALAH_PEMBAHASAN:
             respons["pembahasan"] = soal["pembahasan"]
         return respons
+
+    # ----------------------------------------------------------- asisten belajar (RMT)
+
+    def jumlah_pesan_hari_ini(db: Session, saya: Pengguna) -> int:
+        return db.scalar(select(func.count()).where(PesanAsisten.pengguna_id == saya.id,
+                                                    PesanAsisten.peran == "siswa",
+                                                    PesanAsisten.tanggal == hari_ini_wib())) or 0
+
+    def soal_untuk_asisten(soal_id: str) -> dict[str, Any]:
+        if soal_id not in konten.soal:
+            raise HTTPException(404, "Soal tidak ditemukan.")
+        modul_id, soal = konten.soal[soal_id]
+        if konten.modul[modul_id].get("jenis") == "tes":
+            raise HTTPException(403, "Asisten tidak tersedia saat tes. Kerjakan sendiri, ya!")
+        return soal
+
+    @app.get("/api/asisten/status")
+    def status_asisten(saya: Saya, db: DB):
+        return {"ai_aktif": pengaturan.ai_aktif, "kuota": pengaturan.ai_kuota_harian,
+                "sisa_kuota": max(0, pengaturan.ai_kuota_harian - jumlah_pesan_hari_ini(db, saya)),
+                "tahap": [t["nama"] for t in asisten.TAHAP_RMT]}
+
+    @app.get("/api/asisten/riwayat/{soal_id}")
+    def riwayat_asisten(soal_id: str, saya: Saya, db: DB):
+        soal = soal_untuk_asisten(soal_id)
+        pesan = db.scalars(select(PesanAsisten).where(PesanAsisten.pengguna_id == saya.id,
+                                                      PesanAsisten.soal_id == soal_id)
+                           .order_by(PesanAsisten.id.desc()).limit(20)).all()
+        hasil, cek_terakhir = [], None
+        for p in reversed(pesan):
+            if p.peran == "siswa":
+                # Hasil mesin dihitung ulang (deterministik) agar kotak ✔/✖ tampil lagi.
+                cek_terakhir = asisten.cek_jawaban(soal, p.isi) if p.status_cek else None
+                hasil.append({"peran": "siswa", "isi": p.isi})
+            else:
+                hasil.append({"peran": "asisten", "isi": p.isi, "cek_mesin": cek_terakhir})
+                cek_terakhir = None
+        return hasil
+
+    @app.post("/api/asisten")
+    def tanya_asisten(data: AsistenMasuk, request: Request, saya: Saya, db: DB):
+        soal = soal_untuk_asisten(data.soal_id)
+        terpakai = jumlah_pesan_hari_ini(db, saya)
+        if terpakai >= pengaturan.ai_kuota_harian:
+            return {"balasan": asisten.PESAN_KUOTA_HABIS, "sumber": "bawaan", "cek_mesin": None,
+                    "tahap": None, "tingkat_petunjuk": None, "sisa_kuota": 0, "kuota_habis": True}
+        lama = db.scalars(select(PesanAsisten).where(PesanAsisten.pengguna_id == saya.id,
+                                                     PesanAsisten.soal_id == data.soal_id)
+                          .order_by(PesanAsisten.id)).all()
+        riwayat = [{"peran": p.peran, "isi": p.isi, "status_cek": p.status_cek, "minta_bantuan": p.minta_bantuan}
+                   for p in lama]
+        hasil = asisten.proses_giliran(soal, data.pesan.strip(), riwayat, request.app.state.panggil_ai)
+        sekarang, hari = sekarang_utc(), hari_ini_wib()
+        db.add(PesanAsisten(pengguna_id=saya.id, soal_id=data.soal_id, peran="siswa", isi=data.pesan.strip(),
+                            status_cek=(hasil["cek_mesin"] or {}).get("status", ""),
+                            minta_bantuan=int(hasil.pop("minta_bantuan")), waktu=sekarang, tanggal=hari))
+        db.add(PesanAsisten(pengguna_id=saya.id, soal_id=data.soal_id, peran="asisten", isi=hasil["balasan"][:800],
+                            sumber=hasil["sumber"], waktu=sekarang, tanggal=hari))
+        db.commit()
+        return {**hasil, "sisa_kuota": max(0, pengaturan.ai_kuota_harian - terpakai - 1), "kuota_habis": False}
 
     @app.get("/api/glosarium")
     def glosarium():

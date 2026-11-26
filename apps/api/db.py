@@ -57,6 +57,23 @@ class Jawaban(Dasar):
     tanggal: Mapped[date] = mapped_column(Date, index=True)  # tanggal WIB
 
 
+class PesanAsisten(Dasar):
+    """Percakapan Asisten Belajar. Hanya isi pesan; identitas siswa tidak pernah dikirim ke AI."""
+
+    __tablename__ = "pesan_asisten"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    pengguna_id: Mapped[int] = mapped_column(ForeignKey("pengguna.id"), index=True)
+    soal_id: Mapped[str] = mapped_column(String(40), index=True)
+    peran: Mapped[str] = mapped_column(String(10))  # siswa | asisten
+    isi: Mapped[str] = mapped_column(String(800))
+    status_cek: Mapped[str] = mapped_column(String(12), default="")  # hasil mesin untuk pesan siswa
+    minta_bantuan: Mapped[int] = mapped_column(Integer, default=0)
+    sumber: Mapped[str] = mapped_column(String(10), default="")  # ai | bawaan (untuk pesan asisten)
+    waktu: Mapped[datetime] = mapped_column(DateTime)
+    tanggal: Mapped[date] = mapped_column(Date, index=True)
+
+
 def buat_engine(database_url: str) -> Engine:
     if database_url.startswith("sqlite:///"):
         Path(database_url.removeprefix("sqlite:///")).parent.mkdir(parents=True, exist_ok=True)

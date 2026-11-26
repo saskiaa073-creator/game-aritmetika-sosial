@@ -189,3 +189,15 @@ dialog h2 { margin-top: 0; }
 .nilai-besar { font-size: 1.15rem; }
 .nilai-besar strong { font-size: 1.6rem; }
 .navigasi-layar .tombol:disabled { opacity: 0.45; }
+
+/* Asisten Belajar */
+.asisten-buka { margin-top: 0.75rem; width: 100%; }
+.asisten { margin-top: 1rem; border: 1px solid var(--garis); border-radius: var(--radius); padding: 0.75rem; background: #fafbfc; }
+.asisten-kepala { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.asisten-kepala .tombol { margin-left: auto; }
+.obrolan { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.5rem 0; max-height: 50vh; overflow-y: auto; }
+.gelembung { max-width: 88%; padding: 0.5rem 0.75rem; border-radius: 12px; }
+.gelembung p { margin: 0; }
+.gelembung .hasil { margin: 0 0 0.4rem; padding: 0.4rem 0.6rem; }
+.gelembung.siswa { align-self: flex-end; background: #e6f2f2; }
+.gelembung.asisten { align-self: flex-start; background: #fff; border: 1px solid var(--garis); }
