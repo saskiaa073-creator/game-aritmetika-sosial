@@ -5,10 +5,14 @@
 //   - langkah dengan "sebelum": "<id soal>" tampil tepat sebelum soal itu (cerita tes);
 //   - langkah dengan "tampil_jika_salah": [...] hanya muncul bila jawaban pertama
 //     pada salah satu soal itu salah (jalur penguatan adaptif, temuan IL03);
-//   - modul tes (jenis "tes") diakhiri layar hasil.
+//   - modul tes (jenis "tes") diakhiri layar hasil; modul latihan diakhiri layar "Modul selesai!".
+// Gambar dan maskot hanya di layar pembuka, umpan balik, dan layar akhir. Layar materi dan
+// soal tetap bersih (temuan EL03: tampilan ramai mengganggu fokus).
 import { api } from "../api.js";
 import { urutanPilihan } from "../local/acak.js";
 import { panelAsisten } from "./asisten.js";
+import { ikon } from "./ikon.js";
+import { gambarModul, ilustrasi, kelasLevel, NAMA_LEVEL } from "./ilustrasi.js";
 import { ganti, h, kotakHasil, paragraf, pesanGalat, sorot } from "../ui.js";
 
 export async function modul(main, id) {
@@ -17,7 +21,7 @@ export async function modul(main, id) {
   // keadaan per id: { petunjuk, jawaban, hasil, pembahasan, langkahTerlihat, pertama }
   const keadaan = {};
   const ambil = (kunci) =>
-    (keadaan[kunci] ??= { petunjuk: 0, jawaban: "", hasil: null, pembahasan: null, langkahTerlihat: 1, pertama: null });
+    (keadaan[kunci] ??= { petunjuk: 0, jawaban: "", hasil: null, pembahasan: null, langkahTerlihat: 1, pertama: null, poin: 0 });
 
   if (tes) {
     // Tahap yang sudah pernah dijawab tidak dikunci lagi (mis. setelah halaman dimuat ulang).
@@ -32,12 +36,12 @@ export async function modul(main, id) {
     const sebelum = {};
     const awal = [];
     for (const l of m.langkah) (l.sebelum ? (sebelum[l.sebelum] ??= []) : awal).push(l);
-    const layar = awal.filter(tampil).map((data) => ({ jenis: "langkah", data }));
+    const layar = [{ jenis: "pembuka" }, ...awal.filter(tampil).map((data) => ({ jenis: "langkah", data }))];
     for (const s of m.soal) {
       for (const l of sebelum[s.id] || []) if (tampil(l)) layar.push({ jenis: "langkah", data: l });
       layar.push({ jenis: "soal", data: s, nomor: nomorSoal[s.id] });
     }
-    if (tes) layar.push({ jenis: "hasil" });
+    layar.push({ jenis: tes ? "hasil" : "selesai" });
     return layar;
   }
 
@@ -48,30 +52,83 @@ export async function modul(main, id) {
     posisi = Math.min(posisi, layar.length - 1);
     const item = layar[posisi];
     let isi;
-    if (item.jenis === "hasil") isi = layarHasil();
+    if (item.jenis === "pembuka") isi = layarPembuka();
+    else if (item.jenis === "hasil") isi = layarHasil();
+    else if (item.jenis === "selesai") isi = layarSelesai();
     else if (item.jenis === "soal") isi = layarSoal(item);
     else isi = item.data.jenis === "contoh" ? layarContoh(item.data) : layarTeks(item.data);
 
     const terakhir = posisi === layar.length - 1;
     // Mode tes: tahap harus dijawab dulu sebelum lanjut.
     const terkunci = tes && item.jenis === "soal" && !ambil(item.data.id).pertama;
-    main.replaceChildren(
+    let navigasi;
+    if (item.jenis === "pembuka") {
+      navigasi = h("nav", { class: "navigasi-layar tunggal" },
+        h("button", { class: "tombol utama besar", onclick: () => pindah(1) }, tes ? "Mulai tes" : "Mulai belajar", ikon("panah")));
+    } else {
+      navigasi = h("nav", { class: "navigasi-layar" },
+        h("button", { class: "tombol", onclick: () => pindah(-1) }, ikon("kembali"), "Sebelumnya"),
+        terakhir
+          ? h("a", { class: "tombol utama", href: "#/belajar" }, ikon("centang"), "Selesai")
+          : h("button", { class: "tombol utama", disabled: terkunci, onclick: () => pindah(1),
+            title: terkunci ? "Jawab dulu tahap ini" : false }, "Berikutnya", ikon("panah")));
+    }
+    ganti(main,
       h("div", { class: "kepala-modul" },
-        h("a", { href: "#/belajar", class: "kembali" }, "← Jalur belajar"),
-        h("h1", {}, m.judul),
-        h("div", { class: "bilah", role: "progressbar", "aria-label": `Layar ${posisi + 1} dari ${layar.length}`,
+        h("a", { href: "#/belajar", class: "tutup-modul", "aria-label": "Tutup modul, kembali ke jalur belajar" }, ikon("tutup")),
+        h("div", { class: "bilah bilah-modul", role: "progressbar", "aria-label": `Layar ${posisi + 1} dari ${layar.length}`,
           "aria-valuemin": "1", "aria-valuemax": String(layar.length), "aria-valuenow": String(posisi + 1) },
           h("div", { style: `width:${((posisi + 1) / layar.length) * 100}%` })),
-        h("p", { class: "redup kecil" }, `Layar ${posisi + 1} dari ${layar.length}`)),
+        h("span", { class: "hitung-layar" }, `${posisi + 1}/${layar.length}`)),
+      item.jenis !== "pembuka" && h("p", { class: "judul-modul-kecil" }, m.judul),
       isi,
-      h("nav", { class: "navigasi-layar" },
-        h("button", { class: "tombol", disabled: posisi === 0, onclick: () => pindah(-1) }, "← Sebelumnya"),
-        terakhir
-          ? h("a", { class: "tombol utama", href: "#/belajar" }, "Selesai ✔")
-          : h("button", { class: "tombol utama", disabled: terkunci, onclick: () => pindah(1),
-            title: terkunci ? "Jawab dulu tahap ini" : false }, "Berikutnya →")),
+      navigasi,
     );
     main.querySelector("h2")?.focus({ preventScroll: true });
+  }
+
+  function layarPembuka() {
+    const materi = m.langkah.filter((l) => !l.tampil_jika_salah).length;
+    return h("section", { class: `kartu pembuka ${kelasLevel(m)}` },
+      gambarModul(m.id, "pembuka-gambar"),
+      h("span", { class: "lencana" }, tes ? "Tes akhir" : NAMA_LEVEL[m.level]),
+      h("h1", {}, m.judul),
+      h("p", { class: "redup" }, m.tujuan),
+      h("ul", { class: "info-modul" },
+        h("li", {}, ikon("buku"), `${materi} layar materi`),
+        h("li", {}, ikon("target"), `${m.soal.length} ${tes ? "tahap" : "soal"}`)),
+      tes && h("p", { class: "redup kecil" }, "Skor dihitung dari jawaban pertama. Kerjakan dengan tenang."));
+  }
+
+  function umpanBalik(hasil) {
+    const ekspresi = hasil.status === "benar" ? "maskot-hore" : "maskot-mikir";
+    return h("div", { class: `umpan-balik umpan-${hasil.status}` }, ilustrasi(ekspresi, "umpan-maskot"), kotakHasil(hasil));
+  }
+
+  function layarSelesai() {
+    const poinSesi = m.soal.reduce((jumlah, s) => jumlah + (keadaan[s.id]?.poin || 0), 0);
+    const wadah = h("section", { class: `kartu selesai ${kelasLevel(m)}` },
+      ilustrasi("maskot-hore", "selesai-maskot"), h("h2", { tabindex: "-1" }, "Modul selesai!"), h("p", { class: "redup" }, "Menghitung…"));
+    api("/modul").then((daftar) => {
+      const indeks = daftar.findIndex((d) => d.id === m.id);
+      const ini = daftar[indeks];
+      const berikut = daftar[indeks + 1];
+      const persen = ini.jumlah_soal ? ini.soal_benar / ini.jumlah_soal : 0;
+      const bintang = persen >= 1 ? 3 : persen >= 0.6 ? 2 : 1;
+      ganti(wadah,
+        ilustrasi("maskot-hore", "selesai-maskot"),
+        h("h2", { tabindex: "-1" }, persen >= 1 ? "Hebat, modul selesai!" : "Modul selesai!"),
+        h("div", { class: "deret-bintang", role: "img", "aria-label": `${bintang} dari 3 bintang` },
+          [1, 2, 3].map((n) => ikon("bintang", n <= bintang ? "bintang-isi" : "bintang-kosong"))),
+        h("div", { class: "capaian-kecil dua" },
+          h("div", { class: "angka" }, ikon("centang"), h("strong", {}, `${ini.soal_benar}/${ini.jumlah_soal}`), h("span", { class: "redup kecil" }, "soal benar")),
+          h("div", { class: "angka" }, ikon("bintang"), h("strong", {}, `+${poinSesi}`), h("span", { class: "redup kecil" }, "poin sesi ini"))),
+        persen < 1 && h("p", { class: "redup kecil" }, "Ulangi soal yang belum benar untuk mendapat 3 bintang."),
+        h("div", { class: "aksi tumpuk" },
+          berikut && h("a", { class: "tombol utama besar", href: `#/modul/${berikut.id}` }, `Lanjut: ${berikut.judul}`, ikon("panah")),
+          h("a", { class: "tombol", href: "#/belajar" }, "Kembali ke jalur belajar")));
+    }).catch((err) => wadah.replaceChildren(pesanGalat(err)));
+    return wadah;
   }
 
   function pindah(arah) {
@@ -102,8 +159,8 @@ export async function modul(main, id) {
     const s = item.data;
     const st = ambil(s.id);
     const areaHasil = h("div", { "aria-live": "polite" },
-      st.hasil && kotakHasil(st.hasil),
-      st.hasil?.poin > 0 && h("p", { class: "poin-baru" }, `+${st.hasil.poin} poin`),
+      st.hasil && umpanBalik(st.hasil),
+      st.hasil?.poin > 0 && h("p", { class: "poin-baru" }, ikon("bintang"), `+${st.hasil.poin} poin`),
       st.pembahasan && h("div", { class: "pembahasan" }, h("strong", {}, "Pembahasan"), paragraf(st.pembahasan)));
 
     let masukan;
@@ -136,6 +193,7 @@ export async function modul(main, id) {
           method: "POST", body: { jawaban: st.jawaban, petunjuk_dipakai: st.petunjuk },
         });
         st.hasil = hasil;
+        st.poin += hasil.poin || 0;
         if (!st.pertama && hasil.status !== "tidak_valid") st.pertama = hasil.status;
         if (hasil.pembahasan) st.pembahasan = hasil.pembahasan;
       } catch (err) {
@@ -170,6 +228,7 @@ export async function modul(main, id) {
     const wadah = h("section", { class: "kartu" }, h("h2", { tabindex: "-1" }, "Hasil tes"), h("p", { class: "redup" }, "Menghitung…"));
     api(`/modul/${encodeURIComponent(id)}/hasil`).then((r) => {
       ganti(wadah,
+        ilustrasi(r.nilai >= 71 ? "maskot-hore" : "maskot-senang", "selesai-maskot"),
         h("h2", { tabindex: "-1" }, "Hasil tes"),
         h("p", { class: "nilai-besar" }, h("strong", {}, `${r.total} / ${r.maks}`), ` · nilai ${r.nilai} · ${r.kategori}`),
         r.tahap_dijawab < r.jumlah_tahap &&

@@ -28,8 +28,21 @@
   --peringatan: #854d0e;
   --peringatan-latar: #fef3c7;
   --radius: 14px;
+  /* Warna per level: lembut, menyatu dengan cream, dan TIDAK memakai biru/oranye
+     (dua warna itu khusus harga beli dan harga jual, temuan EL03). */
+  --lvl0: #7a5c3a;  --lvl0-pudar: #f1e4d2;   /* Bekal: cokelat kayu */
+  --lvl1: #456c50;  --lvl1-pudar: #e2ece3;   /* Level 1: sage */
+  --lvl2: #85621a;  --lvl2-pudar: #f6ead0;   /* Level 2: mustard */
+  --lvl3: #7a5a76;  --lvl3-pudar: #eee3ec;   /* Level 3: ungu pudar */
+  --lvltes: #2f5d50; --lvltes-pudar: #e3ede6; /* Tes: hijau zaitun */
+  --emas: #a67a22;
   color-scheme: light;
 }
+.lvl-0 { --aksen: var(--lvl0); --aksen-pudar: var(--lvl0-pudar); }
+.lvl-1 { --aksen: var(--lvl1); --aksen-pudar: var(--lvl1-pudar); }
+.lvl-2 { --aksen: var(--lvl2); --aksen-pudar: var(--lvl2-pudar); }
+.lvl-3 { --aksen: var(--lvl3); --aksen-pudar: var(--lvl3-pudar); }
+.lvl-tes { --aksen: var(--lvltes); --aksen-pudar: var(--lvltes-pudar); }
 
 * { box-sizing: border-box; }
 /* Elemen ber-atribut hidden harus benar-benar tersembunyi, walau punya class seperti .tombol. */
@@ -344,8 +357,121 @@ dialog h2 { margin-top: 0; }
 .peringkat .nomor { min-width: 1.8rem; text-align: center; }
 .peringkat .poin { font-weight: 600; color: var(--utama); }
 
+/* ===================== Gaya aplikasi belajar: ikon, maskot, gambar modul ===================== */
+.ikon { display: inline-flex; width: 1.25em; height: 1.25em; flex: 0 0 auto; vertical-align: -0.25em; }
+.ikon svg { width: 100%; height: 100%; }
+.tombol .ikon { width: 1.15em; height: 1.15em; }
+.tombol.besar { min-height: 52px; padding: 0.7rem 1.4rem; font-size: 1.05rem; border-radius: 14px; }
+.atas .tombol .ikon { margin-right: 0.1rem; }
+
+/* Menu bawah dengan ikon garis */
+.menu-bawah a .ikon { width: 1.5rem; height: 1.5rem; }
+
+/* Sapaan beranda dengan maskot */
+.gelembung-koko {
+  position: relative; display: inline-block; margin-top: 0.5rem !important; padding: 0.45rem 0.75rem;
+  background: var(--kartu); border: 1px solid var(--garis); border-radius: 12px; font-size: 0.95rem;
+}
+.pahlawan-gambar { flex: 0 0 34%; max-width: 130px; }
+
+/* Angka capaian dengan ikon berwarna */
+.angka .ikon { width: 1.5rem; height: 1.5rem; color: var(--utama); }
+.angka.api .ikon, .angka.bintang .ikon, .angka.piala .ikon { color: var(--emas); }
+
+/* Gambar modul: latar pastel sesuai level */
+.gambar-modul { background: var(--aksen-pudar, var(--utama-pudar)); border-radius: 12px; display: grid; place-items: center; overflow: hidden; }
+.gambar-modul svg { width: 100%; height: auto; display: block; }
+.lencana { color: var(--aksen, var(--utama)); }
+
+/* Kartu lanjutkan belajar */
+.kartu.lanjut { border-color: var(--aksen, var(--utama)); }
+.lanjut-gambar { flex: 0 0 96px; width: 96px; padding: 0.25rem; }
+.lanjut-panah .ikon { width: 1.6rem; height: 1.6rem; }
+.kartu.lanjut .bilah > div { background: var(--aksen, var(--utama)); }
+
+/* Jalur mini: nomor modul berwarna level */
+.titik { font-size: 0.95rem; font-weight: 800; color: var(--aksen, var(--utama)); border-color: var(--aksen-pudar, var(--garis-isian)); border-width: 3px; }
+.titik.berjalan { border-color: var(--aksen, var(--utama)); }
+.titik.selesai { background: var(--aksen, var(--utama)); border-color: var(--aksen, var(--utama)); color: var(--utama-teks); }
+.titik.selesai::after { content: none; }
+.titik .ikon { width: 1.1rem; height: 1.1rem; }
+
+/* Jalur belajar dengan gambar modul */
+.ringkas-jalur { display: grid; gap: 0.3rem; }
+.jalur-grup { color: var(--aksen, var(--utama)); }
+.jalur-simpul { font-weight: 800; font-size: 1rem; color: var(--aksen, var(--utama)); border-color: var(--aksen-pudar, var(--garis-isian)); border-width: 3px; }
+.jalur-modul.berjalan .jalur-simpul { border-color: var(--aksen); border-style: solid; background: var(--kartu); }
+.jalur-modul.selesai .jalur-simpul { background: var(--aksen); border-color: var(--aksen); color: var(--utama-teks); }
+.jalur-kartu { display: flex; gap: 0.75rem; align-items: stretch; padding: 0.75rem; }
+.jalur-gambar { flex: 0 0 84px; width: 84px; }
+.jalur-isi { flex: 1; min-width: 0; }
+.jalur-isi h3 { margin-top: 0; }
+.jalur-kartu .bilah > div { background: var(--aksen, var(--utama)); }
+.kemajuan { display: inline-flex; align-items: center; gap: 0.3rem; }
+.kemajuan .ikon { width: 1rem; height: 1rem; }
+
+/* Kepala modul: tombol tutup + bilah kemajuan */
+.kepala-modul { display: flex; align-items: center; gap: 0.75rem; margin: 0.25rem 0 0.5rem; }
+.tutup-modul {
+  flex: 0 0 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+  color: var(--redup); background: var(--kartu); border: 1px solid var(--garis);
+}
+.tutup-modul .ikon { width: 1.2rem; height: 1.2rem; }
+.bilah-modul { flex: 1; height: 12px; margin: 0; }
+.hitung-layar { font-size: 0.85rem; font-weight: 700; color: var(--redup); min-width: 2.6rem; text-align: right; }
+.judul-modul-kecil { margin: 0 0 0.5rem; font-size: 0.85rem; font-weight: 700; color: var(--redup); text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* Layar pembuka modul */
+.pembuka { text-align: center; padding: 1.25rem 1.1rem 1.4rem; }
+.pembuka-gambar { max-width: 260px; margin: 0 auto 0.9rem; padding: 0.5rem; }
+.pembuka h1 { margin: 0.25rem 0 0.4rem; }
+.info-modul { list-style: none; padding: 0; margin: 0.9rem 0 0; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem; }
+.info-modul li {
+  display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem; border-radius: 99px;
+  background: var(--aksen-pudar, var(--utama-pudar)); color: var(--teks); font-weight: 600; font-size: 0.9rem;
+}
+.navigasi-layar.tunggal { justify-content: center; }
+.navigasi-layar.tunggal .tombol { width: 100%; }
+
+/* Umpan balik dengan maskot (tetap ikon + teks di dalam kotak hasil) */
+.umpan-balik { display: flex; align-items: center; gap: 0.5rem; animation: muncul 0.25s ease-out; }
+.umpan-balik .hasil { flex: 1; margin: 0.75rem 0; }
+.umpan-maskot { flex: 0 0 64px; width: 64px; }
+.poin-baru { display: inline-flex; align-items: center; gap: 0.3rem; }
+.poin-baru .ikon { color: var(--emas); }
+@keyframes muncul { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Layar selesai modul dan hasil tes */
+.selesai { text-align: center; }
+.selesai-maskot { width: 120px; margin: 0 auto 0.25rem; }
+.deret-bintang { display: flex; justify-content: center; gap: 0.4rem; margin: 0.25rem 0 0.9rem; }
+.deret-bintang .ikon { width: 2.4rem; height: 2.4rem; }
+.bintang-isi { color: var(--emas); }
+.bintang-isi svg { fill: #e3b55a; }
+.bintang-kosong { color: var(--garis-isian); }
+.capaian-kecil.dua { grid-template-columns: repeat(2, 1fr); }
+.aksi.tumpuk { flex-direction: column; }
+.aksi.tumpuk .tombol { width: 100%; }
+
+/* Asisten: avatar Koko */
+.avatar-koko { width: 34px; flex: 0 0 34px; }
+.asisten-buka .ikon { color: var(--utama); }
+
+/* Lain-lain */
+.kosong { text-align: center; padding: 1rem 0; }
+.kosong-maskot { width: 110px; margin: 0 auto; }
+.privasi { display: flex; gap: 0.4rem; align-items: flex-start; }
+.tips-ikon .ikon { width: 1.6rem; height: 1.6rem; }
+.ubin-ikon .ikon { width: 1.5rem; height: 1.5rem; color: var(--utama); }
+.keunggulan .ikon { color: var(--utama); }
+
+@media (prefers-reduced-motion: reduce) {
+  .umpan-balik { animation: none; }
+}
+
 /* Layar sempit sekali */
 @media (max-width: 360px) {
   .pahlawan-gambar { display: none; }
   .capaian-kecil { gap: 0.4rem; }
+  .jalur-gambar { display: none; }
 }

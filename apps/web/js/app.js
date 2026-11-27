@@ -1,6 +1,7 @@
 // Router sederhana berbasis hash: #/beranda, #/modul/m1, #/guru/3, dan seterusnya.
 import { sesi } from "./api.js";
 import { h, memuat, pesanGalat } from "./ui.js";
+import { ikon } from "./views/ikon.js";
 import { akun } from "./views/akun.js";
 import { alat, bukaKartuRumus, glosarium, kalkulator } from "./views/alat.js";
 import { belajar } from "./views/belajar.js";
@@ -13,10 +14,10 @@ import { peringkat } from "./views/peringkat.js";
 const RUTE = { masuk, beranda, belajar, modul, alat, kalkulator, glosarium, peringkat, guru, akun };
 
 const MENU_SISWA = [
-  ["beranda", "🏠", "Beranda"], ["belajar", "📚", "Belajar"], ["alat", "🧰", "Alat"],
-  ["peringkat", "🏆", "Peringkat"], ["akun", "👤", "Akun"],
+  ["beranda", "rumah", "Beranda"], ["belajar", "buku", "Belajar"], ["alat", "alat", "Alat"],
+  ["peringkat", "piala", "Peringkat"], ["akun", "pengguna", "Akun"],
 ];
-const MENU_GURU = [["guru", "🏫", "Kelas"], ["glosarium", "📖", "Glosarium"], ["akun", "👤", "Akun"]];
+const MENU_GURU = [["guru", "kelas", "Kelas"], ["glosarium", "glosarium", "Glosarium"], ["akun", "pengguna", "Akun"]];
 // Halaman turunan menyalakan menu induknya.
 const MENU_INDUK = { modul: "belajar", kalkulator: "alat", glosarium: "alat" };
 
@@ -33,9 +34,9 @@ function renderMenu(aktif) {
   }
   tombolRumus.hidden = false;
   const menu = sesi.peran === "guru" ? MENU_GURU : MENU_SISWA;
-  nav.replaceChildren(...menu.map(([nama, ikon, label]) =>
+  nav.replaceChildren(...menu.map(([nama, namaIkon, label]) =>
     h("a", { href: `#/${nama}`, "aria-current": nama === aktif ? "page" : false },
-      h("span", { "aria-hidden": "true" }, ikon), h("span", {}, label))));
+      ikon(namaIkon), h("span", {}, label))));
 }
 
 // Setiap perpindahan halaman menggambar ke wadahnya sendiri. Hanya perpindahan TERAKHIR yang

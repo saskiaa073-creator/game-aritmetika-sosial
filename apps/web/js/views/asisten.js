@@ -2,10 +2,12 @@
 // Benar/salah tetap diperiksa MESIN di server; AI hanya menyusun kalimat bimbingan.
 import { api } from "../api.js";
 import { h, kotakHasil, pesanGalat } from "../ui.js";
+import { ikon } from "./ikon.js";
+import { ilustrasi } from "./ilustrasi.js";
 
 export function panelAsisten(soal, st, render) {
   if (!st.asistenBuka) {
-    return h("button", { class: "tombol asisten-buka", onclick: () => buka() }, "💬 Tanya Asisten Belajar");
+    return h("button", { class: "tombol asisten-buka", onclick: () => buka() }, ikon("obrolan"), "Tanya Koko, Asisten Belajar");
   }
 
   async function buka() {
@@ -49,7 +51,7 @@ export function panelAsisten(soal, st, render) {
   const t = st.tahapAsisten;
   return h("section", { class: "asisten", "aria-label": "Asisten Belajar" },
     h("div", { class: "asisten-kepala" },
-      h("strong", {}, "💬 Asisten Belajar"),
+      ilustrasi("maskot-senang", "avatar-koko"), h("strong", {}, "Koko, Asisten Belajar"),
       t && h("span", { class: "lencana" }, `Tahap ${t.nomor} dari ${t.jumlah}: ${t.nama}`),
       h("button", { class: "tombol kecil", onclick: () => { st.asistenBuka = false; render(); } }, "Tutup")),
     h("p", { class: "redup kecil" },

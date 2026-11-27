@@ -2,6 +2,7 @@
 import { api, unduh } from "../api.js";
 import { formatAngka } from "../local/mesin.js";
 import { h, pesanGalat } from "../ui.js";
+import { ikon } from "./ikon.js";
 
 export async function guru(main, kelasId) {
   const daftar = await api("/guru/kelas");
@@ -49,7 +50,7 @@ async function ringkasan(kelasId) {
   return h("section", {},
     h("h2", {}, `Ringkasan ${r.kelas.nama}`),
     h("p", {}, "Bagikan kode ini ke siswa: ", h("strong", { class: "kode" }, r.kelas.kode)),
-    h("button", { class: "tombol", onclick: () => unduh(`/guru/kelas/${r.kelas.id}/ekspor.csv`, `rekap_${r.kelas.kode}.csv`) }, "⬇ Unduh CSV"),
+    h("button", { class: "tombol", onclick: () => unduh(`/guru/kelas/${r.kelas.id}/ekspor.csv`, `rekap_${r.kelas.kode}.csv`) }, ikon("unduh"), "Unduh CSV"),
     r.siswa.length ? tabel : h("p", { class: "redup" }, "Belum ada siswa di kelas ini."),
     h("h2", {}, "Kesalahan umum"),
     r.kesalahan_umum.length

@@ -11,7 +11,7 @@ import pytest
 
 AKAR = Path(__file__).resolve().parents[1]
 CSS = (AKAR / "apps" / "web" / "css" / "app.css").read_text(encoding="utf-8")
-TOKEN = dict(re.findall(r"--([a-z-]+):\s*(#[0-9a-fA-F]{6})", CSS))
+TOKEN = dict(re.findall(r"--([a-z0-9-]+):\s*(#[0-9a-fA-F]{6})", CSS))
 
 
 def luminans(hex_warna):
@@ -32,6 +32,11 @@ PASANGAN = [
     ("utama-teks", "utama", 4.5), ("teks", "utama-pudar", 4.5),
     ("hb", "hb-latar", 4.5), ("hj", "hj-latar", 4.5), ("teks", "ur-latar", 4.5),
     ("benar", "benar-latar", 4.5), ("salah", "salah-latar", 4.5), ("peringatan", "peringatan-latar", 4.5),
+    ("lvl0", "lvl0-pudar", 4.5), ("lvl1", "lvl1-pudar", 4.5), ("lvl2", "lvl2-pudar", 4.5),
+    ("lvl3", "lvl3-pudar", 4.5), ("lvltes", "lvltes-pudar", 4.5),
+    ("lvl0", "kartu", 4.5), ("lvl1", "kartu", 4.5), ("lvl2", "kartu", 4.5), ("lvl3", "kartu", 4.5),
+    ("lvl0", "latar", 4.5), ("lvl1", "latar", 4.5), ("lvl2", "latar", 4.5), ("lvl3", "latar", 4.5),
+    ("teks", "lvl0-pudar", 4.5), ("teks", "lvl2-pudar", 4.5), ("teks", "lvl3-pudar", 4.5),
     ("garis-isian", "kartu", 3.0), ("garis-isian", "latar", 3.0), ("fokus", "latar", 3.0), ("fokus", "kartu", 3.0),
 ]
 
@@ -49,3 +54,11 @@ def test_harga_beli_dan_harga_jual_berbeda_jelas():
     biru = int(hb[5:7], 16) > int(hb[1:3], 16)
     oranye = int(hj[1:3], 16) > int(hj[5:7], 16)
     assert biru and oranye
+
+
+def test_warna_level_tidak_memakai_biru_atau_oranye():
+    """Biru dan oranye khusus harga beli dan harga jual; warna level harus lain (temuan EL03)."""
+    for nama in ("lvl0", "lvl1", "lvl2", "lvl3"):
+        assert TOKEN[nama].lower() not in {TOKEN["hb"].lower(), TOKEN["hj"].lower()}
+        r, g, b = (int(TOKEN[nama][i:i + 2], 16) for i in (1, 3, 5))
+        assert not (b > r and b > g), f"--{nama} kebiruan, bisa tertukar dengan harga beli"

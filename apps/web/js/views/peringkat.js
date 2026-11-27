@@ -15,7 +15,7 @@ export async function peringkat(main, lingkup = "kelas") {
       h("a", { role: "tab", href: "#/peringkat/kelas", "aria-selected": String(lingkup !== "semua") }, "Kelasku"),
       h("a", { role: "tab", href: "#/peringkat/semua", "aria-selected": String(lingkup === "semua") }, "Semua")),
     daftar.length === 0
-      ? h("p", { class: "redup" }, "Belum ada data. Ayo kerjakan soal pertama!")
+      ? h("div", { class: "kosong" }, ilustrasi("maskot-senang", "kosong-maskot"), h("p", { class: "redup" }, "Belum ada data. Ayo kerjakan soal pertama!"))
       : h("ol", { class: "peringkat" },
         daftar.map((b) =>
           h("li", { class: `${b.saya ? "saya" : ""} ${b.peringkat <= 3 ? "tiga-besar" : ""}`.trim() },

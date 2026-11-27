@@ -1,5 +1,6 @@
 import { api, sesi } from "../api.js";
 import { h, pesanGalat } from "../ui.js";
+import { ikon } from "./ikon.js";
 import { ilustrasi } from "./ilustrasi.js";
 
 export function masuk(main) {
@@ -48,9 +49,9 @@ export function masuk(main) {
         h("h1", {}, "Pasar Pintar"),
         h("p", { class: "redup" }, "Belajar menghitung persentase untung dan rugi, selangkah demi selangkah."),
         h("ul", { class: "keunggulan" },
-          h("li", {}, h("span", { "aria-hidden": "true" }, "👣"), "Belajar bertahap"),
-          h("li", {}, h("span", { "aria-hidden": "true" }, "💡"), "Petunjuk & asisten"),
-          h("li", {}, h("span", { "aria-hidden": "true" }, "🧮"), "Kalkulator langkah"))),
+          h("li", {}, ikon("buku"), "Belajar bertahap"),
+          h("li", {}, ikon("lampu"), "Petunjuk & asisten"),
+          h("li", {}, ikon("kalkulator"), "Kalkulator langkah"))),
       h("div", { class: "tab", role: "tablist" },
         h("button", { role: "tab", "aria-selected": String(mode === "masuk"), onclick: () => { mode = "masuk"; render(); } }, "Masuk"),
         h("button", { role: "tab", "aria-selected": String(mode === "daftar"), onclick: () => { mode = "daftar"; render(); } }, "Daftar")),
