@@ -57,4 +57,4 @@ def test_tidak_ada_kunci_api_di_frontend():
 
 def test_env_diabaikan_git():
     abaikan = (AKAR / ".gitignore").read_text(encoding="utf-8").splitlines()
-    assert ".env" in abaikan and "data/" in abaikan
+    assert ".env" in abaikan and "/data/" in abaikan  # hanya folder database di akar, bukan docs/data

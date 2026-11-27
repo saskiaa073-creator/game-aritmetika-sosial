@@ -128,3 +128,13 @@ def test_docs_sesuai_sumber_terbaru(tmp_path):
         a = (docs / rel).read_bytes().replace(b"\r\n", b"\n")
         b = (baru / rel).read_bytes().replace(b"\r\n", b"\n")
         assert a == b, f"docs/{rel} sudah usang: jalankan  python -m tools.bangun_statis"
+
+
+def test_file_versi_statis_tidak_diabaikan_git():
+    """Kejadian nyata: aturan 'data/' di .gitignore ikut menyembunyikan docs/data/konten.json (404 di HP)."""
+    import subprocess
+
+    for rel in ("docs/data/konten.json", "docs/index.html", "docs/js/local/server.js"):
+        r = subprocess.run(["git", "check-ignore", "-q", rel], cwd=AKAR)
+        assert r.returncode == 1, f"{rel} diabaikan .gitignore, sehingga tidak ikut terunggah"
+    assert subprocess.run(["git", "check-ignore", "-q", "data/pasar_pintar.db"], cwd=AKAR).returncode == 0
