@@ -114,6 +114,22 @@ export function bukaKartuRumus() {
   dialog.showModal();
 }
 
+// ---------- Halaman Alat (kumpulan alat bantu) ----------
+export function alat(main) {
+  const ubin = (ikon, judul, keterangan, atribut) =>
+    h(atribut.href ? "a" : "button", { class: "ubin ubin-lebar", type: atribut.href ? false : "button", ...atribut },
+      h("span", { class: "ubin-ikon", "aria-hidden": "true" }, ikon),
+      h("span", { class: "ubin-teks" }, h("strong", {}, judul), h("span", { class: "redup kecil" }, keterangan)));
+  main.replaceChildren(
+    h("h1", {}, "Alat bantu"),
+    h("p", { class: "redup" }, "Pakai saat kamu perlu bantuan. Coba kerjakan sendiri dulu, ya."),
+    h("div", { class: "daftar-ubin" },
+      ubin("🧮", "Kalkulator langkah", "Cari persentase atau harga jual, lengkap dengan langkahnya.", { href: "#/kalkulator" }),
+      ubin("📋", "Kartu rumus", "Rumus untung, rugi, dan persentase dalam satu kartu.", { onclick: bukaKartuRumus }),
+      ubin("📖", "Glosarium", "Arti istilah: harga beli, harga jual, modal, diskon, dan lainnya.", { href: "#/glosarium" })),
+  );
+}
+
 // ---------- Glosarium ----------
 export async function glosarium(main) {
   const daftar = await api("/glosarium");

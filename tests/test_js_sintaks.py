@@ -60,3 +60,9 @@ def test_tidak_ada_false_tampil_sebagai_teks(path):
     for cocok in re.finditer(r"\.(append|replaceChildren)\(", sumber):
         argumen = _argumen_atas(sumber, cocok.end())
         assert "&&" not in argumen, f"{path.name}: pakai ganti() untuk isi bersyarat (posisi {cocok.start()})"
+
+
+def test_atribut_hidden_selalu_menyembunyikan():
+    """Tanpa aturan ini, .tombol { display: inline-flex } mengalahkan atribut hidden."""
+    css = (AKAR / "apps" / "web" / "css" / "app.css").read_text(encoding="utf-8")
+    assert re.search(r"\[hidden\]\s*\{\s*display:\s*none\s*!important;?\s*\}", css)

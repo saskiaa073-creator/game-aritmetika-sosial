@@ -2,20 +2,23 @@
 import { sesi } from "./api.js";
 import { h, memuat, pesanGalat } from "./ui.js";
 import { akun } from "./views/akun.js";
-import { bukaKartuRumus, glosarium, kalkulator } from "./views/alat.js";
+import { alat, bukaKartuRumus, glosarium, kalkulator } from "./views/alat.js";
+import { belajar } from "./views/belajar.js";
 import { beranda } from "./views/beranda.js";
 import { guru } from "./views/guru.js";
 import { masuk } from "./views/masuk.js";
 import { modul } from "./views/modul.js";
 import { peringkat } from "./views/peringkat.js";
 
-const RUTE = { masuk, beranda, modul, kalkulator, glosarium, peringkat, guru, akun };
+const RUTE = { masuk, beranda, belajar, modul, alat, kalkulator, glosarium, peringkat, guru, akun };
 
 const MENU_SISWA = [
-  ["beranda", "📚", "Belajar"], ["kalkulator", "🧮", "Kalkulator"], ["glosarium", "📖", "Glosarium"],
+  ["beranda", "🏠", "Beranda"], ["belajar", "📚", "Belajar"], ["alat", "🧰", "Alat"],
   ["peringkat", "🏆", "Peringkat"], ["akun", "👤", "Akun"],
 ];
 const MENU_GURU = [["guru", "🏫", "Kelas"], ["glosarium", "📖", "Glosarium"], ["akun", "👤", "Akun"]];
+// Halaman turunan menyalakan menu induknya.
+const MENU_INDUK = { modul: "belajar", kalkulator: "alat", glosarium: "alat" };
 
 const main = document.getElementById("utama");
 const nav = document.getElementById("menu");
@@ -35,7 +38,12 @@ function renderMenu(aktif) {
       h("span", { "aria-hidden": "true" }, ikon), h("span", {}, label))));
 }
 
+// Setiap perpindahan halaman menggambar ke wadahnya sendiri. Hanya perpindahan TERAKHIR yang
+// dipasang ke layar, supaya halaman lama yang selesai belakangan (mis. galat 401) tidak menimpanya.
+let giliran = 0;
+
 async function tampilkan() {
+  const ini = ++giliran;
   const [nama = "", param] = location.hash.replace(/^#\/?/, "").split("/");
   let tujuan = RUTE[nama] ? nama : "";
   if (!sesi.token) tujuan = "masuk";
@@ -44,13 +52,16 @@ async function tampilkan() {
     location.replace(`#/${tujuan}`);
     return;
   }
-  renderMenu(tujuan === "modul" ? "beranda" : tujuan);
+  renderMenu(sesi.peran === "guru" ? tujuan : MENU_INDUK[tujuan] || tujuan);
+  window.scrollTo({ top: 0 });
   main.replaceChildren(memuat());
+  const wadah = document.createElement("div");
   try {
-    await RUTE[tujuan](main, param ? decodeURIComponent(param) : undefined);
+    await RUTE[tujuan](wadah, param ? decodeURIComponent(param) : undefined);
   } catch (err) {
-    main.replaceChildren(pesanGalat(err));
+    wadah.replaceChildren(pesanGalat(err));
   }
+  if (ini === giliran) main.replaceChildren(wadah);
 }
 
 window.addEventListener("hashchange", tampilkan);

@@ -57,7 +57,7 @@ export async function modul(main, id) {
     const terkunci = tes && item.jenis === "soal" && !ambil(item.data.id).pertama;
     main.replaceChildren(
       h("div", { class: "kepala-modul" },
-        h("a", { href: "#/beranda", class: "kembali" }, "← Daftar modul"),
+        h("a", { href: "#/belajar", class: "kembali" }, "← Jalur belajar"),
         h("h1", {}, m.judul),
         h("div", { class: "bilah", role: "progressbar", "aria-label": `Layar ${posisi + 1} dari ${layar.length}`,
           "aria-valuemin": "1", "aria-valuemax": String(layar.length), "aria-valuenow": String(posisi + 1) },
@@ -67,7 +67,7 @@ export async function modul(main, id) {
       h("nav", { class: "navigasi-layar" },
         h("button", { class: "tombol", disabled: posisi === 0, onclick: () => pindah(-1) }, "← Sebelumnya"),
         terakhir
-          ? h("a", { class: "tombol utama", href: "#/beranda" }, "Selesai ✔")
+          ? h("a", { class: "tombol utama", href: "#/belajar" }, "Selesai ✔")
           : h("button", { class: "tombol utama", disabled: terkunci, onclick: () => pindah(1),
             title: terkunci ? "Jawab dulu tahap ini" : false }, "Berikutnya →")),
     );

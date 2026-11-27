@@ -68,7 +68,10 @@ def muat_pengaturan() -> Pengaturan:
         allowed_origins=asal,
         demo_seed=_bool(os.getenv("DEMO_SEED"), False),
         ai_provider=(os.getenv("AI_PROVIDER", "").strip().lower() or "gemini"),
-        ai_api_key=os.getenv("AI_API_KEY", "").strip(),
+        # AI_API_KEY diutamakan; untuk Gemini, GEMINI_API_KEY (nama baku Google) juga diterima.
+        ai_api_key=os.getenv("AI_API_KEY", "").strip() or (
+            os.getenv("GEMINI_API_KEY", "").strip()
+            if (os.getenv("AI_PROVIDER", "").strip().lower() or "gemini") == "gemini" else ""),
         ai_model=os.getenv("AI_MODEL", "").strip() or ("deepseek-chat" if os.getenv("AI_PROVIDER", "").strip().lower() == "deepseek" else ""),
         ai_base_url=os.getenv("AI_BASE_URL", "").strip(),
         ai_kuota_harian=int(os.getenv("AI_KUOTA_HARIAN", "20")),

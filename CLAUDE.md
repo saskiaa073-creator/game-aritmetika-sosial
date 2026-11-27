@@ -91,12 +91,18 @@ Urutan tampil pilihan ganda diacak tetap per soal oleh `apps/web/js/local/acak.j
 - Pesan siswa yang berupa angka saja diperiksa MESIN (`periksa`). AI hanya menyusun kalimat.
 - AI tidak pernah diberi kunci, pembahasan, kesalahan umum, atau identitas siswa. Balasan yang memuat jawaban akhir (angka kunci, bentuk desimalnya, teks pilihan benar, frasa "jawabannya adalah", menyebut opsi) dibuang (`bocor`) dan diganti teks bawaan.
 - Tanpa kunci atau bila layanan gagal, asisten tetap jalan dengan teks bawaan. Tidak tersedia di modul tes (403). Kuota harian per siswa: `AI_KUOTA_HARIAN`.
+- Untuk Gemini, `GEMINI_API_KEY` dipakai bila `AI_API_KEY` kosong (pemilik sudah mengisi `GEMINI_API_KEY`).
+- Di folder utama ada `main.py` (chat Gemini terminal, `google-genai`), `package.json`, dan `node_modules` (Express) buatan pemilik di luar sesi. Tidak dipakai aplikasi; pemilik memilih membiarkannya. Jangan dihapus tanpa izin.
 - Pengaturan di `.env`: `AI_PROVIDER` (gemini/deepseek), `AI_API_KEY`, `AI_MODEL`, `AI_KUOTA_HARIAN`, `AI_BASE_URL`, `AI_REASONING_EFFORT`. Endpoint Gemini: `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`. Nama model tidak ditebak: cek dengan `.\.venv\Scripts\python.exe -m apps.api.cek_ai`.
 - Tes memakai AI palsu (`app.state.panggil_ai`); tidak ada panggilan internet di pytest.
 - `siapkan_env.py` menambahkan baris baru dari `.env.example` ke `.env` lama tanpa mengubah isinya.
 
 ## Catatan frontend
 
+- Tema warna **cream** (permintaan pemilik): token di `:root` pada `apps/web/css/app.css` (latar `#f7f0e3`, kartu `#fffbf4`, utama hijau zaitun `#2f5d50`, teks cokelat `#3a2e24`). Pakai token, jangan warna langsung. `tests/test_tampilan.py` memeriksa kontras WCAG AA semua pasangan penting dan bahwa harga beli tetap biru / harga jual tetap oranye.
+
+- Halaman siswa (menu bawah): **Beranda** (`beranda.js`: sapaan, cincin sasaran, lanjutkan belajar, jalur mini, akses cepat, tips), **Belajar** (`belajar.js`: jalur modul per level), **Alat** (`alat` di `alat.js`: kalkulator, kartu rumus, glosarium), **Peringkat** (medali 3 besar), **Akun** (profil, gabung kelas, tentang). `MENU_INDUK` di `app.js` menyalakan menu induk untuk halaman turunan (modul → Belajar, kalkulator/glosarium → Alat).
+- Ilustrasi SVG buatan sendiri dan ikon modul ada di `views/ilustrasi.js` (`IKON_MODUL`, `NAMA_LEVEL`). Hindari emoji Unicode 13+ (mis. 🪜) karena tampil sebagai kotak kosong di Windows 10/HP lama.
 - Pakai `h()` atau `ganti(el, ...)` dari `ui.js`. Jangan memberi isi bersyarat (`kondisi && h(...)`) langsung ke `append`/`replaceChildren` bawaan, karena `false` akan tampil sebagai teks (dites).
 - Server mengirim `Cache-Control: no-cache` untuk file tampilan agar browser tidak mencampur file JS lama dan baru.
 

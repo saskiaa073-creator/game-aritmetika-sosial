@@ -200,3 +200,17 @@ def test_env_example_tanpa_kunci_asli():
     for baris in teks.splitlines():
         if baris.startswith(("AI_API_KEY=", "SECRET_KEY=")):
             assert baris.split("=", 1)[1].strip() == "", baris
+
+
+def test_gemini_api_key_dipakai_bila_ai_api_key_kosong(monkeypatch):
+    from apps.api.config import muat_pengaturan
+
+    monkeypatch.setenv("AI_API_KEY", "")
+    monkeypatch.setenv("GEMINI_API_KEY", "kunci-gemini-uji")
+    monkeypatch.setenv("AI_PROVIDER", "gemini")
+    assert muat_pengaturan().ai_api_key == "kunci-gemini-uji"
+    monkeypatch.setenv("AI_API_KEY", "kunci-utama-uji")
+    assert muat_pengaturan().ai_api_key == "kunci-utama-uji"  # AI_API_KEY diutamakan
+    monkeypatch.setenv("AI_API_KEY", "")
+    monkeypatch.setenv("AI_PROVIDER", "deepseek")
+    assert muat_pengaturan().ai_api_key == ""  # kunci Gemini tidak dikirim ke DeepSeek
