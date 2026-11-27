@@ -165,12 +165,12 @@ def test_kunci_api_tidak_pernah_keluar_dari_server(klien):
 def test_panggil_ai_mengirim_permintaan_yang_benar(monkeypatch):
     tangkap = {}
 
-    def post_palsu(url, json, headers, timeout):
+    def post_palsu(metode, url, json, headers, timeout):
         tangkap.update(url=url, json=json, headers=headers)
         return httpx.Response(200, json={"choices": [{"message": {"content": " Halo! "}}]},
                               request=httpx.Request("POST", url))
 
-    monkeypatch.setattr(asisten.httpx, "post", post_palsu)
+    monkeypatch.setattr(asisten, "kirim_http", post_palsu)
     p = Pengaturan(database_url="sqlite://", secret_key="x", ai_api_key="kunci-uji", ai_model="model-uji")
     assert asisten.panggil_ai(p, [{"role": "user", "content": "hai"}]) == "Halo!"
     assert tangkap["url"] == "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
@@ -184,13 +184,13 @@ def test_panggil_ai_mengirim_permintaan_yang_benar(monkeypatch):
 
 def test_panggil_ai_gagal_mengembalikan_none(monkeypatch):
     p = Pengaturan(database_url="sqlite://", secret_key="x", ai_api_key="k", ai_model="m")
-    monkeypatch.setattr(asisten.httpx, "post", lambda url, **kw: httpx.Response(429, request=httpx.Request("POST", url)))
+    monkeypatch.setattr(asisten, "kirim_http", lambda metode, url, **kw: httpx.Response(429, request=httpx.Request("POST", url)))
     assert asisten.panggil_ai(p, []) is None
 
-    def putus(url, **kw):
+    def putus(metode, url, **kw):
         raise httpx.ConnectError("putus")
 
-    monkeypatch.setattr(asisten.httpx, "post", putus)
+    monkeypatch.setattr(asisten, "kirim_http", putus)
     assert asisten.panggil_ai(p, []) is None
     assert asisten.panggil_ai(Pengaturan(database_url="sqlite://", secret_key="x"), []) is None  # tanpa kunci
 
@@ -212,5 +212,119 @@ def test_gemini_api_key_dipakai_bila_ai_api_key_kosong(monkeypatch):
     monkeypatch.setenv("AI_API_KEY", "kunci-utama-uji")
     assert muat_pengaturan().ai_api_key == "kunci-utama-uji"  # AI_API_KEY diutamakan
     monkeypatch.setenv("AI_API_KEY", "")
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "")
     monkeypatch.setenv("AI_PROVIDER", "deepseek")
     assert muat_pengaturan().ai_api_key == ""  # kunci Gemini tidak dikirim ke DeepSeek
+
+
+# ------------------------------------------------------------------ DeepSeek
+
+def test_bawaan_deepseek_sesuai_dokumentasi(monkeypatch):
+    from apps.api.config import muat_pengaturan
+
+    for nama, nilai in {"AI_PROVIDER": "deepseek", "AI_API_KEY": "", "DEEPSEEK_API_KEY": "kunci-deepseek-uji",
+                        "AI_MODEL": "", "AI_REASONING_EFFORT": "", "AI_BASE_URL": ""}.items():
+        monkeypatch.setenv(nama, nilai)
+    p = muat_pengaturan()
+    assert p.ai_api_key == "kunci-deepseek-uji"           # DEEPSEEK_API_KEY diterima
+    assert p.ai_model == "deepseek-flash"                 # nama model terbaru
+    assert p.ai_reasoning_effort == "none"                # mode berpikir dimatikan untuk chat
+    assert p.ai_url == "https://api.deepseek.com" and p.ai_aktif
+    monkeypatch.setenv("AI_MODEL", "deepseek-v4-pro")
+    monkeypatch.setenv("AI_REASONING_EFFORT", "high")
+    p = muat_pengaturan()
+    assert p.ai_model == "deepseek-v4-pro" and p.ai_reasoning_effort == "high"  # bisa diganti lewat .env
+
+
+def test_panggil_deepseek_mengirim_permintaan_yang_benar(monkeypatch):
+    tangkap = {}
+
+    def post_palsu(metode, url, json, headers, timeout):
+        tangkap.update(url=url, json=json, headers=headers)
+        return httpx.Response(200, json={"choices": [{"message": {"content": "Coba bandingkan dulu."}}]},
+                              request=httpx.Request("POST", url))
+
+    monkeypatch.setattr(asisten, "kirim_http", post_palsu)
+    p = Pengaturan(database_url="sqlite://", secret_key="x", ai_provider="deepseek", ai_api_key="kunci-ds",
+                   ai_model="deepseek-flash", ai_reasoning_effort="none")
+    assert asisten.panggil_ai(p, [{"role": "user", "content": "hai"}]) == "Coba bandingkan dulu."
+    assert tangkap["url"] == "https://api.deepseek.com/chat/completions"
+    assert tangkap["headers"]["Authorization"] == "Bearer kunci-ds"
+    assert tangkap["json"]["model"] == "deepseek-flash" and tangkap["json"]["reasoning_effort"] == "none"
+
+
+def test_coba_ulang_sekali_bila_layanan_sibuk(monkeypatch):
+    jawaban = iter([503, 200])
+    panggilan = []
+
+    def kirim(metode, url, **kw):
+        panggilan.append(url)
+        kode = next(jawaban)
+        isi = {"choices": [{"message": {"content": "Coba baca soalnya lagi."}}]} if kode == 200 else {}
+        return httpx.Response(kode, json=isi, request=httpx.Request("POST", url))
+
+    monkeypatch.setattr(asisten, "kirim_http", kirim)
+    monkeypatch.setattr(asisten.time, "sleep", lambda detik: None)
+    p = Pengaturan(database_url="sqlite://", secret_key="x", ai_api_key="k", ai_model="m")
+    assert asisten.panggil_ai(p, []) == "Coba baca soalnya lagi." and len(panggilan) == 2
+    # Sibuk dua kali: berhenti (tidak mengulang terus) dan memakai teks bawaan.
+    jawaban = iter([503, 503, 200])
+    panggilan.clear()
+    assert asisten.panggil_ai(p, []) is None and len(panggilan) == 2
+
+
+def test_saldo_habis_402_memakai_teks_bawaan(monkeypatch):
+    monkeypatch.setattr(asisten, "kirim_http",
+                        lambda metode, url, **kw: httpx.Response(402, request=httpx.Request("POST", url)))
+    p = Pengaturan(database_url="sqlite://", secret_key="x", ai_provider="deepseek", ai_api_key="k", ai_model="deepseek-flash")
+    assert asisten.panggil_ai(p, []) is None
+
+
+# ------------------------------------------------------- Mathematical Literacy (M7)
+
+def test_literasi_asisten_terbuka_setelah_tahap_dijawab(klien):
+    h = daftar(klien)
+    klien.app.state.panggil_ai = ai = AIPalsu("Coba lihat lagi: modal Pemasok A berapa? Untung dibagi apa?")
+    # Sebelum menjawab: tertutup, supaya skor tes tetap murni.
+    assert klien.post("/api/asisten", headers=h, json={"soal_id": "m7-s2", "pesan": "bantu"}).status_code == 403
+    assert klien.get("/api/asisten/riwayat/m7-s2", headers=h).status_code == 403
+    # Jawaban yang tidak terbaca belum dihitung sebagai menjawab.
+    klien.post("/api/soal/m7-s2/jawab", headers=h, json={"jawaban": "12.5"})
+    assert klien.post("/api/asisten", headers=h, json={"soal_id": "m7-s2", "pesan": "bantu"}).status_code == 403
+    # Setelah menjawab (salah), asisten membimbing sesuai indikator literasi.
+    klien.post("/api/soal/m7-s2/jawab", headers=h, json={"jawaban": "20"})
+    r = tanya(klien, h, "m7-s2", "kenapa salah?")
+    assert r["sumber"] == "ai"
+    sistem = ai.panggilan[-1][0]["content"]
+    assert "Mathematical Reasoning" in sistem and "Memilih Pemasok Kue" in sistem
+    assert asisten.INDIKATOR_LITERASI["Mathematical Reasoning"] in sistem
+    assert "Pemasok C: modal Rp50.000" in sistem                      # cerita soal ikut sebagai konteks
+    soal = SOAL["m7-s2"]
+    assert soal["pembahasan"] not in sistem
+    assert all(k["pesan"] not in sistem for k in soal["kesalahan_umum"])
+    # Skor tes tetap dari jawaban pertama (salah), tidak berubah karena bantuan asisten.
+    assert klien.get("/api/modul/m7/hasil", headers=h).json()["status_pertama"]["m7-s2"] == "salah"
+
+
+def test_literasi_balasan_bocor_tetap_dibuang(klien):
+    h = daftar(klien)
+    klien.post("/api/soal/m7-s20/jawab", headers=h, json={"jawaban": "20"})
+    klien.app.state.panggil_ai = AIPalsu("Persentase yang benar adalah 25%.")
+    r = tanya(klien, h, "m7-s20", "jawabannya berapa?")
+    assert r["sumber"] == "bawaan" and "25%" not in r["balasan"]
+
+
+def test_semua_indikator_tes_punya_arahan():
+    indikator_tes = {b["indikator"] for b in KONTEN.modul["m7"]["butir"].values()}
+    assert set(asisten.INDIKATOR_LITERASI) == indikator_tes
+
+
+def test_salah_ketik_nama_ganda_di_env_dirapikan(monkeypatch):
+    """Kejadian nyata: baris .env tertulis 'AI_MODEL= AI_MODEL=gemini-3.5-flash'."""
+    from apps.api.config import muat_pengaturan
+
+    monkeypatch.setenv("AI_PROVIDER", "gemini")
+    monkeypatch.setenv("AI_MODEL", " AI_MODEL=gemini-3.1-flash-lite ")
+    monkeypatch.setenv("AI_REASONING_EFFORT", "AI_REASONING_EFFORT=minimal")
+    p = muat_pengaturan()
+    assert p.ai_model == "gemini-3.1-flash-lite" and p.ai_reasoning_effort == "minimal"

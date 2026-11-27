@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import logging
 import re
+import time
 from typing import Any, Callable
 
 import httpx
@@ -44,11 +45,25 @@ PERTANYAAN_BAWAAN = [
     "Apakah hasilmu masuk akal? Coba jelaskan mengapa pembaginya harga beli, bukan harga jual.",
 ]
 
-PESAN_KUOTA_HABIS = "Kuota Asisten hari ini sudah habis. Kamu masih bisa memakai tombol Petunjuk di soal. Sampai besok!"
+# Indikator Mathematical Literacy, sesuai deskripsi di TABEL KISI-KISI SOAL MATHEMATICAL LITERACY.
+# Dipakai agar bimbingan di soal literasi (M7) mengarah ke proses berpikir indikator itu.
+INDIKATOR_LITERASI = {
+    "Mathematical Reasoning":
+        "mengidentifikasi hubungan matematis, membandingkan alternatif, memberikan alasan, dan menentukan keputusan yang dapat dipertanggungjawabkan",
+    "Formulating Situations Mathematically":
+        "mengidentifikasi informasi relevan, menentukan besaran, dan menerjemahkan situasi nyata menjadi model matematika",
+    "Employing Mathematical Concepts, Facts, and Procedures":
+        "memilih serta menggunakan konsep, operasi, prosedur, dan strategi matematika untuk memperoleh solusi",
+    "Interpreting, Applying, and Evaluating Mathematical Outcomes":
+        "menafsirkan hasil matematika dalam konteks, menilai kewajaran hasil, dan mengambil keputusan berdasarkan hasil perhitungan",
+}
+
+PESAN_KUOTA_HABIS ="Kuota Asisten hari ini sudah habis. Kamu masih bisa memakai tombol Petunjuk di soal. Sampai besok!"
 MAKS_BALASAN = 700
 
-_POLA_BANTUAN = re.compile(r"bingung|(tidak|gak|ga|nggak|enggak|ndak)\s*(tahu|tau|ngerti|mengerti|paham)|bantu", re.I)
-_POLA_TAMPAK_ANGKA = re.compile(r"[\d\s.,%rRpP+\-*/x×:()]+")
+# Pola ditulis dengan karakter eksplisit (bukan \d/\s) agar identik dengan versi JS (js/local/logika.js).
+_POLA_BANTUAN = re.compile(r"bingung|(tidak|gak|ga|nggak|enggak|ndak)[ \t\n\r\f\v]*(tahu|tau|ngerti|mengerti|paham)|bantu", re.I)
+_POLA_TAMPAK_ANGKA = re.compile(r"[0-9 \t\n\r\f\v.,%rRpP+\-*/x×:()]+")
 _POLA_ANGKA = re.compile(r"\d+(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?")
 _POLA_FRASA_JAWABAN = re.compile(
     r"jawaban(nya)?\s+(akhir|yang\s+benar|yang\s+tepat|adalah|ialah)|jawabannya\s*[:=]|\b(pilihan|opsi|jawaban)\s*\(?[abc]\)?(\s|[.,!]|$)",
@@ -63,7 +78,7 @@ def minta_bantuan(pesan: str) -> bool:
 def cek_jawaban(soal: dict[str, Any], pesan: str) -> dict[str, Any] | None:
     """Bila pesan berupa angka saja (soal angka), mesin memeriksanya. Selain itu None."""
     teks = pesan.strip()
-    if soal["tipe"] != "angka" or not _POLA_TAMPAK_ANGKA.fullmatch(teks) or not re.search(r"\d", teks):
+    if soal["tipe"] != "angka" or not _POLA_TAMPAK_ANGKA.fullmatch(teks) or not re.search(r"[0-9]", teks):
         return None
     hasil = periksa(soal, teks)
     return {"status": hasil["status"], "kode": hasil["kode"], "pesan": hasil["pesan"]}
@@ -105,8 +120,12 @@ def balasan_bawaan(tahap: int, petunjuk: str | None, cek: dict[str, Any] | None)
 
 
 def susun_pesan_ai(soal: dict[str, Any], tahap: int, tingkat: int, cek: dict[str, Any] | None,
-                   riwayat: list[tuple[str, str]], pesan: str) -> list[dict[str, str]]:
-    """Pesan untuk AI. Sengaja TANPA kunci, pembahasan, kesalahan umum, dan identitas siswa."""
+                   riwayat: list[tuple[str, str]], pesan: str,
+                   literasi: dict[str, str] | None = None) -> list[dict[str, str]]:
+    """Pesan untuk AI. Sengaja TANPA kunci, pembahasan, kesalahan umum, dan identitas siswa.
+
+    `literasi` (soal Mathematical Literacy): {"indikator", "judul", "cerita"}.
+    """
     info = TAHAP_RMT[tahap - 1]
     daftar_tahap = "\n".join(f"{i + 1}. {t['nama']}: {t['tugas']}" for i, t in enumerate(TAHAP_RMT))
     pilihan = ""
@@ -117,6 +136,17 @@ def susun_pesan_ai(soal: dict[str, Any], tahap: int, tingkat: int, cek: dict[str
         status = "Pesan siswa bukan jawaban angka, jadi tidak diperiksa mesin."
     else:
         status = f"Hasil pemeriksaan MESIN (pasti benar, jangan dibantah): {cek['status']}. {cek['pesan']}"
+    bagian_literasi = ""
+    if literasi:
+        tujuan = INDIKATOR_LITERASI.get(literasi["indikator"], "")
+        bagian_literasi = f"""
+SOAL MATHEMATICAL LITERACY: "{literasi['judul']}"
+Indikator: {literasi['indikator']}. Arahkan siswa untuk {tujuan}.
+Siswa sudah menjawab tahap ini sekali (skor tesnya sudah tercatat). Bantu ia MEMAHAMI cara berpikirnya
+dan memperbaiki sendiri, tetap tanpa menyebut jawaban akhir.
+Cerita soal lengkap:
+{literasi['cerita']}
+"""
     sistem = f"""Kamu Asisten Belajar matematika untuk siswa SMP kelas VII (13-14 tahun), materi persentase untung dan rugi.
 Kamu memakai model Rigorous Mathematical Thinking (RMT): membimbing lewat pertanyaan, satu langkah per giliran.
 
@@ -134,7 +164,8 @@ TAHAP RMT:
 
 TAHAP SAAT INI: {tahap}. {info['nama']}: {info['tugas']}
 
-SOAL:
+{bagian_literasi}
+SOAL (tahap yang sedang dikerjakan):
 {soal['teks']}{pilihan}
 
 PETUNJUK YANG BOLEH DIPAKAI (tingkat {tingkat} dari 3):
@@ -148,6 +179,17 @@ PETUNJUK YANG BOLEH DIPAKAI (tingkat {tingkat} dari 3):
     return pesan_ai
 
 
+def kirim_http(metode: str, url: str, *, timeout: float, **kw: Any) -> httpx.Response:
+    """Permintaan HTTP lewat IPv4 saja.
+
+    Banyak jaringan (mis. Wi-Fi kampus/sekolah) memberi alamat IPv6 tetapi tidak bisa memakainya.
+    Python lalu mencoba tiap alamat IPv6 sampai habis waktu sehingga terlihat macet; memaksa IPv4
+    membuat koneksi ke Gemini/DeepSeek langsung tersambung.
+    """
+    with httpx.Client(transport=httpx.HTTPTransport(local_address="0.0.0.0"), timeout=timeout) as klien:
+        return klien.request(metode, url, **kw)
+
+
 def panggil_ai(pengaturan: Pengaturan, pesan: list[dict[str, str]]) -> str | None:
     """Memanggil endpoint /chat/completions (Gemini atau DeepSeek, kompatibel OpenAI). None bila gagal."""
     if not pengaturan.ai_aktif:
@@ -156,20 +198,28 @@ def panggil_ai(pengaturan: Pengaturan, pesan: list[dict[str, str]]) -> str | Non
     if pengaturan.ai_reasoning_effort:
         badan["reasoning_effort"] = pengaturan.ai_reasoning_effort
     try:
-        r = httpx.post(f"{pengaturan.ai_url}/chat/completions", json=badan, timeout=30,
-                       headers={"Authorization": f"Bearer {pengaturan.ai_api_key}"})
+        for percobaan in range(2):  # sekali coba ulang bila layanan sedang sibuk (429/503)
+            r = kirim_http("POST", f"{pengaturan.ai_url}/chat/completions", json=badan, timeout=30,
+                           headers={"Authorization": f"Bearer {pengaturan.ai_api_key}"})
+            if r.status_code not in (429, 503) or percobaan:
+                break
+            time.sleep(1.5)
         r.raise_for_status()
         isi = r.json()["choices"][0]["message"].get("content") or ""
         return isi.strip() or None
     except httpx.HTTPStatusError as e:
-        log.warning("Layanan AI menolak permintaan (HTTP %s).", e.response.status_code)
+        kode = e.response.status_code
+        sebab = {401: "kunci API salah", 402: "saldo habis, isi saldo di platform penyedia",
+                 429: "terlalu banyak permintaan"}.get(kode, "lihat dokumentasi penyedia")
+        log.warning("Layanan AI menolak permintaan (HTTP %s: %s).", kode, sebab)
     except (httpx.HTTPError, KeyError, IndexError, ValueError, TypeError) as e:
         log.warning("Layanan AI gagal dihubungi: %s", type(e).__name__)
     return None
 
 
 def proses_giliran(soal: dict[str, Any], pesan: str, riwayat: list[dict[str, Any]],
-                   pemanggil: Callable[[list[dict[str, str]]], str | None]) -> dict[str, Any]:
+                   pemanggil: Callable[[list[dict[str, str]]], str | None],
+                   literasi: dict[str, str] | None = None) -> dict[str, Any]:
     """Satu giliran percakapan. `riwayat`: pesan sebelumnya untuk soal ini (dict peran, isi, status_cek, minta_bantuan)."""
     cek = cek_jawaban(soal, pesan)
     bantuan = minta_bantuan(pesan)
@@ -180,7 +230,7 @@ def proses_giliran(soal: dict[str, Any], pesan: str, riwayat: list[dict[str, Any
     salah = sum(m["status_cek"] == "salah" for m in siswa_sebelumnya) + (bool(cek) and cek["status"] == "salah")
     tingkat = min(3, salah + sum(m["minta_bantuan"] for m in siswa_sebelumnya) + bantuan)
 
-    pesan_ai = susun_pesan_ai(soal, tahap, tingkat, cek, [(m["peran"], m["isi"]) for m in riwayat], pesan)
+    pesan_ai = susun_pesan_ai(soal, tahap, tingkat, cek, [(m["peran"], m["isi"]) for m in riwayat], pesan, literasi)
     balasan, sumber = None, "bawaan"
     try:
         balasan = pemanggil(pesan_ai)

@@ -1,4 +1,4 @@
-import { api, sesi } from "../api.js";
+import { api, sesi, STATIS } from "../api.js";
 import { h, pesanGalat } from "../ui.js";
 import { ikon } from "./ikon.js";
 import { ilustrasi } from "./ilustrasi.js";
@@ -24,8 +24,10 @@ export function masuk(main) {
         type: "password", required: true,
         autocomplete: mode === "daftar" ? "new-password" : "current-password",
       }, mode === "daftar" ? "Minimal 6 karakter." : null),
-      mode === "daftar" && field("Kode kelas (boleh dikosongkan)", "kode_kelas", { maxlength: 6, autocapitalize: "characters" }),
+      mode === "daftar" && !STATIS && field("Kode kelas (boleh dikosongkan)", "kode_kelas", { maxlength: 6, autocapitalize: "characters" }),
       galat,
+      STATIS && h("p", { class: "redup kecil catatan-statis" },
+        "Versi HP: akun dan kemajuanmu tersimpan di perangkat ini. Coba cepat: siswa_demo / siswa12345."),
       h("button", { class: "tombol utama", type: "submit" }, mode === "masuk" ? "Masuk" : "Daftar"),
     ].filter(Boolean));
 

@@ -1,6 +1,6 @@
 // Beranda siswa: sapaan, capaian hari ini, lanjutkan belajar, akses cepat, dan tips singkat.
 // Sengaja ringkas (temuan DS03): sedikit teks, satu ajakan utama.
-import { api } from "../api.js";
+import { api, STATIS } from "../api.js";
 import { formatAngka } from "../local/mesin.js";
 import { ganti, h } from "../ui.js";
 import { bukaKartuRumus } from "./alat.js";
@@ -70,7 +70,7 @@ export async function beranda(main) {
       h("div", { class: "capaian-kecil" },
         h("div", { class: "angka api" }, ikon("api"), h("strong", {}, saya.streak), h("span", { class: "redup kecil" }, "hari beruntun")),
         h("div", { class: "angka bintang" }, ikon("bintang"), h("strong", {}, formatAngka(saya.poin_total)), h("span", { class: "redup kecil" }, "total poin")),
-        h("div", { class: "angka piala" }, ikon("piala"), h("strong", {}, posisi ? `#${posisi}` : "–"), h("span", { class: "redup kecil" }, "di kelas")))),
+        h("div", { class: "angka piala" }, ikon("piala"), h("strong", {}, posisi ? `#${posisi}` : "–"), h("span", { class: "redup kecil" }, STATIS ? "di perangkat" : "di kelas")))),
 
     lanjut
       ? h("a", { class: `kartu lanjut ${kelasLevel(lanjut)}`, href: `#/modul/${lanjut.id}` },

@@ -51,6 +51,15 @@ class Pengaturan:
         return (self.ai_base_url or bawaan.get(self.ai_provider, "")).rstrip("/")
 
 
+def _env(nama: str, bawaan: str = "") -> str:
+    """Nilai dari .env, dirapikan: spasi dibuang, dan awalan "NAMA=" yang terketik dua kali
+    (mis. "AI_MODEL= AI_MODEL=gemini-...") dibuang juga."""
+    nilai = os.getenv(nama, bawaan).strip()
+    while nilai.upper().startswith(f"{nama}="):
+        nilai = nilai[len(nama) + 1:].strip()
+    return nilai
+
+
 def muat_pengaturan() -> Pengaturan:
     """Membaca pengaturan dari variabel lingkungan (.env)."""
     load_dotenv(AKAR / ".env")
@@ -59,6 +68,13 @@ def muat_pengaturan() -> Pengaturan:
         warnings.warn("SECRET_KEY kosong; memakai kunci acak sementara (semua login hilang saat server mati).")
         secret = secrets.token_urlsafe(48)
     asal = [a.strip() for a in os.getenv("ALLOWED_ORIGINS", "").split(",") if a.strip()]
+    penyedia = _env("AI_PROVIDER").lower() or "gemini"
+    # AI_API_KEY diutamakan; nama baku penyedia (GEMINI_API_KEY / DEEPSEEK_API_KEY) juga diterima.
+    kunci_baku = {"gemini": "GEMINI_API_KEY", "deepseek": "DEEPSEEK_API_KEY"}.get(penyedia, "")
+    # Bawaan DeepSeek (dokumentasi resmi, 27 Nov 2026): model "deepseek-flash", dan mode berpikir
+    # dimatikan ("none") agar balasan asisten singkat, cepat, dan hemat.
+    model_bawaan = {"deepseek": "deepseek-flash"}.get(penyedia, "")
+    effort_bawaan = {"deepseek": "none"}.get(penyedia, "")
     return Pengaturan(
         database_url=os.getenv("DATABASE_URL", "").strip() or f"sqlite:///{(AKAR / 'data' / 'pasar_pintar.db').as_posix()}",
         secret_key=secret,
@@ -67,13 +83,10 @@ def muat_pengaturan() -> Pengaturan:
         sasaran_harian=int(os.getenv("SASARAN_HARIAN", "30")),
         allowed_origins=asal,
         demo_seed=_bool(os.getenv("DEMO_SEED"), False),
-        ai_provider=(os.getenv("AI_PROVIDER", "").strip().lower() or "gemini"),
-        # AI_API_KEY diutamakan; untuk Gemini, GEMINI_API_KEY (nama baku Google) juga diterima.
-        ai_api_key=os.getenv("AI_API_KEY", "").strip() or (
-            os.getenv("GEMINI_API_KEY", "").strip()
-            if (os.getenv("AI_PROVIDER", "").strip().lower() or "gemini") == "gemini" else ""),
-        ai_model=os.getenv("AI_MODEL", "").strip() or ("deepseek-chat" if os.getenv("AI_PROVIDER", "").strip().lower() == "deepseek" else ""),
-        ai_base_url=os.getenv("AI_BASE_URL", "").strip(),
+        ai_provider=penyedia,
+        ai_api_key=_env("AI_API_KEY") or (_env(kunci_baku) if kunci_baku else ""),
+        ai_model=_env("AI_MODEL") or model_bawaan,
+        ai_base_url=_env("AI_BASE_URL"),
         ai_kuota_harian=int(os.getenv("AI_KUOTA_HARIAN", "20")),
-        ai_reasoning_effort=os.getenv("AI_REASONING_EFFORT", "").strip(),
+        ai_reasoning_effort=_env("AI_REASONING_EFFORT") or effort_bawaan,
     )

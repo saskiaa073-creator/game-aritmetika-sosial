@@ -1,4 +1,4 @@
-import { api, sesi } from "../api.js";
+import { api, sesi, STATIS } from "../api.js";
 import { formatAngka } from "../local/mesin.js";
 import { ganti, h, pesanGalat } from "../ui.js";
 import { ikon } from "./ikon.js";
@@ -26,12 +26,14 @@ export async function akun(main) {
       h("div", {},
         h("h1", {}, saya.nama_panggilan),
         h("p", { class: "redup" }, `@${saya.username} · ${siswa ? "Siswa" : "Guru"}`),
-        h("p", {}, "Kelas: ", h("strong", {}, saya.kelas || "belum bergabung")))),
+        STATIS
+          ? h("p", { class: "redup kecil" }, "Versi HP: data tersimpan di perangkat ini.")
+          : h("p", {}, "Kelas: ", h("strong", {}, saya.kelas || "belum bergabung")))),
     siswa && h("section", { class: "capaian-kecil" },
       h("div", { class: "angka bintang" }, ikon("bintang"), h("strong", {}, formatAngka(saya.poin_total)), h("span", { class: "redup kecil" }, "total poin")),
       h("div", { class: "angka api" }, ikon("api"), h("strong", {}, saya.streak), h("span", { class: "redup kecil" }, "hari beruntun")),
       h("div", { class: "angka" }, ikon("target"), h("strong", {}, saya.sasaran_harian), h("span", { class: "redup kecil" }, "sasaran/hari"))),
-    siswa && h("section", { class: "kartu" }, h("h2", {}, "Gabung kelas"),
+    siswa && !STATIS && h("section", { class: "kartu" }, h("h2", {}, "Gabung kelas"),
       h("p", { class: "redup kecil" }, "Minta kode kelas 6 huruf dari gurumu."), form, info),
     h("section", { class: "kartu tentang" },
       h("h2", {}, "Tentang Pasar Pintar"),

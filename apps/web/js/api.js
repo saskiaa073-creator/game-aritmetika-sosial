@@ -1,5 +1,7 @@
 // Pemanggil API backend. Token login disimpan di perangkat (localStorage).
-import { API_BASE } from "./config.js";
+import { API_BASE, MODE } from "./config.js";
+
+export const STATIS = MODE === "statis";
 
 const KUNCI = "pasar_pintar_sesi";
 
@@ -47,6 +49,19 @@ function pesanDari(isi, status) {
 }
 
 export async function api(jalur, { method = "GET", body } = {}) {
+  if (STATIS) {
+    // Versi statis: "server" berjalan di peramban, data tersimpan di perangkat.
+    const { apiLokal } = await import("./local/server.js");
+    try {
+      return await apiLokal(jalur, { method, body }, sesi.token);
+    } catch (err) {
+      if (err.status === 401 && sesi.token) {
+        sesi.keluar();
+        location.hash = "#/masuk";
+      }
+      throw err;
+    }
+  }
   const header = { Accept: "application/json" };
   if (body !== undefined) header["Content-Type"] = "application/json";
   if (sesi.token) header.Authorization = `Bearer ${sesi.token}`;

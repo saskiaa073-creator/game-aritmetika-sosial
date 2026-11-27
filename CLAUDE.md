@@ -90,12 +90,21 @@ Urutan tampil pilihan ganda diacak tetap per soal oleh `apps/web/js/local/acak.j
 - Petunjuk 3 tingkat = `petunjuk` soal; tingkat naik tiap jawaban salah (dicek mesin) atau siswa minta bantuan.
 - Pesan siswa yang berupa angka saja diperiksa MESIN (`periksa`). AI hanya menyusun kalimat.
 - AI tidak pernah diberi kunci, pembahasan, kesalahan umum, atau identitas siswa. Balasan yang memuat jawaban akhir (angka kunci, bentuk desimalnya, teks pilihan benar, frasa "jawabannya adalah", menyebut opsi) dibuang (`bocor`) dan diganti teks bawaan.
-- Tanpa kunci atau bila layanan gagal, asisten tetap jalan dengan teks bawaan. Tidak tersedia di modul tes (403). Kuota harian per siswa: `AI_KUOTA_HARIAN`.
-- Untuk Gemini, `GEMINI_API_KEY` dipakai bila `AI_API_KEY` kosong (pemilik sudah mengisi `GEMINI_API_KEY`).
+- Tanpa kunci atau bila layanan gagal, asisten tetap jalan dengan teks bawaan. Di modul tes: 403 sampai tahap dijawab. Kuota harian per siswa: `AI_KUOTA_HARIAN`.
+- **Penyedia aktif: DeepSeek** (tugas dosen: aplikasi terintegrasi API DeepSeek). Bawaan dari dokumentasi resmi (27 Nov 2026): endpoint `https://api.deepseek.com/chat/completions`, model `deepseek-flash`, `reasoning_effort: none` (mode berpikir mati agar balasan singkat). HTTP 402 = saldo habis. `DEEPSEEK_API_KEY`/`GEMINI_API_KEY` dipakai bila `AI_API_KEY` kosong, sesuai penyedia.
+- **Mathematical Literacy:** di M7 asisten terbuka hanya setelah siswa menjawab tahap itu sekali (skor = jawaban pertama tetap murni). Asisten diberi cerita soal, judul butir, dan arahan indikator (`INDIKATOR_LITERASI`, dari TABEL KISI), tetap tanpa kunci/pembahasan dan dengan penyaring bocor.
 - Di folder utama ada `main.py` (chat Gemini terminal, `google-genai`), `package.json`, dan `node_modules` (Express) buatan pemilik di luar sesi. Tidak dipakai aplikasi; pemilik memilih membiarkannya. Jangan dihapus tanpa izin.
 - Pengaturan di `.env`: `AI_PROVIDER` (gemini/deepseek), `AI_API_KEY`, `AI_MODEL`, `AI_KUOTA_HARIAN`, `AI_BASE_URL`, `AI_REASONING_EFFORT`. Endpoint Gemini: `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions`. Nama model tidak ditebak: cek dengan `.\.venv\Scripts\python.exe -m apps.api.cek_ai`.
 - Tes memakai AI palsu (`app.state.panggil_ai`); tidak ada panggilan internet di pytest.
 - `siapkan_env.py` menambahkan baris baru dari `.env.example` ke `.env` lama tanpa mengubah isinya.
+
+## Versi statis / GitHub Pages (Tahap 5)
+
+- `tools/bangun_statis.py` → folder `docs/` (salinan `apps/web`, `MODE = "statis"`, `data/konten.json` berisi semua modul + glosarium **termasuk kunci**, karena tanpa server). Jalankan `.\.venv\Scripts\python.exe -m tools.bangun_statis` setiap kali tampilan/konten berubah; `tests/test_versi_statis.py` gagal bila `docs/` usang.
+- `index.html` di folder utama mengalihkan ke `docs/`, jadi GitHub Pages dari cabang `main` (root) langsung membuka aplikasi: `https://saskiaa073-creator.github.io/game-aritmetika-sosial/`.
+- Mode statis: `api.js` memanggil `js/local/server.js` (meniru endpoint dengan localStorage; akun demo `siswa_demo`). Logika `js/local/logika.js` (poin, streak, skor tes, asisten teks bawaan) harus identik dengan Python (dites dengan ratusan kasus acak). Fitur kelas/dashboard guru dan AI tidak ada di versi statis.
+- Koneksi ke layanan AI dipaksa IPv4 (`kirim_http`), karena di Wi-Fi kampus alamat IPv6 membuat Python tampak macet. Satu kali coba ulang untuk 429/503.
+- Gemini aktif saat ini: `gemini-3.1-flash-lite` + `reasoning_effort: minimal` (±2–5 detik). `gemini-3.5-flash`/`3.8-flash` terlalu lambat (>50 detik) untuk chat.
 
 ## Catatan frontend
 
@@ -114,4 +123,4 @@ Streak = hari berturut-turut (WIB) dengan minimal satu jawaban benar. Sasaran ha
 
 ## Tahapan (dari PDF panduan)
 
-1. Kerangka ✔ — 2. Konten M0–M7 ✔ — 3. Uji coba (dilewati pemilik, diuji otomatis) — 4. Asisten AI ✔ (RMT, Gemini via endpoint kompatibel OpenAI, DeepSeek cadangan) — 5. Versi statis GitHub Pages — 6. Supabase — 7. Netlify — 8. Pengumpulan.
+1. Kerangka ✔ — 2. Konten M0–M7 ✔ — 3. Uji coba (dilewati pemilik, diuji otomatis) — 4. Asisten AI ✔ (RMT, Gemini via endpoint kompatibel OpenAI, DeepSeek cadangan) — 5. Versi statis GitHub Pages ✔ — 6. Supabase — 7. Netlify — 8. Pengumpulan.

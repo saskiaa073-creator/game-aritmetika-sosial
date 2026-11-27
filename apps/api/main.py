@@ -319,13 +319,27 @@ def create_app(pengaturan: Pengaturan | None = None) -> FastAPI:
                                                     PesanAsisten.peran == "siswa",
                                                     PesanAsisten.tanggal == hari_ini_wib())) or 0
 
-    def soal_untuk_asisten(soal_id: str) -> dict[str, Any]:
+    def soal_untuk_asisten(soal_id: str, db: Session, saya: Pengguna) -> tuple[dict[str, Any], dict[str, str] | None]:
+        """Soal + konteks Mathematical Literacy (untuk soal tes).
+
+        Di soal tes (M7), asisten baru terbuka SETELAH siswa menjawab tahap itu sekali, agar
+        skor tes (jawaban pertama) tetap murni hasil kerja siswa sendiri.
+        """
         if soal_id not in konten.soal:
             raise HTTPException(404, "Soal tidak ditemukan.")
         modul_id, soal = konten.soal[soal_id]
-        if konten.modul[modul_id].get("jenis") == "tes":
-            raise HTTPException(403, "Asisten tidak tersedia saat tes. Kerjakan sendiri, ya!")
-        return soal
+        modul = konten.modul[modul_id]
+        if modul.get("jenis") != "tes":
+            return soal, None
+        sudah_menjawab = db.scalar(select(func.count()).where(
+            Jawaban.pengguna_id == saya.id, Jawaban.soal_id == soal_id, Jawaban.status != "tidak_valid"))
+        if not sudah_menjawab:
+            raise HTTPException(403, "Jawab dulu tahap ini sendiri. Setelah itu Koko bisa membantumu memahaminya.")
+        nomor = str(soal["butir"])
+        tahap_pertama = next(s["id"] for s in modul["soal"] if str(s["butir"]) == nomor)
+        cerita = next((l["isi"] for l in modul["langkah"] if l.get("sebelum") == tahap_pertama), "")
+        info = modul["butir"][nomor]
+        return soal, {"indikator": info["indikator"], "judul": info["judul"], "cerita": cerita}
 
     @app.get("/api/asisten/status")
     def status_asisten(saya: Saya, db: DB):
@@ -335,7 +349,7 @@ def create_app(pengaturan: Pengaturan | None = None) -> FastAPI:
 
     @app.get("/api/asisten/riwayat/{soal_id}")
     def riwayat_asisten(soal_id: str, saya: Saya, db: DB):
-        soal = soal_untuk_asisten(soal_id)
+        soal, _ = soal_untuk_asisten(soal_id, db, saya)
         pesan = db.scalars(select(PesanAsisten).where(PesanAsisten.pengguna_id == saya.id,
                                                       PesanAsisten.soal_id == soal_id)
                            .order_by(PesanAsisten.id.desc()).limit(20)).all()
@@ -352,7 +366,7 @@ def create_app(pengaturan: Pengaturan | None = None) -> FastAPI:
 
     @app.post("/api/asisten")
     def tanya_asisten(data: AsistenMasuk, request: Request, saya: Saya, db: DB):
-        soal = soal_untuk_asisten(data.soal_id)
+        soal, literasi = soal_untuk_asisten(data.soal_id, db, saya)
         terpakai = jumlah_pesan_hari_ini(db, saya)
         if terpakai >= pengaturan.ai_kuota_harian:
             return {"balasan": asisten.PESAN_KUOTA_HABIS, "sumber": "bawaan", "cek_mesin": None,
@@ -362,7 +376,7 @@ def create_app(pengaturan: Pengaturan | None = None) -> FastAPI:
                           .order_by(PesanAsisten.id)).all()
         riwayat = [{"peran": p.peran, "isi": p.isi, "status_cek": p.status_cek, "minta_bantuan": p.minta_bantuan}
                    for p in lama]
-        hasil = asisten.proses_giliran(soal, data.pesan.strip(), riwayat, request.app.state.panggil_ai)
+        hasil = asisten.proses_giliran(soal, data.pesan.strip(), riwayat, request.app.state.panggil_ai, literasi)
         sekarang, hari = sekarang_utc(), hari_ini_wib()
         db.add(PesanAsisten(pengguna_id=saya.id, soal_id=data.soal_id, peran="siswa", isi=data.pesan.strip(),
                             status_cek=(hasil["cek_mesin"] or {}).get("status", ""),

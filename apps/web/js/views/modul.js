@@ -218,10 +218,10 @@ export async function modul(main, id) {
         bolehPetunjuk && st.petunjuk < s.petunjuk.length &&
           h("button", { class: "tombol", onclick: () => { st.petunjuk += 1; render(); } },
             `Petunjuk (${st.petunjuk + 1}/${s.petunjuk.length})`)),
-      tes && !st.pertama && h("p", { class: "redup kecil" }, "Petunjuk terbuka setelah kamu menjawab tahap ini."),
+      tes && !st.pertama && h("p", { class: "redup kecil" }, "Petunjuk dan Koko (asisten) terbuka setelah kamu menjawab tahap ini."),
       areaHasil,
-      // Asisten hanya untuk latihan, tidak saat tes.
-      !tes && panelAsisten(s, st, render));
+      // Latihan: asisten selalu ada. Tes: baru ada setelah tahap dijawab sekali (skor tetap murni).
+      (!tes || st.pertama) && panelAsisten(s, st, render));
   }
 
   function layarHasil() {

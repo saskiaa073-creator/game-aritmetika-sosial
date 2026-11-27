@@ -13,6 +13,7 @@ import sys
 
 import httpx
 
+from .asisten import kirim_http
 from .config import muat_pengaturan
 
 
@@ -20,6 +21,7 @@ def main() -> int:
     sys.stdout.reconfigure(encoding="utf-8")
     p = muat_pengaturan()
     print(f"Penyedia AI : {p.ai_provider}")
+    print(f"Model       : {p.ai_model or '(belum diisi)'}")
     print(f"Alamat      : {p.ai_url or '(tidak dikenal, isi AI_BASE_URL)'}")
     if not p.ai_api_key:
         print("\n✖ AI_API_KEY belum diisi di file .env.")
@@ -29,7 +31,7 @@ def main() -> int:
 
     kepala = {"Authorization": f"Bearer {p.ai_api_key}"}
     try:
-        r = httpx.get(f"{p.ai_url}/models", headers=kepala, timeout=30)
+        r = kirim_http("GET", f"{p.ai_url}/models", headers=kepala, timeout=30)
     except httpx.HTTPError as e:
         print(f"\n✖ Tidak bisa menghubungi layanan AI ({type(e).__name__}). Periksa internet.")
         return 1
@@ -55,9 +57,15 @@ def main() -> int:
     if p.ai_reasoning_effort:
         badan["reasoning_effort"] = p.ai_reasoning_effort
     try:
-        r = httpx.post(f"{p.ai_url}/chat/completions", json=badan, headers=kepala, timeout=60)
+        r = kirim_http("POST", f"{p.ai_url}/chat/completions", json=badan, headers=kepala, timeout=60)
     except httpx.HTTPError as e:
         print(f"✖ Gagal: {type(e).__name__}")
+        return 1
+    if r.status_code == 402:
+        print("✖ Saldo akun AI habis (HTTP 402). Isi saldo dulu, untuk DeepSeek di https://platform.deepseek.com/top_up")
+        return 1
+    if r.status_code in (401, 403):
+        print(f"✖ Kunci ditolak (HTTP {r.status_code}). Periksa lagi isi AI_API_KEY di .env.")
         return 1
     if not r.is_success:
         print(f"✖ Gagal (HTTP {r.status_code}). Periksa nama model di AI_MODEL.")

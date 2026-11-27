@@ -4,7 +4,13 @@ Aplikasi belajar (PWA) untuk materi **Menghitung Persentase Untung dan Rugi**, M
 Aplikasi ini dirancang dari hasil wawancara beban kognitif (Cognitive Load Theory) dengan model pengembangan ADDIE.
 Rencana modul dan pemetaan kode wawancara ada di [RENCANA_MODUL.md](RENCANA_MODUL.md).
 
-## Cara menjalankan (Windows)
+## Coba langsung di HP
+
+Buka **https://saskiaa073-creator.github.io/game-aritmetika-sosial/** di browser HP (versi statis: akun dan
+kemajuan tersimpan di perangkat masing-masing; akun cepat `siswa_demo` / `siswa12345`). Lewat menu browser
+"Tambahkan ke layar utama", aplikasi bisa dipasang seperti aplikasi biasa.
+
+## Cara menjalankan versi lengkap di laptop (Windows)
 
 1. Pasang Python 3.12 atau lebih baru dari python.org.
 2. Klik dua kali **`start.bat`**. Saat pertama kali, start.bat membuat lingkungan Python dan memasang paket (butuh internet).
