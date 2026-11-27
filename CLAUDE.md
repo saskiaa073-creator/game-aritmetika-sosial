@@ -106,6 +106,16 @@ Urutan tampil pilihan ganda diacak tetap per soal oleh `apps/web/js/local/acak.j
 - Koneksi ke layanan AI dipaksa IPv4 (`kirim_http`), karena di Wi-Fi kampus alamat IPv6 membuat Python tampak macet. Satu kali coba ulang untuk 429/503.
 - Gemini aktif saat ini: `gemini-3.1-flash-lite` + `reasoning_effort: minimal` (±2–5 detik). `gemini-3.5-flash`/`3.8-flash` terlalu lambat (>50 detik) untuk chat.
 
+## Supabase (Tahap 6)
+
+- `supabase/migrations/*.sql`: tabel `pengguna`, `kelas`, `jawaban`, `pesan_asisten` + view `v_peringkat`. **RLS menyala tanpa kebijakan publik** + `revoke` dari anon/authenticated: tabel hanya bisa disentuh Edge Function (kunci service role). Akun demo dengan hash PBKDF2 (310.000 iterasi).
+- `supabase/functions/api/`: Edge Function TypeScript (Deno). `inti.ts` = padanan endpoint `main.py` (dites `inti_test.ts` dengan `GudangMemori`), `gudang_supabase.ts` = tabel Supabase (`npm:@supabase/supabase-js@2.118.0`), `keamanan.ts` = PBKDF2 + JWT (format hash sama dengan Python), `ai.ts` = DeepSeek/Gemini dari Secrets, `index.ts` = titik masuk. `deno.json` (`nodeModulesDir: none`) karena folder utama punya `node_modules` milik pemilik.
+- `supabase/functions/_shared/` berisi salinan `mesin.js`, `logika.js`, `konten.json` dari `tools/siapkan_supabase.py` (dites harus terbaru). Logika prompt/bocor/giliran asisten ada di `logika.js` dan dites identik dengan Python.
+- Login tetap nama pengguna + kata sandi (tanpa e-mail, sesuai privasi anak), jadi tidak memakai Supabase Auth; `[functions.api] verify_jwt = false`.
+- Secrets: `APP_SECRET` (wajib), `AI_PROVIDER`, `AI_API_KEY`/`DEEPSEEK_API_KEY`/`GEMINI_API_KEY`, `AI_MODEL`, `AI_REASONING_EFFORT`, `AI_KUOTA_HARIAN`, `ALLOWED_ORIGINS`.
+- Alat: `npx --yes supabase@2.122.1 …` dan `npx --yes deno@2.9.6 …` (tanpa instalasi permanen; jangan ubah `package.json` pemilik).
+- `tools/situs.json` → `api_base` kosong = docs/ versi statis; diisi URL Edge Function = docs/ versi online (tanpa `data/konten.json`, kunci tetap di server).
+
 ## Catatan frontend
 
 - Tema warna **cream** (permintaan pemilik): token di `:root` pada `apps/web/css/app.css` (latar `#f7f0e3`, kartu `#fffbf4`, utama hijau zaitun `#2f5d50`, teks cokelat `#3a2e24`). Pakai token, jangan warna langsung. `tests/test_tampilan.py` memeriksa kontras WCAG AA semua pasangan penting dan bahwa harga beli tetap biru / harga jual tetap oranye.

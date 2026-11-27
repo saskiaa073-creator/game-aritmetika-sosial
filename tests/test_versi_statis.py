@@ -88,8 +88,54 @@ def test_asisten_bawaan_identik(js):
             riwayat.append({"peran": "asisten", "isi": hasil_py["balasan"], "status_cek": "", "minta_bantuan": 0})
 
 
+BALASAN_AI_CONTOH = [
+    "Coba bandingkan harga jual dan harga beli dulu. Mana yang lebih besar?",
+    "Untungnya 20%.", "Hasilnya 0,2 kalau desimal.", "Jadi Rp3.000 ya.", "Jawaban yang benar sudah dekat!",
+    "Pilih jawaban A saja.", "Pembaginya adalah harga beli.", "Hitung 30.000 − 27.000 dulu.", "12,5% mungkin?",
+    "jawabannya: 25", "Opsi (b) salah.", "Coba lagi ya 🙂", "", "kata " * 200, "Harga jual Rp180.000, harga beli?",
+]
+
+
+def test_penyaring_bocor_identik(js):
+    for soal in (s for _, s in KONTEN.soal.values()):
+        teks = BALASAN_AI_CONTOH + [f"Hasilnya {soal['kunci']}", f"kira-kira {soal['kunci']}%"]
+        if soal["tipe"] == "pilihan":
+            teks += [p["teks"] for p in soal["pilihan"]]
+        hasil_js = jalankan(js, f"{json.dumps(teks)}.map(t => bocor(t, {json.dumps(soal)}))")
+        assert hasil_js == [asisten.bocor(t, soal) for t in teks], soal["id"]
+
+
+def test_prompt_dan_giliran_ai_identik(js):
+    """Isi prompt untuk AI dan keputusan memakai/membuang balasan AI harus sama persis."""
+    rng = random.Random(21)
+    m7 = KONTEN.modul["m7"]
+    literasi_contoh = [None, {"indikator": m7["butir"]["1"]["indikator"], "judul": m7["butir"]["1"]["judul"],
+                              "cerita": m7["langkah"][1]["isi"]}]
+    soal_uji = [s for _, s in KONTEN.soal.values()]
+    for _ in range(150):
+        soal = rng.choice(soal_uji)
+        literasi = rng.choice(literasi_contoh)
+        riwayat = []
+        for pesan in rng.sample(["aku bingung", "20", "16,67", "halo", "57.000", "gak tau", "3.000"], rng.randint(1, 4)):
+            balasan = rng.choice(BALASAN_AI_CONTOH + [None])
+            ditangkap = []
+
+            def pemanggil(p, b=balasan):
+                ditangkap.append(p)
+                return b
+
+            hasil_py = asisten.proses_giliran(soal, pesan, riwayat, pemanggil, literasi)
+            rencana = f"rencanaGiliran({json.dumps(soal)}, {json.dumps(pesan)}, {json.dumps(riwayat)}, {json.dumps(literasi)})"
+            hasil_js = jalankan(js, f"(() => {{ const r = {rencana}; return [r.pesanAi, selesaikanGiliran({json.dumps(soal)}, r, {json.dumps(balasan)})]; }})()")
+            assert hasil_js[0] == ditangkap[0], (soal["id"], pesan)       # prompt sama persis
+            assert hasil_js[1] == hasil_py, (soal["id"], pesan, balasan)  # keputusan sama
+            riwayat.append({"peran": "siswa", "isi": pesan, "status_cek": (hasil_py["cek_mesin"] or {}).get("status", ""),
+                            "minta_bantuan": int(hasil_py["minta_bantuan"])})
+            riwayat.append({"peran": "asisten", "isi": hasil_py["balasan"], "status_cek": "", "minta_bantuan": 0})
+
+
 def test_bangun_statis(tmp_path):
-    hasil = bangun(tmp_path / "docs")
+    hasil = bangun(tmp_path / "docs", api_base="")
     assert (hasil / "index.html").exists() and (hasil / ".nojekyll").exists()
     assert 'export const MODE = "statis";' in (hasil / "js" / "config.js").read_text(encoding="utf-8")
     data = json.loads((hasil / "data" / "konten.json").read_text(encoding="utf-8"))
@@ -138,3 +184,15 @@ def test_file_versi_statis_tidak_diabaikan_git():
         r = subprocess.run(["git", "check-ignore", "-q", rel], cwd=AKAR)
         assert r.returncode == 1, f"{rel} diabaikan .gitignore, sehingga tidak ikut terunggah"
     assert subprocess.run(["git", "check-ignore", "-q", "data/pasar_pintar.db"], cwd=AKAR).returncode == 0
+
+
+def test_bangun_online_tanpa_kunci_jawaban(tmp_path):
+    """Versi online (Supabase): perangkat memanggil Edge Function; kunci jawaban tidak ikut terunduh."""
+    alamat = "https://contoh123.supabase.co/functions/v1/api"
+    hasil = bangun(tmp_path / "docs", api_base=alamat)
+    cfg = (hasil / "js" / "config.js").read_text(encoding="utf-8")
+    assert f'export const API_BASE = "{alamat}";' in cfg and 'export const MODE = "server";' in cfg
+    assert not (hasil / "data").exists()
+    assert '"./data/konten.json"' not in (hasil / "sw.js").read_text(encoding="utf-8")
+    with pytest.raises(ValueError):
+        bangun(tmp_path / "docs", api_base="http://tidak-aman.example")

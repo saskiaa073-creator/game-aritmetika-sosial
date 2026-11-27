@@ -10,7 +10,6 @@ const BERKAS = [
   "./icons/ikon.svg",
   "./icons/ikon-192.png",
   "./icons/ikon-512.png",
-  "./data/konten.json",
   "./js/app.js",
   "./js/api.js",
   "./js/config.js",

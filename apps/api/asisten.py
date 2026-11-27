@@ -64,7 +64,7 @@ MAKS_BALASAN = 700
 # Pola ditulis dengan karakter eksplisit (bukan \d/\s) agar identik dengan versi JS (js/local/logika.js).
 _POLA_BANTUAN = re.compile(r"bingung|(tidak|gak|ga|nggak|enggak|ndak)[ \t\n\r\f\v]*(tahu|tau|ngerti|mengerti|paham)|bantu", re.I)
 _POLA_TAMPAK_ANGKA = re.compile(r"[0-9 \t\n\r\f\v.,%rRpP+\-*/x×:()]+")
-_POLA_ANGKA = re.compile(r"\d+(?:\.\d{3})+(?:,\d+)?|\d+(?:,\d+)?")
+_POLA_ANGKA = re.compile(r"[0-9]+(?:\.[0-9]{3})+(?:,[0-9]+)?|[0-9]+(?:,[0-9]+)?")
 _POLA_FRASA_JAWABAN = re.compile(
     r"jawaban(nya)?\s+(akhir|yang\s+benar|yang\s+tepat|adalah|ialah)|jawabannya\s*[:=]|\b(pilihan|opsi|jawaban)\s*\(?[abc]\)?(\s|[.,!]|$)",
     re.I,

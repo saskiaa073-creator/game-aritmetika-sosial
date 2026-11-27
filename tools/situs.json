@@ -1,0 +1,4 @@
+{
+  "keterangan": "Alamat Edge Function Supabase untuk versi online. Kosong = versi statis (data di perangkat).",
+  "api_base": "https://kknwhjrwmjlaeldlcurz.supabase.co/functions/v1/api"
+}
